@@ -1,0 +1,94 @@
+<section
+  class="
+    product-details
+    product-block
+    section
+    {{#unless quick_view}}
+      product-single
+    {{/unless}}
+    {{cart_icon}}-icon
+    {{theme_settings.product-single-display-order}}
+  "
+  data-product-container
+  data-product-title="{{product.title}}"
+  data-product-id="{{product.id}}">
+  <div class="container">
+    {{#unless quick_view}}
+      {{> components/common/breadcrumbs breadcrumbs}}
+    {{/unless}}
+
+    <div class="product-details-column">
+      {{> components/products/product-single-images
+        images=product.images
+        default_image=theme_settings.default-product-image
+      }}
+    </div>
+
+    <div class="product-details-column">
+      {{#if product.brand}}
+        <a class="product-brand" href="{{product.brand.url}}">{{product.brand.name}}</a>
+      {{/if}}
+
+      {{#if quick_view}}
+        <h1 class="product-title"><a href="{{product.url}}">{{this.product.title}}</a></h1>
+      {{else}}
+        <h1 class="product-title">{{this.product.title}}</h1>
+      {{/if}}
+
+      <div class="product-price">
+        {{#if product.price}}
+          {{> components/products/price price=product.price show_savings=true save_block=true}}
+        {{/if}}
+
+        {{#if product.call_for_price}}
+          <p>{{product.call_for_price}}</p>
+        {{/if}}
+      </div>
+
+      <div class="product-rating-block">
+        {{#if settings.show_product_rating}}
+          <div class="product-item-rating">
+            {{> components/products/ratings rating=this.product.rating}}
+            <span class="reviews-jumplink total-reviews" data-scroll="#product-reviews">
+              ( <a class="product-reviews-link link" href="{{#if quick_view}}{{product.url}}#product-reviews{{else}}#product-reviews{{/if}}">{{lang 'product.reviews.title' numReviews=product.num_reviews}}</a> )
+            </span>
+          </div>
+
+          {{{snippet 'product_rating'}}}
+        {{/if}}
+      </div>
+
+      {{#if product.release_date }}
+        <p class="message neutral">{{product.release_date}}</p>
+      {{/if}}
+
+      {{#if theme_settings.product-single-display-order '===' 'product-description-first'}}
+        {{> components/products/product-description}}
+
+        <hr>
+
+        {{> components/products/add-to-cart-form
+          cart_icon=cart_icon
+        }}
+      {{else}}
+        {{> components/products/add-to-cart-form
+          cart_icon=cart_icon
+        }}
+
+        <hr>
+
+        {{> components/products/product-description}}
+
+      {{/if}}
+
+      <div class="product-message-area" data-product-alerts></div>
+
+      {{#if quick_view}}
+        <a class="quick-shop-details-lower link" href="{{this.product.url}}">{{lang 'product.view_full_details'}}</a>
+      {{/if}}
+    </div>
+
+    {{{snippet 'product_details'}}}
+
+  </div>
+</section>
