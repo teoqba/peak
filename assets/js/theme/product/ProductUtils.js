@@ -3,6 +3,7 @@ import Alert from '../components/Alert';
 import FormValidator from '../utils/FormValidator';
 
 import ProgressButton from '../utils/ProgressButton';
+import wbc from "../../wb";
 
 export default class ProductUtils {
   constructor(el, options) {
@@ -17,7 +18,7 @@ export default class ProductUtils {
     this.$productContainer = $('[data-product-container]');
 
     this.progressButton = new ProgressButton();
-
+    this.wb = new wbc();
     this.callbacks = $.extend({
       willUpdate: () => console.log('Update requested.'),
       didUpdate: () => console.log('Update executed.'),
@@ -100,7 +101,8 @@ export default class ProductUtils {
       const $changedOption = $(changedOption);
       const $form = $changedOption.parents('form');
       let showMessage = true;
-
+      // this.wb.ajax_call('24H');
+        this.wb.list_all_options($changedOption);
       if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
         showMessage = false;
       }
