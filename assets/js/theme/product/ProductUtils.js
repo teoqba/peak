@@ -101,8 +101,7 @@ export default class ProductUtils {
       const $changedOption = $(changedOption);
       const $form = $changedOption.parents('form');
       let showMessage = true;
-      // this.wb.ajax_call('24H');
-        this.wb.list_all_options($changedOption);
+        this.wb.init_filter($changedOption);
       if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
         showMessage = false;
       }
