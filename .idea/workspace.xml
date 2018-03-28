@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Wheelbuilder.md" afterPath="$PROJECT_DIR$/Wheelbuilder.md" />
-      <change beforePath="$PROJECT_DIR$/assets/js/wb.js" afterPath="$PROJECT_DIR$/assets/js/wb.js" />
-      <change beforePath="$PROJECT_DIR$/templates/core/forms/options/set-select.html" afterPath="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -291,7 +288,7 @@
       <workItem from="1521998203735" duration="7498000" />
       <workItem from="1522007958987" duration="429000" />
       <workItem from="1522090359690" duration="4857000" />
-      <workItem from="1522258544363" duration="4859000" />
+      <workItem from="1522258544363" duration="4893000" />
     </task>
     <task id="LOCAL-00001" summary="wheelbuilder class, example ajax call, listing all options, modified set-select">
       <created>1522007880082</created>
@@ -314,11 +311,18 @@
       <option name="project" value="LOCAL" />
       <updated>1522094566815</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first working version!">
+      <created>1522270592466</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1522270592466</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25409000" />
+    <option name="totallyTimeSpent" value="25443000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -352,7 +356,8 @@
     <MESSAGE value="wheelbuilder class, example ajax call, listing all options, modified set-select" />
     <MESSAGE value="added Wheelbuilder.md" />
     <MESSAGE value="list_all_option to ajax_call implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="list_all_option to ajax_call implemented" />
+    <MESSAGE value="first working version!" />
+    <option name="LAST_COMMIT_MESSAGE" value="first working version!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
