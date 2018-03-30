@@ -1,22 +1,32 @@
-import utils from '@bigcommerce/stencil-utils';
 
-export default class wbc {
-    constructor() {
+export default class WheelbuilderFilters {
+    constructor($parent_page) {
         console.log('WB init');
-        this.options_list = {}
-    }
-
-    init_filter($changedOption) {
-        this.$changedOption = $changedOption;
-        this.get_all_options_on_page();
-        this.attributes_list = ['Hubs', 'Hole_Count', 'Style', 'Color', 'Type', 'Compatibility'];
-
-        this.prepare_query()
+        this.$parent_page = $parent_page;
+        this.$all_options_on_page = this.get_all_options_on_page();
+        this.options_list = {};
+        this.rim_options_group = [];
+        this.hub_options_group = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
+        console.log('Test',this.option_is_rim('Enve-'));
     }
 
     get_all_options_on_page() {
-        const $form = this.$changedOption.parents('form');
-        this.$all_set_select_options = $form.find('.form-field-select');
+        // Find all the options. Currently it only looks at the options form set-select.html
+        let $all_set_select_options = this.$parent_page.find('.form-field-select');
+        return $all_set_select_options;
+    }
+
+    initialize_filters() {
+        this.prepare_query()
+    }
+
+    option_is_rim(option_name) {
+        // Check if option is in rim-options group, if not, check if its {prefix}-rim* extension
+        if (this.rim_options_group.indexOf(option_name) > 0) return true
+
+        let extension = /-rim*/g; //matches {prefix}-rim* expressiob
+        let test = option_name.match(extension);
+        return (test) ? (true) : (false);
     }
 
     prepare_query() {
@@ -24,20 +34,27 @@ export default class wbc {
         let query = {};
         let make_query = false; // in no option is selected, dont make query
         query['collection'] = 'Hubs';
+        // query['Hubs'] = {};
+        // query['Rims'] = {};
         // Find all the options from template set-select
 
         //TODO crate a json with all the options so its easier to hide them
         //TODO make a list with hubsnames from the DB query [hub1, hub2]
         //TODO iterate over options names, if name not in list -> hide.
 
-        let options_list = {};
+        let _this = this;
         // iterate over all the options and find name=value pairs
-        this.$all_set_select_options.each(function () {
+        this.$all_options_on_page.each(function () {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
-            option_name = option_name.split(' ').join('_')
+            option_name = option_name.split(' ').join('_');
+            if (_this.option_is_rim(option_name)) {
+                let query_selector = 'Rims';
+            } else {
+                let query_selector = 'Hubs';
+            }
             // add option to group of all the options on the given page
-            options_list[option_name] = this;
+            _this.options_list[option_name] = this;
             // find value of that option
             const $option_values_object = $(this).find('.form-select');
             const $selected_item = $option_values_object.find(':selected');
@@ -60,18 +77,17 @@ export default class wbc {
                 // }
             }
         });
-        query['attributes'] = this.attributes_list;
-        this.options_list = options_list;
+        query['attributes'] = this.hub_options_group;
+        console.log("Local options list", this.options_list);
         if (make_query) {
             console.log('Output', query);
-            this.ajax_call(query, this.result_parser);
+            this.ajax_call(query);
         }
 
     }
 
     result_parser(query_result, attributes_list, options_list) {
         // called from ajax_call
-        console.log('Options list', options_list);
         console.log('Query result', query_result);
         for (let i=0; i< attributes_list.length; i++){
             let attribute = attributes_list[i];
@@ -81,26 +97,24 @@ export default class wbc {
                 $option_values_object.each(function(){
                     let result = query_result[attribute];
                     let name = $(this).text();
-                    console.log('index of', name, result.indexOf(name), result);
                     if (result.indexOf(name) < 0) {
                         $(this).hide();
+                    } else {
+                        $(this).show();
                     }
                 });
             }
         }
     }
 
-    ajax_call(query, query_result_parser) {
-        // https://www.w3schools.com/xml/tryit.asp?filename=tryajax_get
+    ajax_call(query) {
 
-        let result_parser = query_result_parser;
-        let options_list = this.options_list;
-        let attributes_list = this.attributes_list
+        let _this = this;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 let result =  JSON.parse(this.responseText);
-                result_parser(result, attributes_list, options_list);
+                _this.result_parser(result, _this.hub_options_group, _this.options_list);
 
             }
         };

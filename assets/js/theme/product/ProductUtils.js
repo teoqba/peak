@@ -3,7 +3,7 @@ import Alert from '../components/Alert';
 import FormValidator from '../utils/FormValidator';
 
 import ProgressButton from '../utils/ProgressButton';
-import wbc from "../../wb";
+import WheelbuilderFilters from "../../WheelbuilderFilters";
 
 export default class ProductUtils {
   constructor(el, options) {
@@ -16,9 +16,7 @@ export default class ProductUtils {
     this.productAlerts = new Alert($('[data-product-alerts]'));
     this.productTitle = $(el).data('product-title');
     this.$productContainer = $('[data-product-container]');
-
     this.progressButton = new ProgressButton();
-    this.wb = new wbc();
     this.callbacks = $.extend({
       willUpdate: () => console.log('Update requested.'),
       didUpdate: () => console.log('Update executed.'),
@@ -44,7 +42,7 @@ export default class ProductUtils {
 
   init(context) {
     this.context = context;
-
+    this.wheelbuilderFilters = new WheelbuilderFilters(this.$el);
     this._bindProductOptionChange();
     this._bindAddWishlist();
 
@@ -101,7 +99,7 @@ export default class ProductUtils {
       const $changedOption = $(changedOption);
       const $form = $changedOption.parents('form');
       let showMessage = true;
-        this.wb.init_filter($changedOption);
+      this.wheelbuilderFilters.initialize_filters();
       if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
         showMessage = false;
       }

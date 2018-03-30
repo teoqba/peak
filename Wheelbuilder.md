@@ -1,5 +1,5 @@
 ## Implemented new Javascript
-* assests/js/wb.js
+* assests/js/WheelbuilderFilters.js
     ** initialized in assests/js/theme/product/ProductUtils.js
 
 
