@@ -3,82 +3,83 @@ export default class WheelbuilderFilters {
     constructor($parent_page) {
         console.log('WB init');
         this.$parent_page = $parent_page;
-        this.$all_options_on_page = this.get_all_options_on_page();
-        this.options_list = {};
-        this.rim_options_group = [];
-        this.hub_options_group = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
-        console.log('Test',this.option_is_rim('Enve-'));
+        this.all_options_on_page = this.get_all_options_on_page();
+        this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Compatibility', 'Dimensions'];
+        this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
+        this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
     }
 
     get_all_options_on_page() {
-        // Find all the options. Currently it only looks at the options form set-select.html
+        // Find all the options on currently loaded product page. Currently it only looks at the options from set-select.html
+        // returns JSON with {option_name: option_object}
+        let all_options = {};
         let $all_set_select_options = this.$parent_page.find('.form-field-select');
-        return $all_set_select_options;
+        $all_set_select_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            all_options[option_name] = $(this);
+        });
+        return all_options;
     }
 
     initialize_filters() {
-        this.prepare_query()
+        this.prepare_query();
+    }
+
+    inital_filter() {
+        // Used at class initialization.
+        // Search through options, and if there is a *-rim option, filter every other option according to rim selection
+        let _this = this;
+        this.$all_options_on_page.each(function () {
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            if (_this.option_is_rim(option_name)) {
+                //do initial filtering
+            }
+        });
+
     }
 
     option_is_rim(option_name) {
         // Check if option is in rim-options group, if not, check if its {prefix}-rim* extension
-        if (this.rim_options_group.indexOf(option_name) > 0) return true
 
-        let extension = /-rim*/g; //matches {prefix}-rim* expressiob
+        // TODO: This will find Hole_Count and assign it to Rim Options. Is this correct?
+        if (this.all_known_rim_options.indexOf(option_name) > 0) return true
+
+        // TODO the dash might be a problem when we will just use Rims as option name
+        let extension = /-rim*/g; //matches {prefix}-rim* expression
         let test = option_name.match(extension);
         return (test) ? (true) : (false);
     }
 
     prepare_query() {
-        let output = {};
         let query = {};
         let make_query = false; // in no option is selected, dont make query
-        query['collection'] = 'Hubs';
-        // query['Hubs'] = {};
-        // query['Rims'] = {};
-        // Find all the options from template set-select
+        query['Hubs'] = {};
+        query['Rims'] = {};
 
-        //TODO crate a json with all the options so its easier to hide them
-        //TODO make a list with hubsnames from the DB query [hub1, hub2]
-        //TODO iterate over options names, if name not in list -> hide.
-
-        let _this = this;
-        // iterate over all the options and find name=value pairs
-        this.$all_options_on_page.each(function () {
-            // find name of option
-            let option_name = $(this).find('.wb-option-display-name').text();
-            option_name = option_name.split(' ').join('_');
-            if (_this.option_is_rim(option_name)) {
-                let query_selector = 'Rims';
-            } else {
-                let query_selector = 'Hubs';
-            }
-            // add option to group of all the options on the given page
-            _this.options_list[option_name] = this;
+        // iterate over all the options and find selected value of each option
+        for (let option_name in this.all_options_on_page) {
+            let $option_object = $(this.all_options_on_page[option_name]);
+            // Find if option is Rim name in format -rim*
+            let query_selector = 'Hubs';
+            if (this.option_is_rim(option_name)) query_selector = 'Rims';
             // find value of that option
-            const $option_values_object = $(this).find('.form-select');
+            const $option_values_object = $option_object.find('.form-select');
             const $selected_item = $option_values_object.find(':selected');
             let selected_index = $selected_item.index();
+            console.log('Selected index', selected_index);
             if (selected_index > 0 ) { //skip 1st option which is "Pick one.." or something
                 make_query = true;
                 let selected_option_value = $selected_item.text();
-                // find option id (number)
-                let selected_option_id = $selected_item.prop('value');
-                console.log(option_name, selected_option_value, selected_option_id, selected_index);
-                output[option_name] = {'id': selected_option_id, 'value': selected_option_value};
-                query[option_name] = selected_option_value;
-
-                // // BONUS EXAMPLE HOW TO SELECTE OPTION TO HIDE
-                // if (selected_option_value === '24H') {
-                //     // '[data-product-attribute-value="300"]'
-                //     let option_selector = '[data-product-attribute-value=' + '"' + '300' + '"]'
-                //     const option_to_hide = $form.find(option_selector);
-                //     option_to_hide.hide();
-                // }
+                query[query_selector][option_name] = selected_option_value;
             }
-        });
-        query['attributes'] = this.hub_options_group;
-        console.log("Local options list", this.options_list);
+        }
+
+        query['hubs_attributes'] = this.all_known_hub_options;
+        query['rims_attributes'] = this.all_known_rim_options;
+        console.log("Query before ajax", query);
         if (make_query) {
             console.log('Output', query);
             this.ajax_call(query);
@@ -108,13 +109,14 @@ export default class WheelbuilderFilters {
     }
 
     ajax_call(query) {
-
         let _this = this;
-        var xhttp = new XMLHttpRequest();
+        let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
+                console.log('Response', this.responseText);
                 let result =  JSON.parse(this.responseText);
-                _this.result_parser(result, _this.hub_options_group, _this.options_list);
+                // _this.result_parser(result, _this.all_known_options, _this.options_list);
+                _this.result_parser(result, _this.all_known_options, _this.all_options_on_page);
 
             }
         };
