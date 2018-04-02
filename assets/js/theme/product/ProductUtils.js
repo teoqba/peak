@@ -99,7 +99,7 @@ export default class ProductUtils {
       const $changedOption = $(changedOption);
       const $form = $changedOption.parents('form');
       let showMessage = true;
-      this.wheelbuilderFilters.initialize_filters();
+      this.wheelbuilderFilters.initialize_filters($changedOption);
       if ($changedOption.attr('type') === 'file' || window.FormData === undefined) {
         showMessage = false;
       }
