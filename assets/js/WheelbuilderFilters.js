@@ -97,6 +97,38 @@ export default class WheelbuilderFilters {
 
     }
 
+    initial_filter_parser(query_result, parent) {
+        if (JSON.stringify(query_result) !== JSON.stringify({})) {
+            for (let key in parent.query.rim_hub_common_options) {
+                if (query_result.hasOwnProperty(key)) {
+                    let values = query_result[key];
+                    parent.query.set_common_options_defaults(key, values);
+                }
+            }
+        }
+        // set common fields in query
+        parent.query.revert_common_options_to_defaults();
+        parent.ajax_call(parent.query.get_query(), parent.query_api_url.initial_common, parent.result_parser);
+    }
+
+    ajax_call(query, url, parser) {
+        let _this = this;
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                console.log('Response', this.responseText);
+                let result =  JSON.parse(this.responseText);
+                console.log('AJax result', result);
+                parser(result, _this);
+
+            }
+        };
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(JSON.stringify(query));
+    }
+
+
     prepare_query2($changed_option) {
 
     }
@@ -164,37 +196,6 @@ export default class WheelbuilderFilters {
                 }
             }
         }
-    }
-
-    initial_filter_parser(query_result, parent) {
-        if (JSON.stringify(query_result) !== JSON.stringify({})) {
-            for (let key in parent.query.rim_hub_common_options) {
-                if (query_result.hasOwnProperty(key)) {
-                    let values = query_result[key];
-                    parent.query.set_common_options_defaults(key, values);
-                }
-            }
-        }
-        // set common fields in query
-        parent.query.revert_common_options_to_defaults();
-        parent.ajax_call(parent.query.get_query(), parent.query_api_url.initial_common, parent.result_parser);
-    }
-
-    ajax_call(query, url, parser) {
-        let _this = this;
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState === 4 && this.status === 200) {
-                console.log('Response', this.responseText);
-                let result =  JSON.parse(this.responseText);
-                console.log('AJax result', result);
-                parser(result, _this);
-
-            }
-        };
-        xhttp.open("POST", url, true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
-        xhttp.send(JSON.stringify(query));
     }
 }
 
