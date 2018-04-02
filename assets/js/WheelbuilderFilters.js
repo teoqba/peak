@@ -11,12 +11,16 @@ export default class WheelbuilderFilters {
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.rim_hub_common_options = {'Hole_Count': []};
-        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query",
+        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial_rim_selection",
+                              "initial_common": "http://localhost:8000/wbdb_query_initial_common",
                               "Rims": "http://localhost:8000/wbdb_query_rims_first",
                               "Hubs": "http://localhost:8000/wbdb_query_hubs_first",
                               "common": "http://localhost:8000/wbdb_query_rims_first"};
 
-        this._option_types = {'rims':'Rims', 'hubs':'Hubs'}
+        // TODO do we need this
+        this._option_types = {'rims':'Rims', 'hubs':'Hubs'};
+
+        // for query common fields will be initialized in initial_filter_parser
         this.query = new WheelbuilderQuery();
 
         this.initial_filter();
@@ -60,14 +64,6 @@ export default class WheelbuilderFilters {
         return option_type;
     }
 
-    common_options_to_query() {
-        let query = {};
-        for (let key in this.rim_hub_common_options) {
-            let values = this.rim_hub_common_options[key];
-            query[key] = {'$in': values};
-        }
-        return query;
-    }
 
     get_name_of_changed_option($changedOption) {
         // let $from = $changedOption.parents('form');
@@ -80,23 +76,23 @@ export default class WheelbuilderFilters {
     initial_filter() {
         // Used at class initialization.
         // Search through options, and if there is a *-rim option, filter every other option according to rim selection
-        let query = {};
+        let initial_query = new WheelbuilderQuery();
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
-            if (this.query.option_is_rim(option_name)) {
+            if (initial_query.option_is_rim(option_name)) {
                 let $option_object = $(this.all_options_on_page[option_name]);
                 let $option_values_object = $option_object.find('.wb-option');
                 $option_values_object.each(function(){
                    let option_value = $(this).text()
                    option_values_array.push(option_value);
                 });
-                query['Rims'] = {'$in': option_values_array};
-                query['attributes'] = this.all_known_rim_options;
+                initial_query.set(option_name, option_values_array);
+                initial_query.log("INITIAL QUERY");
             }
         }
         if (option_values_array.length !== 0) {
             console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL")
-            this.ajax_call(query, this.query_api_url.initial, this.initial_filter_parser);
+            this.ajax_call(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
         }
 
     }
@@ -171,21 +167,18 @@ export default class WheelbuilderFilters {
     }
 
     initial_filter_parser(query_result, parent) {
-        // let rim_hub_common_options = parent.rim_hub_common_options;
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
-            for (let key in parent.rim_hub_common_options) {
+            for (let key in parent.query.rim_hub_common_options) {
                 if (query_result.hasOwnProperty(key)) {
                     let values = query_result[key];
-                    parent.rim_hub_common_options[key] = values;
+                    parent.query.set_common_options_defaults(key, values);
                 }
             }
         }
-        let query = parent.common_options_to_query();
-        console.log("INITIAL QUERY", query);
-        query['attributes'] = parent.all_known_options;
-        parent.ajax_call(query, parent.query_api_url.initial, parent.result_parser);
+        // set common fields in query
+        parent.query.revert_common_options_to_defaults();
+        parent.ajax_call(parent.query.get_query(), parent.query_api_url.initial_common, parent.result_parser);
     }
-
 
     ajax_call(query, url, parser) {
         let _this = this;
@@ -195,7 +188,6 @@ export default class WheelbuilderFilters {
                 console.log('Response', this.responseText);
                 let result =  JSON.parse(this.responseText);
                 console.log('AJax result', result);
-                // _this.result_parser(result, _this.all_known_options, _this.all_options_on_page);
                 parser(result, _this);
 
             }

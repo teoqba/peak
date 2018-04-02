@@ -2,11 +2,13 @@ export default class WheelbuilderQuery {
     constructor() {
         this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
+        // TODO this needs to be set
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
+
         this.rim_hub_common_options = {};
         this.init_rim_hub_common_option();
 
-        this.query = {}
+        this.query = {};
         this.query['Rims'] = {};
         this.query['Hubs'] = {};
         this.query['rim_attributes'] = this.all_known_rim_options;
@@ -21,7 +23,7 @@ export default class WheelbuilderQuery {
             return _this.all_known_hub_options.indexOf(n) !== -1;
         });
         for (let i=0; i< intersection.length; i++) {
-            this.rim_hub_common_options[intersection[i]] = {}
+            this.rim_hub_common_options[intersection[i]] = [];
         }
     }
 
@@ -54,7 +56,7 @@ export default class WheelbuilderQuery {
         }
     }
 
-    set_defaults(option_name, value) {
+    set_common_options_defaults(option_name, value) {
         this.rim_hub_common_options[option_name] = value;
     }
 
@@ -74,14 +76,24 @@ export default class WheelbuilderQuery {
             this.query[option_type][option_name] = value;
         }
     }
+    get_query() {
+        // returns query
+        return this.query;
+    }
 
     get_common_options_defaults(option_name) {
         return this.rim_hub_common_options[option_name];
     }
 
-    set_common_options_defaults(option_name) {
-        let defaults = this.get_common_options_defaults(option_name)
-        this.set(option_name, defaults);
+    revert_common_options_to_defaults(option_name) {
+        // if option_name is not given revert all known common options to defaults
+        if (typeof option_name === "undefined") {
+            for (let key in this.rim_hub_common_options) {
+                this.set(key, this.get_common_options_defaults(key));
+            }
+        } else { // set only specified option
+            this.set(option_name, this.get_common_options_defaults(option_name));
+        }
     }
 
     remove(option_name) {
@@ -94,7 +106,7 @@ export default class WheelbuilderQuery {
             // set defaults?
             delete this.query['Rims'][option_name];
             delete this.query['Hubs'][option_name];
-            this.set_common_options_defaults(option_name);
+            this.revert_common_options_to_defaults(option_name);
 
         } else {
             delete this.query[option_type][option_name];
