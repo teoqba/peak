@@ -11,19 +11,17 @@ export default class WheelbuilderFilters {
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.rim_hub_common_options = {'Hole_Count': []};
-        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial_rim_selection",
-                              "initial_common": "http://localhost:8000/wbdb_query_initial_common",
-                              "Rims": "http://localhost:8000/wbdb_query_rims_first",
-                              "Hubs": "http://localhost:8000/wbdb_query_hubs_first",
-                              "common": "http://localhost:8000/wbdb_query_rims_first"};
-
-        // TODO do we need this
-        this._option_types = {'rims':'Rims', 'hubs':'Hubs'};
+        this.query_api_url = "http://localhost:8000/wbdb_query";
 
         // for query common fields will be initialized in initial_filter_parser
-        this.query = new WheelbuilderQuery();
-
+        this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
+        this.initial_filert_done = false;
         this.initial_filter();
+    }
+
+    filter_options($changedOption) {
+        // Main call. This is called from ProductUtils page.
+        if (this.initial_filert_done)  this.prepare_query($changedOption);
     }
 
     get_all_options_on_page() {
@@ -40,31 +38,6 @@ export default class WheelbuilderFilters {
         return all_options;
     }
 
-    initialize_filters($changedOption) {
-        // let changed_option_name = this.get_name_of_changed_option($changedOption);
-        // let changed_option_type = this.get_option_type(changed_option_name);
-        // console.log('I GOT NEW OPTION', $changedOption);
-        // this.prepare_query(changed_option_type);
-    }
-
-    get_option_type(option_name) {
-        // Check if option belongs either to Rim Group, Hub Group or is Common Option
-        let option_type = null;
-        if (this.all_known_hub_options.indexOf(option_name) > -1 ) {
-            option_type = this._option_types['hubs'];
-        } else if ((this.all_known_rim_options.indexOf(option_name) > -1 ) || (this.query.option_is_rim(option_name))) {
-            option_type = this._option_types['rims'];
-        } else {
-            console.log('WB FILTERS: Unrecognized option type');
-
-        }
-        if (this.rim_hub_common_options.hasOwnProperty(option_name)) {
-            option_type = 'common';
-        }
-        return option_type;
-    }
-
-
     get_name_of_changed_option($changedOption) {
         // let $from = $changedOption.parents('form');
         let $form = $changedOption.parents('.form-field-options');
@@ -76,10 +49,10 @@ export default class WheelbuilderFilters {
     initial_filter() {
         // Used at class initialization.
         // Search through options, and if there is a *-rim option, filter every other option according to rim selection
-        let initial_query = new WheelbuilderQuery();
+        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
-            if (initial_query.option_is_rim(option_name)) {
+            if (initial_query.is_option_rim(option_name)) {
                 let $option_object = $(this.all_options_on_page[option_name]);
                 let $option_values_object = $option_object.find('.wb-option');
                 $option_values_object.each(function(){
@@ -87,12 +60,13 @@ export default class WheelbuilderFilters {
                    option_values_array.push(option_value);
                 });
                 initial_query.set(option_name, option_values_array);
+                initial_query.set('inventory_type', 'Rims');
                 initial_query.log("INITIAL QUERY");
             }
         }
         if (option_values_array.length !== 0) {
             console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL")
-            this.ajax_call(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
+            this.ajax_call(initial_query.get_query(), this.query_api_url, this.initial_filter_parser);
         }
 
     }
@@ -107,8 +81,9 @@ export default class WheelbuilderFilters {
             }
         }
         // set common fields in query
-        parent.query.revert_common_options_to_defaults();
-        parent.ajax_call(parent.query.get_query(), parent.query_api_url.initial_common, parent.result_parser);
+        parent.query.set_query_common_options_to_defaults();
+        parent.initial_filert_done = true;
+        parent.ajax_call(parent.query.get_query(), parent.query_api_url, parent.result_parser);
     }
 
     ajax_call(query, url, parser) {
@@ -129,48 +104,20 @@ export default class WheelbuilderFilters {
     }
 
 
-    prepare_query2($changed_option) {
-
-    }
-
-    prepare_query(changed_option_type) {
-        console.log('PARENT QUERY', this.query);
-        let query = {};
-        let make_query = false; // in no option is selected, dont make query
-        for (let key in this._option_types) {
-            query[this._option_types[key]] = {};
+    prepare_query($changed_option) {
+        let option_name = this.get_name_of_changed_option($changed_option);
+        let $option_object = $(this.all_options_on_page[option_name]);
+        const $option_values_object = $option_object.find('.form-select');
+        const $selected_item = $option_values_object.find(':selected');
+        let selected_index = $selected_item.index();
+        let value = $selected_item.text();
+        if (selected_index > 0 ) {
+            this.query.set(option_name, value);
+        } else {
+            this.query.remove(option_name);
         }
-        // iterate over all the options and find selected value of each option
-        for (let option_name in this.all_options_on_page) {
-
-            let option_type = this.get_option_type(option_name);
-            if (option_type === 'common') option_type='Rims' //Assume that Rims if over hub always
-
-            let $option_object = $(this.all_options_on_page[option_name]);
-            // find value of that option
-            const $option_values_object = $option_object.find('.form-select');
-            const $selected_item = $option_values_object.find(':selected');
-            let selected_index = $selected_item.index();
-            if (selected_index > 0 ) { //skip 1st option which is "Pick one.." or something
-                make_query = true;
-                let selected_option_value = $selected_item.text();
-                query[option_type][option_name] = selected_option_value;
-            } else {
-                if (this.rim_hub_common_options.hasOwnProperty(option_name)) {
-                    let values = this.rim_hub_common_options[option_name]
-                    query[option_type][option_name] =  {'$in': values};
-                }
-            }
-        }
-        query['rim_attributes'] = this.all_known_rim_options;
-        query['hub_attributes'] = this.all_known_hub_options;
-        query['common_attributes'] = this.rim_hub_common_options;
-        console.log("Query before ajax", query);
-        console.log("I WILL ASK",this.query_api_url[changed_option_type], changed_option_type);
-        if (make_query) {
-            console.log('Output', query);
-            this.ajax_call(query, this.query_api_url[changed_option_type], this.result_parser);
-        }
+        this.query.log("QUERY READY TO BE SEND");
+        this.ajax_call(this.query.get_query(), this.query_api_url, this.result_parser);
 
     }
 
