@@ -8,20 +8,22 @@ export default class WheelbuilderFilters {
         this.all_options_on_page = this.get_all_options_on_page();
         // These needs to be unique between the two
         this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
-        this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
+        this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
-        this.rim_hub_common_options = {'Hole_Count': []};
-        this.query_api_url = "http://localhost:8000/wbdb_query";
+        this.rim_hub_common_options = {'Hole_Count': []}; // TODO: define it better or remove
+        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
+                              "regular": "http://localhost:8000/wbdb_query"};
+        // this.query_api_url2 = "http://localhost:8000/wbdb_query2";
 
         // for query common fields will be initialized in initial_filter_parser
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
-        this.initial_filert_done = false;
+        this.initial_filer_done = false;
         this.initial_filter();
     }
 
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
-        if (this.initial_filert_done)  this.prepare_query($changedOption);
+        if (this.initial_filer_done)  this.prepare_query($changedOption);
     }
 
     get_all_options_on_page() {
@@ -46,6 +48,23 @@ export default class WheelbuilderFilters {
 
     }
 
+    get_type_of_changed_option(option_name) {
+        if (this.rim_hub_common_options.hasOwnProperty(option_name)) {
+            return 'common';
+        }
+
+        // console.log('Got option name', option_name, this.all_known_hub_options.indexOf(option_name));
+
+        if (this.all_known_hub_options.indexOf(option_name) > -1 ) {
+            return 'Hubs';
+        } else if (this.all_known_rim_options.indexOf(option_name) > -1) {
+            return 'Rims';
+        } else {
+            console.log('Unknown option_type', option_name);
+            return null;
+        }
+    }
+
     initial_filter() {
         // Used at class initialization.
         // Search through options, and if there is a *-rim option, filter every other option according to rim selection
@@ -65,8 +84,8 @@ export default class WheelbuilderFilters {
             }
         }
         if (option_values_array.length !== 0) {
-            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL")
-            this.ajax_call(initial_query.get_query(), this.query_api_url, this.initial_filter_parser);
+            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
+            this.ajax_call(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
         }
 
     }
@@ -82,8 +101,8 @@ export default class WheelbuilderFilters {
         }
         // set common fields in query
         parent.query.set_query_common_options_to_defaults();
-        parent.initial_filert_done = true;
-        parent.ajax_call(parent.query.get_query(), parent.query_api_url, parent.result_parser);
+        parent.initial_filer_done = true;
+        parent.ajax_call(parent.query.get_query(), parent.query_api_url.regular, parent.result_parser);
     }
 
     ajax_call(query, url, parser) {
@@ -103,9 +122,9 @@ export default class WheelbuilderFilters {
         xhttp.send(JSON.stringify(query));
     }
 
-
     prepare_query($changed_option) {
         let option_name = this.get_name_of_changed_option($changed_option);
+        let option_type = this.get_type_of_changed_option(option_name);
         let $option_object = $(this.all_options_on_page[option_name]);
         const $option_values_object = $option_object.find('.form-select');
         const $selected_item = $option_values_object.find(':selected');
@@ -116,9 +135,9 @@ export default class WheelbuilderFilters {
         } else {
             this.query.remove(option_name);
         }
+        this.query.set('inventory_type', option_type);
         this.query.log("QUERY READY TO BE SEND");
-        this.ajax_call(this.query.get_query(), this.query_api_url, this.result_parser);
-
+        this.ajax_call(this.query.get_query(), this.query_api_url.regular, this.result_parser);
     }
 
     result_parser(query_result, parent) {
@@ -127,10 +146,14 @@ export default class WheelbuilderFilters {
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
             for (let i = 0; i < attributes_list.length; i++) {
                 let attribute = attributes_list[i];
+                // Set new defaults in query for next queries
+                if (parent.get_type_of_changed_option(attribute) === 'common') {
+                    parent.query.set_common_options_defaults(attribute, query_result[attribute]);
+                }
+                //show hide options
                 if (((options_list.hasOwnProperty(attribute))) && (query_result.hasOwnProperty(attribute))) {
                     let option = options_list[attribute];
                     let $option_values_object = $(option).find('.wb-option');
-                    // parent.set_new_query(attribute, query_result[attribute]);
                     $option_values_object.each(function () {
                         let result = query_result[attribute];
                         let name = $(this).text();

@@ -1,7 +1,7 @@
 export default class WheelbuilderQuery {
-    constructor() {
-        this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
-        this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle'];
+    constructor(rim_options, hub_options) {
+        this.all_known_rim_options = rim_options;
+        this.all_known_hub_options = hub_options;
         // TODO this needs to be set
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
 
@@ -9,15 +9,10 @@ export default class WheelbuilderQuery {
         this.init_rim_hub_common_option();
 
         this.query = {};
-        this.query['Rims'] = {};
-        this.query['Hubs'] = {};
-        this.query['rim_attributes'] = this.all_known_rim_options;
-        this.query['hub_attributes'] = this.all_known_hub_options;
-        this.query['common_attributes'] = this.rim_hub_common_options;
     }
 
     init_rim_hub_common_option() {
-        // returns JSON {'common_option_1':{}, 'common_option_2': {}}
+        // Sets format of common options to: {'common_option_1':{}, 'common_option_2': {}}
         let _this = this;
         let intersection = this.all_known_rim_options.filter(function(n) {
             return _this.all_known_hub_options.indexOf(n) !== -1;
@@ -31,62 +26,34 @@ export default class WheelbuilderQuery {
        if ((typeof message === 'undefined')) {
            message = 'Query ';
        }
-       console.log(message, this.query);
+       let mongo_query = this.get_query();
+       console.log(message, mongo_query);
     }
 
-    option_is_rim(option_name) {
+    is_option_rim(option_name) {
         // check if option has  {prefix}-rim* extension
         let extension = /Rims/g; //matches {prefix}-rim* expression
         let test = option_name.match(extension);
         return (test) ? (true) : (false);
     }
 
-    get_option_type(option_name) {
-        // returns 'common', 'Rims' or 'Hubs'
-        if (this.option_is_rim(option_name)) return 'Rims';
-        if ((this.all_known_rim_options.indexOf(option_name) > -1) &&
-            (this.all_known_hub_options.indexOf(option_name) > -1)) {
-            return 'common';
-        } else if (this.all_known_rim_options.indexOf(option_name) > -1) {
-            return 'Rims';
-        } else if (this.all_known_hub_options.indexOf(option_name) > -1) {
-            return 'Hubs';
-        } else {
-            return null;
-        }
+    is_option_common(option_name) {
+        return this.rim_hub_common_options.hasOwnProperty(option_name);
+
     }
 
     set_common_options_defaults(option_name, value) {
         this.rim_hub_common_options[option_name] = value;
     }
 
-    set(option_name, value) {
-        if (value.constructor === Array) {
-            value = {'$in':value};
-        }
-        let option_type = this.get_option_type(option_name);
-        if (option_type === null) {
-            console.log('Unrecognized option');
-            return;
-        }
-        if (option_type === 'common') {
-            this.query['Rims'][option_name] = value;
-            this.query['Hubs'][option_name] = value;
-        } else {
-            this.query[option_type][option_name] = value;
-        }
-    }
-    get_query() {
-        // returns query
-        return this.query;
-    }
-
     get_common_options_defaults(option_name) {
         return this.rim_hub_common_options[option_name];
     }
 
-    revert_common_options_to_defaults(option_name) {
-        // if option_name is not given revert all known common options to defaults
+    set_query_common_options_to_defaults(option_name) {
+        // Sets values of common_options in query to defaults.
+        // If 'option_name' is given sets only chosen option.
+        // If 'option_name' is not given, sets to defaults all common_options in queyr
         if (typeof option_name === "undefined") {
             for (let key in this.rim_hub_common_options) {
                 this.set(key, this.get_common_options_defaults(key));
@@ -96,20 +63,43 @@ export default class WheelbuilderQuery {
         }
     }
 
-    remove(option_name) {
-        let option_type = this.get_option_type(option_name);
-        if (option_type === null) {
-            console.log('Unrecognized option');
-            return;
-        }
-        if (option_type === 'common') {
-            // set defaults?
-            delete this.query['Rims'][option_name];
-            delete this.query['Hubs'][option_name];
-            this.revert_common_options_to_defaults(option_name);
 
-        } else {
-            delete this.query[option_type][option_name];
+    set(option_name, value) {
+        if (value.constructor === Array) {
+            value = {'$in': value};
+        }
+        this.query[option_name] = value;
+    }
+
+    get_query() {
+        let mongo_query = {};
+        mongo_query['attributes'] = this.all_known_options;
+        mongo_query['common_attributes'] = this.rim_hub_common_options;
+        mongo_query['$and'] = [];
+        for (let option_name in this.query){
+            if (this.is_option_common(option_name)) {
+                mongo_query[option_name] = this.query[option_name];
+            } else if (option_name === 'inventory_type'){
+                mongo_query[option_name] = this.query[option_name];
+            } else {
+                let or_1 = {};
+                let or_2 = {};
+                or_1[option_name] = this.query[option_name];
+                or_2[option_name] = {'$exists': false};
+                mongo_query['$and'].push({'$or':[or_1, or_2]});
+            }
+
+        }
+        if (mongo_query['$and'].length === 0) {
+            delete mongo_query['$and'];
+        }
+        return mongo_query;
+    }
+
+    remove(option_name) {
+        delete this.query[option_name];
+        if (this.is_option_common(option_name)) {
+            this.set_query_common_options_to_defaults(option_name);
         }
     }
 }
