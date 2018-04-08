@@ -11,7 +11,7 @@ export default class WheelbuilderFilters {
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.rim_hub_common_options = {'Hole_Count': []}; // TODO: define it better or remove
-        this.query_api_url = {"single_query": "http://localhost:8000/wbdb_query_signle",
+        this.query_api_url = {"single_query": "http://localhost:8000/wbdb_query_single",
                               "double_query": "http://localhost:8000/wbdb_query_double"};
         // this.query_api_url2 = "http://localhost:8000/wbdb_query2";
 
@@ -136,6 +136,9 @@ export default class WheelbuilderFilters {
             this.query.remove(option_name);
         }
         if (this.get_type_of_changed_option(option_name) === 'common'){
+            this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
+            this.query.remove('inventory_type');
+            // this.query.set_common_options_defaults(option_name,[value]);
             this.ajax_call(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
         } else {
             this.query.set('inventory_type', option_type);
@@ -144,7 +147,29 @@ export default class WheelbuilderFilters {
         }
     }
 
+    autoselect(option, query_result) {
+        if (query_result.length === 1) {
+            let data_label = 'data-wb-label="' + query_result[0]+'"';
+            let one_option = $(option).find('.form-select option['+ data_label + ']');
+            $(one_option).attr("selected", "selected");
+            return true;
+        }
+        return false;
+    }
+
+    check_if_build_is_invalid(query_result) {
+        for (let key in query_result) {
+            try {
+                if (query_result[key].length === 0) {
+                    alert('Cannot finish the build. Selected options are not compatible: ' + key );
+                    return
+                }
+            } catch(err) {}
+        }
+    }
+
     result_parser(query_result, parent) {
+        parent.check_if_build_is_invalid(query_result);
         let attributes_list = parent.all_known_options;
         let options_list = parent.all_options_on_page;
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
@@ -158,15 +183,20 @@ export default class WheelbuilderFilters {
                 if (((options_list.hasOwnProperty(attribute))) && (query_result.hasOwnProperty(attribute))) {
                     let option = options_list[attribute];
                     let $option_values_object = $(option).find('.wb-option');
+                    let $empty_option = $(option).find('.wb-empty-option');
+                    // $empty_option.hide();
                     $option_values_object.each(function () {
                         let result = query_result[attribute];
                         let name = $(this).text();
+                        if (name === 'Pick one ...') $(this).hide();
                         if (result.indexOf(name) < 0) {
                             $(this).hide();
                         } else {
                             $(this).show();
                         }
                     });
+                    // if only one option is available, autoselect it
+                    parent.autoselect(option, query_result[attribute])
                 }
             }
         }
