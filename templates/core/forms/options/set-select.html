@@ -14,9 +14,9 @@
           name="attribute[{{id}}]"
           {{#if ../required}}required{{/if}}
           aria-required="{{required}}">
-          <option value="" {{#any values selected=true}}{{else}}selected{{/any}}>{{lang 'product.pick_one'}}</option>
+          <option value="" class="wb-empty-option" {{#any values selected=true}}{{else}}selected{{/any}}>{{lang 'product.pick_one'}}</option>
           {{#each values}}
-            <option value="{{id}}" class="wb-option" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{label}}</option>
+            <option value="{{id}}" class="wb-option" data-wb-label="{{label}}" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{label}}</option>
           {{/each}}
           {{#unless required}}
             <option value="{{id}}" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{lang 'core.product.none'}}</option>

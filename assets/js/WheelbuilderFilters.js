@@ -11,7 +11,8 @@ export default class WheelbuilderFilters {
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.rim_hub_common_options = {'Hole_Count': []}; // TODO: define it better or remove
-        this.query_api_url = {"single_query": "http://localhost:8000/wbdb_query_single",
+        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
+                              "single_query": "http://localhost:8000/wbdb_query_single",
                               "double_query": "http://localhost:8000/wbdb_query_double"};
         // this.query_api_url2 = "http://localhost:8000/wbdb_query2";
 
@@ -85,7 +86,7 @@ export default class WheelbuilderFilters {
         }
         if (option_values_array.length !== 0) {
             console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
-            this.ajax_call(initial_query.get_query(), this.query_api_url.single_query, this.initial_filter_parser);
+            this.ajax_call(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
         }
 
     }
@@ -138,7 +139,7 @@ export default class WheelbuilderFilters {
         if (this.get_type_of_changed_option(option_name) === 'common'){
             this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
             this.query.remove('inventory_type');
-            // this.query.set_common_options_defaults(option_name,[value]);
+            this.query.set_common_options_defaults(option_name,[value]);
             this.ajax_call(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
         } else {
             this.query.set('inventory_type', option_type);
