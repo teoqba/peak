@@ -5,21 +5,20 @@ export default class WheelbuilderQuery {
         // TODO this needs to be set
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
 
-        this.rim_hub_common_attribute_values = {};
-        this.init_rim_hub_common_attribute_values();
-        // defaults hold the default selection of common attributes for given product
-        this.rim_hub_common_defaults = JSON.parse(JSON.stringify(this.rim_hub_common_attribute_values));
+        //holds the default value of all the common parameters, defined during initial query
+        this.rim_hub_common_defaults = {}
+        this.init_rim_hub_common_defaults();
         this.query = {};
     }
 
-    init_rim_hub_common_attribute_values() {
+    init_rim_hub_common_defaults() {
         // Sets format of common options to: {'common_option_1':{}, 'common_option_2': {}}
         let _this = this;
         let intersection = this.all_known_rim_options.filter(function(n) {
             return _this.all_known_hub_options.indexOf(n) !== -1;
         });
         for (let i=0; i< intersection.length; i++) {
-            this.rim_hub_common_attribute_values[intersection[i]] = [];
+            this.rim_hub_common_defaults[intersection[i]] = [];
         }
     }
 
@@ -43,9 +42,6 @@ export default class WheelbuilderQuery {
 
     }
 
-    set_common_attributes_values(option_name, value) {
-        this.rim_hub_common_attribute_values[option_name] = value;
-    }
 
     set_common_options_defaults(option_name, value) {
         this.rim_hub_common_defaults[option_name] = value;
@@ -54,7 +50,6 @@ export default class WheelbuilderQuery {
     get_common_options_defaults(option_name) {
         return this.rim_hub_common_defaults[option_name];
     }
-
 
     revert_common_attributes_values_to_defaults(){
         // Sets values of common_options in query to defaults.
@@ -67,7 +62,6 @@ export default class WheelbuilderQuery {
         } else { // set only specified option
             this.set(option_name, this.get_common_options_defaults(option_name));
         }
-        this.rim_hub_common_attribute_values = JSON.parse(JSON.stringify(this.rim_hub_common_defaults));
     }
 
     set(option_name, value) {
@@ -80,7 +74,7 @@ export default class WheelbuilderQuery {
     get_query() {
         let mongo_query = {};
         mongo_query['attributes'] = this.all_known_options;
-        mongo_query['common_attributes'] = this.rim_hub_common_attribute_values;
+        mongo_query['common_attributes'] = this.rim_hub_common_defaults;
         mongo_query['$and'] = [];
         for (let option_name in this.query){
             if (this.is_option_common(option_name)) {
