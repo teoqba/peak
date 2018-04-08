@@ -93,15 +93,16 @@ export default class WheelbuilderFilters {
 
     initial_filter_parser(query_result, parent) {
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
-            for (let key in parent.query.rim_hub_common_options) {
+            for (let key in parent.query.rim_hub_common_defaults) {
                 if (query_result.hasOwnProperty(key)) {
                     let values = query_result[key];
                     parent.query.set_common_options_defaults(key, values);
                 }
             }
         }
+        console.log('Query common defaults', parent.query.rim_hub_common_defaults);
         // set common fields in query
-        parent.query.set_query_common_options_to_defaults();
+        parent.query.revert_common_attributes_values_to_defaults();
         parent.initial_filer_done = true;
         parent.ajax_call(parent.query.get_query(), parent.query_api_url.double_query, parent.result_parser);
     }
@@ -139,7 +140,7 @@ export default class WheelbuilderFilters {
         if (this.get_type_of_changed_option(option_name) === 'common'){
             this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
             this.query.remove('inventory_type');
-            this.query.set_common_options_defaults(option_name,[value]);
+            this.query.set_common_attributes_values(option_name,[value]);
             this.ajax_call(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
         } else {
             this.query.set('inventory_type', option_type);
@@ -178,7 +179,7 @@ export default class WheelbuilderFilters {
                 let attribute = attributes_list[i];
                 // Set new defaults in query for next queries
                 if (parent.get_type_of_changed_option(attribute) === 'common') {
-                    parent.query.set_common_options_defaults(attribute, query_result[attribute]);
+                    parent.query.set_common_attributes_values(attribute, query_result[attribute]);
                 }
                 //show hide options
                 if (((options_list.hasOwnProperty(attribute))) && (query_result.hasOwnProperty(attribute))) {
