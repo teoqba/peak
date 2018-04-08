@@ -140,7 +140,6 @@ export default class WheelbuilderFilters {
         if (this.get_type_of_changed_option(option_name) === 'common'){
             this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
             this.query.remove('inventory_type');
-            this.query.set_common_attributes_values(option_name,[value]);
             this.ajax_call(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
         } else {
             this.query.set('inventory_type', option_type);
@@ -177,10 +176,7 @@ export default class WheelbuilderFilters {
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
             for (let i = 0; i < attributes_list.length; i++) {
                 let attribute = attributes_list[i];
-                // Set new defaults in query for next queries
-                if (parent.get_type_of_changed_option(attribute) === 'common') {
-                    parent.query.set_common_attributes_values(attribute, query_result[attribute]);
-                }
+
                 //show hide options
                 if (((options_list.hasOwnProperty(attribute))) && (query_result.hasOwnProperty(attribute))) {
                     let option = options_list[attribute];

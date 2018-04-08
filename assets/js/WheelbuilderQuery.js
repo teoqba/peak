@@ -55,6 +55,7 @@ export default class WheelbuilderQuery {
         return this.rim_hub_common_defaults[option_name];
     }
 
+
     revert_common_attributes_values_to_defaults(){
         // Sets values of common_options in query to defaults.
         // If 'option_name' is given sets only chosen option.
