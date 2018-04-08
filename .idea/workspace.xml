@@ -27,20 +27,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WheelbuilderFilters.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WheelbuilderFilters.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFilters.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
+            <state relative-caret-position="170">
+              <caret line="34" column="17" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WheelbuilderQuery.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WheelbuilderQuery.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+            <state relative-caret-position="375">
+              <caret line="101" column="61" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -89,9 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_opt</find>
-      <find>initial_q</find>
-      <find>revert</find>
       <find>attr</find>
       <find>get_type_of_changed_option</find>
       <find>parese</find>
@@ -119,6 +116,9 @@
       <find>double2</find>
       <find>comm</find>
       <find>doubl</find>
+      <find>rim_hub_common_attribute_values</find>
+      <find>set_query_com</find>
+      <find>set_</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -146,8 +146,8 @@
         <option value="$PROJECT_DIR$/assets/js/theme/product/ProductUtils.js" />
         <option value="$PROJECT_DIR$/Wheelbuilder.md" />
         <option value="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
-        <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFilters.js" />
+        <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
       </list>
     </option>
   </component>
@@ -278,7 +278,7 @@
       <workItem from="1522741311898" duration="211000" />
       <workItem from="1522780291814" duration="6622000" />
       <workItem from="1522867631595" duration="2603000" />
-      <workItem from="1523035267966" duration="17181000" />
+      <workItem from="1523035267966" duration="17830000" />
     </task>
     <task id="LOCAL-00001" summary="wheelbuilder class, example ajax call, listing all options, modified set-select">
       <created>1522007880082</created>
@@ -399,11 +399,25 @@
       <option name="project" value="LOCAL" />
       <updated>1523181268868</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="ready to clean up WB_query">
+      <created>1523183216818</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1523183216818</updated>
+    </task>
+    <task id="LOCAL-00019" summary="WBQuery refactored to use only defaults">
+      <created>1523183655745</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1523183655745</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="105704000" />
+    <option name="totallyTimeSpent" value="106353000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -423,9 +437,9 @@
       <window_info anchor="bottom" id="Messages" weight="0.32965517" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.29517242" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.29517242" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.19586207" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.19586207" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.27586207" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -462,7 +476,9 @@
     <MESSAGE value="autoselect implemented" />
     <MESSAGE value="intial query added, single query with common-options set" />
     <MESSAGE value="reformulated query to have keep default options" />
-    <option name="LAST_COMMIT_MESSAGE" value="reformulated query to have keep default options" />
+    <MESSAGE value="ready to clean up WB_query" />
+    <MESSAGE value="WBQuery refactored to use only defaults" />
+    <option name="LAST_COMMIT_MESSAGE" value="WBQuery refactored to use only defaults" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/assets/js/app.js">
@@ -706,17 +722,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFilters.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        <state relative-caret-position="170">
+          <caret line="34" column="17" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFilters.js">
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
+        <state relative-caret-position="375">
+          <caret line="101" column="61" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="61" />
         </state>
       </provider>
     </entry>

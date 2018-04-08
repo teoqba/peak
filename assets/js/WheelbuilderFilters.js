@@ -10,7 +10,6 @@ export default class WheelbuilderFilters {
         this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
         this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
-        this.rim_hub_common_options = {'Hole_Count': []}; // TODO: define it better or remove
         this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
                               "single_query": "http://localhost:8000/wbdb_query_single",
                               "double_query": "http://localhost:8000/wbdb_query_double"};
@@ -18,6 +17,7 @@ export default class WheelbuilderFilters {
 
         // for query common fields will be initialized in initial_filter_parser
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
+        this.rim_hub_common_options = this.query.rim_hub_common_defaults;
         this.initial_filer_done = false;
         this.initial_filter();
     }

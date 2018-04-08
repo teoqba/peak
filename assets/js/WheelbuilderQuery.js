@@ -51,7 +51,7 @@ export default class WheelbuilderQuery {
         return this.rim_hub_common_defaults[option_name];
     }
 
-    revert_common_attributes_values_to_defaults(){
+    revert_common_attributes_values_to_defaults(option_name){
         // Sets values of common_options in query to defaults.
         // If 'option_name' is given sets only chosen option.
         // If 'option_name' is not given, sets to defaults all common_options in queyr
@@ -99,7 +99,7 @@ export default class WheelbuilderQuery {
     remove(option_name) {
         delete this.query[option_name];
         if (this.is_option_common(option_name)) {
-            this.set_query_common_options_to_defaults(option_name);
+            this.revert_common_attributes_values_to_defaults(option_name);
         }
     }
 }
