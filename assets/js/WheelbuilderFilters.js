@@ -1,4 +1,6 @@
 import WheelbuilderQuery from './WheelbuilderQuery';
+import WheelbuilderOptionAliases from './WheelbuilderOptionAliases';
+
 
 export default class WheelbuilderFilters {
     constructor($parent_page) {
@@ -6,15 +8,23 @@ export default class WheelbuilderFilters {
 
         this.$parent_page = $parent_page;
         this.all_options_on_page = this.get_all_options_on_page();
+
         // These needs to be unique between the two
-        this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
-        this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
+        // this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
+        this.all_known_rim_options = ['Hole_Count', 'Rim_Size', 'Rim_Style', 'Dimensions',
+                                      'Rim_Material', 'Rim_Compatibility', 'Rim_Choice'];
+        // this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
+        this.all_known_hub_options = ['Hole_Count', 'Axle_Type', 'Disc_Brake_Type', 'Drivetrain_Type', 'Hub_Color',
+                                      'Hub_Style', 'Hub_Type', 'Hubs', 'Points of Engagement'];
+
         this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
                               "single_query": "http://localhost:8000/wbdb_query_single",
                               "double_query": "http://localhost:8000/wbdb_query_double"};
         // this.query_api_url2 = "http://localhost:8000/wbdb_query2";
-
+        this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page,
+            this.all_known_rim_options, this.all_known_hub_options);
+        console.log('Option map', this.option_aliases.option_map);
         // for query common fields will be initialized in initial_filter_parser
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
