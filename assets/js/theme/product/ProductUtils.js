@@ -43,6 +43,7 @@ export default class ProductUtils {
   init(context) {
     this.context = context;
     this.wheelbuilderFilters = new WheelbuilderFilters(this.$el);
+    this.wheelbuilderFilters.init();
     this._bindProductOptionChange();
     this._bindAddWishlist();
 

@@ -7,29 +7,36 @@ export default class WheelbuilderFilters {
         console.log('WB init');
 
         this.$parent_page = $parent_page;
-        this.all_options_on_page = this.get_all_options_on_page();
+        this.all_options_on_page = null;
+        this.initial_filer_done = false;
+        this.all_known_rim_options = [];
+        this.all_known_hub_options = [];
+        this.all_known_options = [];
 
-        // These needs to be unique between the two
-        // this.all_known_rim_options = ['Hole_Count', 'Rims', 'Material', 'Style', 'Rim_Compatibility', 'Dimensions'];
-        // These are the _root_ option names
-        this.all_known_rim_options = ['Hole_Count', 'Rim_Size', 'Rim_Style', 'Dimensions',
-                                      'Rim_Material', 'Rim_Compatibility', 'Rim_Choice'];
-        // this.all_known_hub_options = ['Hubs', 'Hole_Count', 'Color', 'Type', 'Compatibility', 'Axle', 'Brake_Type'];
-        // this needs to reflect FRONT/REAR HUB, add Optional "Points_of_Engegement"
-        this.all_known_hub_options = ['Hole_Count', 'Axle_Type', 'Disc_Brake_Type', 'Drivetrain_Type', 'Hub_Color',
-                                      'Hub_Style', 'Hub_Type', 'Hubs'];
-
-        this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
         this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
                               "single_query": "http://localhost:8000/wbdb_query_single",
-                              "double_query": "http://localhost:8000/wbdb_query_double"};
-        // this.query_api_url2 = "http://localhost:8000/wbdb_query2";
+                              "double_query": "http://localhost:8000/wbdb_query_double",
+                              "option_names_roots": "http://localhost:8000/options_names_roots"};
+    }
+
+    init() {
+        this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
+    }
+
+    errorHandler(e){
+        console.log("Error in Promise", e);
+    }
+
+    finish_init(query_result) {
+        console.log("Finishing initalization", query_result, this.all_known_rim_options);
+        this.all_options_on_page = this.get_all_options_on_page();
+        this.all_known_rim_options = query_result['rims_roots'];
+        this.all_known_hub_options = query_result['hubs_roots'];
+        this.all_known_options = query_result['rims_hubs_roots'];
+        this.rim_hub_common_options = query_result['common_roots'];
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page);
-        console.log('Option map', this.option_aliases.all_options_on_page_aliased);
-        // for query common fields will be initialized in initial_filter_parser
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
-        this.initial_filer_done = false;
         this.initial_filter();
     }
 
@@ -65,8 +72,6 @@ export default class WheelbuilderFilters {
             return 'common';
         }
 
-        // console.log('Got option name', option_name, this.all_known_hub_options.indexOf(option_name));
-
         if (this.all_known_hub_options.indexOf(option_name) > -1 ) {
             return 'Hubs';
         } else if (this.all_known_rim_options.indexOf(option_name) > -1) {
@@ -78,6 +83,7 @@ export default class WheelbuilderFilters {
     }
 
     initial_filter() {
+        console.log('Starting initial filter with options', this.all_known_hub_options);
         // Used at class initialization.
         // Search through options, and if there is a *-rim option, filter every other option according to rim selection
         let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
@@ -100,7 +106,7 @@ export default class WheelbuilderFilters {
         }
         if (option_values_array.length !== 0) {
             console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
-            this.ajax_call(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
+            this.ajax_post(initial_query.get_query(), this.query_api_url.initial, this.initial_filter_parser);
         }
 
     }
@@ -118,10 +124,10 @@ export default class WheelbuilderFilters {
         // set common fields in query
         parent.query.revert_common_attributes_values_to_defaults();
         parent.initial_filer_done = true;
-        parent.ajax_call(parent.query.get_query(), parent.query_api_url.double_query, parent.result_parser);
+        parent.ajax_post(parent.query.get_query(), parent.query_api_url.double_query, parent.result_parser);
     }
 
-    ajax_call(query, url, parser) {
+    ajax_post(query, url, parser) {
         let _this = this;
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -136,6 +142,27 @@ export default class WheelbuilderFilters {
         xhttp.open("POST", url, true);
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(JSON.stringify(query));
+    }
+
+    ajax_get(url) {
+        // https://medium.com/front-end-hacking/ajax-async-callback-promise-e98f8074ebd7
+        let promise_obj = new Promise(function(resolve, reject) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", url, true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send();
+
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    let result =  JSON.parse(this.responseText);
+                    resolve(result);}
+                // } else {
+
+                //     reject(this.status);
+                // }
+            };
+        });
+        return promise_obj;
     }
 
     prepare_query($changed_option) {
@@ -155,11 +182,11 @@ export default class WheelbuilderFilters {
         if (this.get_type_of_changed_option(option_name_alias) === 'common'){
             this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
             this.query.remove('inventory_type');
-            this.ajax_call(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
+            this.ajax_post(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
         } else {
             this.query.set('inventory_type', option_type);
             this.query.log("QUERY READY TO BE SEND");
-            this.ajax_call(this.query.get_query(), this.query_api_url.double_query, this.result_parser);
+            this.ajax_post(this.query.get_query(), this.query_api_url.double_query, this.result_parser);
         }
     }
 
