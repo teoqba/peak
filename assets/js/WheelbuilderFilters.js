@@ -12,7 +12,8 @@ export default class WheelbuilderFilters {
         this.all_known_rim_options = [];
         this.all_known_hub_options = [];
         this.all_known_options = [];
-
+        this.common_options_roots = [];
+        this.rim_hub_common_options = {};
         this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
                               "single_query": "http://localhost:8000/wbdb_query_single",
                               "double_query": "http://localhost:8000/wbdb_query_double",
@@ -33,9 +34,10 @@ export default class WheelbuilderFilters {
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
-        this.rim_hub_common_options = query_result['common_roots'];
+        this.common_options_roots = query_result['common_roots'];
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page);
-        this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
+        this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+                                           this.all_known_options, this.common_options_roots);
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
         this.initial_filter();
     }
@@ -86,7 +88,8 @@ export default class WheelbuilderFilters {
         console.log('Starting initial filter with options', this.all_known_hub_options);
         // Used at class initialization.
         // Search through options, and if there is a *-rim option, filter every other option according to rim selection
-        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options);
+        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+                                                  this.all_known_options, this.common_options_roots);
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];

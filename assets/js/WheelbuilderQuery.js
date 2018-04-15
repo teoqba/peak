@@ -1,24 +1,19 @@
 export default class WheelbuilderQuery {
-    constructor(rim_options, hub_options) {
+    constructor(rim_options, hub_options, all_known_options, common_options_roots) {
         this.all_known_rim_options = rim_options;
         this.all_known_hub_options = hub_options;
-        // TODO this needs to be set
-        this.all_known_options = this.all_known_rim_options.concat(this.all_known_hub_options);
+        this.all_known_options = all_known_options;
 
         //holds the default value of all the common parameters, defined during initial query
-        this.rim_hub_common_defaults = {}
-        this.init_rim_hub_common_defaults();
+        this.rim_hub_common_defaults = {};
+        this.init_rim_hub_common_defaults(common_options_roots);
         this.query = {};
     }
 
-    init_rim_hub_common_defaults() {
+    init_rim_hub_common_defaults(common_options) {
         // Sets format of common options to: {'common_option_1':{}, 'common_option_2': {}}
-        let _this = this;
-        let intersection = this.all_known_rim_options.filter(function(n) {
-            return _this.all_known_hub_options.indexOf(n) !== -1;
-        });
-        for (let i=0; i< intersection.length; i++) {
-            this.rim_hub_common_defaults[intersection[i]] = [];
+        for (let i=0; i< common_options.length; i++) {
+            this.rim_hub_common_defaults[common_options[i]] = [];
         }
     }
 
