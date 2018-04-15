@@ -8,10 +8,14 @@
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
     
+    class=wb-empty-option  //for Pick one... first optioon
+    <option value="" class="wb-empty-option" {{#any values selected=true}}{{else}}selected{{/any}}>{{lang 'product.pick_one'}}</option>
+
     class=wb-option
     <option value="{{id}}" class="wb-option" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">
 
-    data-wb-lable="{{label}}"
+
+    data-wb-label="{{label}}"
         <option value="{{id}}" class="wb-option" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{label}}</option>
 
     ->
