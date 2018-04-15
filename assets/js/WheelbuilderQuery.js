@@ -32,7 +32,8 @@ export default class WheelbuilderQuery {
 
     is_option_rim(option_name) {
         // check if option has  {prefix}-rim* extension
-        let extension = /Rims/g; //matches {prefix}-rim* expression
+        // TODO: this should be variable
+        let extension = /Rim_Choice/g; //matches {prefix}-rim* expression
         let test = option_name.match(extension);
         return (test) ? (true) : (false);
     }
@@ -54,7 +55,7 @@ export default class WheelbuilderQuery {
     revert_common_attributes_values_to_defaults(option_name){
         // Sets values of common_options in query to defaults.
         // If 'option_name' is given sets only chosen option.
-        // If 'option_name' is not given, sets to defaults all common_options in queyr
+        // If 'option_name' is not given, sets to defaults all common_options in queyry
         if (typeof option_name === "undefined") {
             for (let key in this.rim_hub_common_defaults) {
                 this.set(key, this.get_common_options_defaults(key));
