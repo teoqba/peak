@@ -197,7 +197,13 @@ export default class WheelbuilderFilters {
         if (query_result.length === 1) {
             let data_label = 'data-wb-label="' + query_result[0]+'"';
             let one_option = $(option).find('.form-select option['+ data_label + ']');
+            let option_name = $(option).find('.wb-option-display-name').text();
+            let value = $(one_option).text();
+            option_name = option_name.split(' ').join('_');
+            // select option
             $(one_option).attr("selected", "selected");
+            // make sura that this selection is also reflected in query
+            this.query.set(option_name, value);
             return true;
         }
         return false;
