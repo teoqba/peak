@@ -1,7 +1,7 @@
 // https://stackoverflow.com/questions/4371565/can-you-create-javascript-regexes-on-the-fly-using-string-variables
 
 export default class WheelbuilderOptionAliases {
-    constructor(all_options_on_page) {
+    constructor(all_options_on_page, option_name_roots) {
         this.all_options_on_page = all_options_on_page;
         //TODO: This should come from database. There should be application that would validate it
 
@@ -12,10 +12,11 @@ export default class WheelbuilderOptionAliases {
         //     'Spoke_Color', 'Ceramic_Bearing_Option', 'Decals'];
 
 
-        this.option_name_roots = ['Rim_Size', 'Hole_Count', 'Rim_Choice', 'Rim_Material',
-            'Disc_Brake_Type', 'Axle_Type','Hubs', 'Hub_Color',
-            'Drivetrain_Type', 'Points_of_Engagement', 'Spoke_Type',
-            'Spoke_Color', 'Ceramic_Bearing_Option', 'Decals'];
+        // this.option_name_roots = ['Rim_Size', 'Hole_Count', 'Rim_Choice', 'Rim_Material',
+        //     'Disc_Brake_Type', 'Axle_Type','Hubs', 'Hub_Color',
+        //     'Drivetrain_Type', 'Points_of_Engagement', 'Spoke_Type',
+        //     'Spoke_Color', 'Ceramic_Bearing_Option', 'Decals'];
+        this.option_name_roots = option_name_roots;
 
         this.option_alias = {}; //  {"old_option_name":"new_option_name" }
         this.revert_alias_to_original = {};  //{"new_option_name":"old_option_name" }

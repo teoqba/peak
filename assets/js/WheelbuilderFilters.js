@@ -34,11 +34,13 @@ export default class WheelbuilderFilters {
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
+
         this.common_options_roots = query_result['common_roots'];
-        this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page);
+        this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                            this.all_known_options, this.common_options_roots);
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
+        console.log('ALl roots', this.all_known_options);
         this.initial_filter();
     }
 
@@ -93,7 +95,6 @@ export default class WheelbuilderFilters {
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
-            console.log('Got option RIM alias', initial_query.is_option_rim(option_name_alias));
             if (initial_query.is_option_rim(option_name_alias)) {
                 // let $option_object = $(this.all_options_on_page[option_name]);
                 let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
@@ -246,7 +247,7 @@ export default class WheelbuilderFilters {
                         }
                     });
                     // if only one option is available, autoselect it
-                    parent.autoselect(option, query_result[option_name_alias])
+                    // parent.autoselect(option, query_result[option_name_alias])
                 }
             }
         }
