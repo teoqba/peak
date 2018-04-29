@@ -9,14 +9,18 @@ export default class WheelbuilderFiltersStages {
         this.$parent_page = $parent_page;
         this.all_options_on_page = null;
         this.initial_filer_done = false;
-        this.all_known_rim_options = [];
-        this.all_known_hub_options = [];
-        this.all_known_options = [];
-        this.common_options_roots = [];
-        this.rim_hub_common_options = {};
+        this.all_known_rim_options = []; // not used here really, only in general wizard
+        this.all_known_hub_options = []; // not used here really, only in general wizard
+        this.all_known_options = [];     // this will be used for option names aliasing
+        this.common_options_roots = [];  // not used here really, only in general wizard
+        this.rim_hub_common_options = {};// not used here really, only in general wizard
 
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count'];
+        //TODO: put those to WB_DB too
+        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Interface'];
         this.all_known_stage_two_options = ['Axle_Type', 'Disc_Brake_Type'];
+        // These two are used to decide if one of the stages is done.
+        // Those are json with structure {option_name:null,..}
+        // If all the null values are changed to option_values, given stage is considered done
         this.stage_one_options_on_page = new WheelbuilderStageOptions();
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
         this.stage_one_finished = false;
@@ -44,18 +48,29 @@ export default class WheelbuilderFiltersStages {
         this.all_known_options = query_result['rims_hubs_roots'];
 
         this.common_options_roots = query_result['common_roots'];
+        // Find aliases of the option names on page
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
 
         this.init_stage_one_two_options();
-
+        // Define Query that will be used throughout the page
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                            this.all_known_options, this.common_options_roots);
+
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
-        console.log('ALl roots', this.all_known_options);
+
         this.hide_stage_two_stage_three_options();
         this.initial_filer_done = true;
     }
 
+    init_stage_one_two_options() {
+        for(let key in this.option_aliases.all_options_on_page_aliased) {
+            if (this.all_known_stage_one_options.indexOf(key) > -1) {
+                this.stage_one_options_on_page.set(key, null);
+            } else if (this.all_known_stage_two_options.indexOf(key) > -1) {
+                this.stage_two_options_on_page.set(key, null);
+            }
+        }
+    }
 
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
@@ -63,7 +78,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     divide_into_stages_and_query($changedOption) {
-        console.log('Starting on changed option');
         let option_name = this.get_name_of_changed_option($changedOption);
         let option_name_alias = this.option_aliases.option_alias[option_name];
         let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
@@ -92,16 +106,6 @@ export default class WheelbuilderFiltersStages {
             // this.filter_after_stage_two_done();
             this.show_all_options();
             this.stage_two_first_pass = false;
-        }
-    }
-
-    init_stage_one_two_options() {
-        for(let key in this.option_aliases.all_options_on_page_aliased) {
-            if (this.all_known_stage_one_options.indexOf(key) > -1) {
-                this.stage_one_options_on_page.set(key, null);
-            } else if (this.all_known_stage_two_options.indexOf(key) > -1) {
-                this.stage_two_options_on_page.set(key, null);
-            }
         }
     }
 
