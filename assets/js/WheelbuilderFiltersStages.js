@@ -21,6 +21,8 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
         this.stage_one_finished = false;
         this.stage_two_finished = false;
+        this.stage_one_first_pass = true;
+        this.stage_two_first_pass = true;
 
         this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
                               "single_query": "http://localhost:8000/wbdb_query_single",
@@ -117,12 +119,18 @@ export default class WheelbuilderFiltersStages {
         if (this.stage_one_options_on_page.all_options_selected()) this.stage_one_finished = true;
         if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
 
-        if (this.stage_one_finished) {
-            // TODO: this needs to be done only once
+        if (this.stage_one_finished && this.stage_two_finished)
+            this.prepare_query($changedOption);
+
+        if (this.stage_one_finished && this.stage_one_first_pass) {
             this.filter_stage_two_options();
             this.show_stage_two_options();
+            this.stage_one_first_pass = false;
         }
-        if (this.stage_two_finished) this.show_all_options();
+        if (this.stage_two_finished && this.stage_two_first_pass) {
+            this.show_all_options();
+            this.stage_two_first_pass = false;
+        }
     }
 
 
@@ -131,12 +139,13 @@ export default class WheelbuilderFiltersStages {
                                                     this.all_known_options, this.common_options_roots);
 
         for(let option_name in this.stage_one_options_on_page.options) {
-            // stage_two_query.set(option_name, this.stage_one_options_on_page[option_name]);
-            stage_two_query.set(option_name, this.stage_one_options_on_page.get(option_name));
+            // stage_two_query.set(option_name, this.stage_one_options_on_page.get(option_name));
+            this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
         }
-        stage_two_query.set('inventory_type', 'Hubs');
-        stage_two_query.log('Stage two query');
-        this.ajax_post(stage_two_query.get_query(),this.query_api_url.query, this.result_parser);
+        // stage_two_query.set('inventory_type', 'Hubs');
+        this.query.set('inventory_type', 'Hubs');
+        // this.ajax_post(stage_two_query.get_query(),this.query_api_url.query, this.result_parser);
+        this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
 
@@ -229,15 +238,18 @@ export default class WheelbuilderFiltersStages {
         } else {
             this.query.remove(option_name_alias);
         }
-        if (this.get_type_of_changed_option(option_name_alias) === 'common'){
-            this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
-            this.query.remove('inventory_type');
-            this.ajax_post(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
-        } else {
-            this.query.set('inventory_type', option_type);
-            this.query.log("QUERY READY TO BE SEND");
-            this.ajax_post(this.query.get_query(), this.query_api_url.double_query, this.result_parser);
-        }
+        // OLD VER
+        // if (this.get_type_of_changed_option(option_name_alias) === 'common'){
+        //     this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
+        //     this.query.remove('inventory_type');
+        //     this.ajax_post(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
+        // } else {
+        //     this.query.set('inventory_type', option_type);
+        //     this.query.log("QUERY READY TO BE SEND");
+        //     this.ajax_post(this.query.get_query(), this.query_api_url.double_query, this.result_parser);
+        // }
+        // NEW VER
+        this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
     }
 
     autoselect(option, query_result) {
