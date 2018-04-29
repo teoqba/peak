@@ -24,11 +24,8 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_first_pass = true;
         this.stage_two_first_pass = true;
 
-        this.query_api_url = {"initial": "http://localhost:8000/wbdb_query_initial",
-                              "single_query": "http://localhost:8000/wbdb_query_single",
-                              "double_query": "http://localhost:8000/wbdb_query_double",
-                              "option_names_roots": "http://localhost:8000/options_names_roots",
-                              "query": "http://localhost:8000/wbdb_query",};
+        this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
+                              "query": "http://localhost:8000/wbdb_query"};
     }
 
     init() {
@@ -56,12 +53,49 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
         console.log('ALl roots', this.all_known_options);
         this.hide_stage_two_stage_three_options();
-        // this.initial_filter();
-        this.initial_filer_done = true;// hack
+        this.initial_filer_done = true;
+    }
+
+
+    filter_options($changedOption) {
+        // Main call. This is called from ProductUtils page.
+        if (this.initial_filer_done) this.divide_into_stages_and_query($changedOption);
+    }
+
+    divide_into_stages_and_query($changedOption) {
+        console.log('Starting on changed option');
+        let option_name = this.get_name_of_changed_option($changedOption);
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+        const $option_values_object = $option_object.find('.form-select');
+        const $selected_item = $option_values_object.find(':selected');
+        let value = $selected_item.text();
+        if (this.stage_one_options_on_page.have_member(option_name)) this.stage_one_options_on_page.set(option_name, value) ;
+        if (this.stage_two_options_on_page.have_member(option_name)) this.stage_two_options_on_page.set(option_name, value) ;
+
+        if (this.stage_one_options_on_page.all_options_selected()) this.stage_one_finished = true;
+        if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
+
+        // if Stage 1 and Stage 2 are finished filter whatever is left in stage 3
+        if (this.stage_one_finished && this.stage_two_finished)
+            this.prepare_query($changedOption);
+
+        // Stage 1: filter only after all choice is done
+        if (this.stage_one_finished && this.stage_one_first_pass) {
+            this.filter_after_stage_one_done();
+            this.show_stage_two_options();
+            this.stage_one_first_pass = false;
+        }
+
+        // Stage 2: Filter after everything is done
+        if (this.stage_two_finished && this.stage_two_first_pass) {
+            // this.filter_after_stage_two_done();
+            this.show_all_options();
+            this.stage_two_first_pass = false;
+        }
     }
 
     init_stage_one_two_options() {
-
         for(let key in this.option_aliases.all_options_on_page_aliased) {
             if (this.all_known_stage_one_options.indexOf(key) > -1) {
                 this.stage_one_options_on_page.set(key, null);
@@ -80,13 +114,6 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
-    filter_options($changedOption) {
-        // Main call. This is called from ProductUtils page.
-        if (this.initial_filer_done) this.on_changed_option($changedOption);
-        // if (this.initial_filer_done) this.prepare_query($changedOption);
-    }
-
-
     show_stage_two_options() {
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if (this.stage_two_options_on_page.have_member(option_name)) {
@@ -94,7 +121,6 @@ export default class WheelbuilderFiltersStages {
                 option_object.show();
             }
         }
-
     }
 
     show_all_options() {
@@ -105,46 +131,20 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
-    on_changed_option($changedOption) {
-        console.log('Starting on changed option');
-        let option_name = this.get_name_of_changed_option($changedOption);
-        let option_name_alias = this.option_aliases.option_alias[option_name];
-        let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
-        const $option_values_object = $option_object.find('.form-select');
-        const $selected_item = $option_values_object.find(':selected');
-        let value = $selected_item.text();
-        if (this.stage_one_options_on_page.have_member(option_name)) this.stage_one_options_on_page.set(option_name, value) ;
-        if (this.stage_two_options_on_page.have_member(option_name)) this.stage_two_options_on_page.set(option_name, value) ;
 
-        if (this.stage_one_options_on_page.all_options_selected()) this.stage_one_finished = true;
-        if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
-
-        if (this.stage_one_finished && this.stage_two_finished)
-            this.prepare_query($changedOption);
-
-        if (this.stage_one_finished && this.stage_one_first_pass) {
-            this.filter_stage_two_options();
-            this.show_stage_two_options();
-            this.stage_one_first_pass = false;
-        }
-        if (this.stage_two_finished && this.stage_two_first_pass) {
-            this.show_all_options();
-            this.stage_two_first_pass = false;
-        }
-    }
-
-
-    filter_stage_two_options() {
-        let stage_two_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-                                                    this.all_known_options, this.common_options_roots);
-
+    filter_after_stage_one_done() {
         for(let option_name in this.stage_one_options_on_page.options) {
-            // stage_two_query.set(option_name, this.stage_one_options_on_page.get(option_name));
             this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
         }
-        // stage_two_query.set('inventory_type', 'Hubs');
         this.query.set('inventory_type', 'Hubs');
-        // this.ajax_post(stage_two_query.get_query(),this.query_api_url.query, this.result_parser);
+        this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
+    }
+
+    filter_after_stage_two_done() {
+        for(let option_name in this.stage_two_options_on_page.options) {
+            this.query.set(option_name, this.stage_two_options_on_page.get(option_name));
+        }
+        this.query.set('inventory_type', 'Hubs');
         this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -169,21 +169,6 @@ export default class WheelbuilderFiltersStages {
         let name = $form.find('.wb-option-display-name').text();
         return name.split(' ').join('_');
 
-    }
-
-    get_type_of_changed_option(option_name) {
-        if (this.rim_hub_common_options.hasOwnProperty(option_name)) {
-            return 'common';
-        }
-
-        if (this.all_known_hub_options.indexOf(option_name) > -1 ) {
-            return 'Hubs';
-        } else if (this.all_known_rim_options.indexOf(option_name) > -1) {
-            return 'Rims';
-        } else {
-            console.log('Unknown option_type', option_name);
-            return null;
-        }
     }
 
     ajax_post(query, url, parser) {
@@ -227,7 +212,6 @@ export default class WheelbuilderFiltersStages {
     prepare_query($changed_option) {
         let option_name = this.get_name_of_changed_option($changed_option);
         let option_name_alias = this.option_aliases.option_alias[option_name];
-        let option_type = this.get_type_of_changed_option(option_name_alias);
         let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
         const $option_values_object = $option_object.find('.form-select');
         const $selected_item = $option_values_object.find(':selected');
@@ -238,17 +222,6 @@ export default class WheelbuilderFiltersStages {
         } else {
             this.query.remove(option_name_alias);
         }
-        // OLD VER
-        // if (this.get_type_of_changed_option(option_name_alias) === 'common'){
-        //     this.query.log("QUERY READY TO BE SEND FOR OPTION COMMON");
-        //     this.query.remove('inventory_type');
-        //     this.ajax_post(this.query.get_query(), this.query_api_url.single_query, this.result_parser);
-        // } else {
-        //     this.query.set('inventory_type', option_type);
-        //     this.query.log("QUERY READY TO BE SEND");
-        //     this.ajax_post(this.query.get_query(), this.query_api_url.double_query, this.result_parser);
-        // }
-        // NEW VER
         this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
     }
 
