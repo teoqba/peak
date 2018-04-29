@@ -4,6 +4,7 @@ import FormValidator from '../utils/FormValidator';
 
 import ProgressButton from '../utils/ProgressButton';
 import WheelbuilderFilters from "../../WheelbuilderFilters";
+import WheelbuilderFiltersStages from "../../WheelbuilderFiltersStages";
 
 export default class ProductUtils {
   constructor(el, options) {
@@ -42,7 +43,7 @@ export default class ProductUtils {
 
   init(context) {
     this.context = context;
-    this.wheelbuilderFilters = new WheelbuilderFilters(this.$el);
+    this.wheelbuilderFilters = new WheelbuilderFiltersStages(this.$el);
     this.wheelbuilderFilters.init();
     this._bindProductOptionChange();
     this._bindAddWishlist();
