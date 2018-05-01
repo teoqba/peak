@@ -16,7 +16,7 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
 
         //TODO: put those to WB_DB too
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type'];
+        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count'];
         this.all_known_stage_two_options = ['Disc_Brake_Type'];
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
