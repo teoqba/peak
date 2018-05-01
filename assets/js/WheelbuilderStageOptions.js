@@ -22,6 +22,7 @@ export default class WheelbuilderStageOptions {
         for (let key in this.options) {
             if (this.options[key] === null) ret_val = false
         }
+        console.log("Ret val", ret_val);
         return ret_val;
     }
 

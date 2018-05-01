@@ -16,8 +16,8 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
 
         //TODO: put those to WB_DB too
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Interface'];
-        this.all_known_stage_two_options = ['Axle_Type', 'Disc_Brake_Type'];
+        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type'];
+        this.all_known_stage_two_options = ['Disc_Brake_Type'];
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
         // If all the null values are changed to option_values, given stage is considered done
@@ -84,12 +84,12 @@ export default class WheelbuilderFiltersStages {
         const $option_values_object = $option_object.find('.form-select');
         const $selected_item = $option_values_object.find(':selected');
         let value = $selected_item.text();
-        if (this.stage_one_options_on_page.have_member(option_name)) this.stage_one_options_on_page.set(option_name, value) ;
-        if (this.stage_two_options_on_page.have_member(option_name)) this.stage_two_options_on_page.set(option_name, value) ;
+        if (this.stage_one_options_on_page.have_member(option_name_alias)) this.stage_one_options_on_page.set(option_name_alias, value) ;
+        if (this.stage_two_options_on_page.have_member(option_name_alias)) this.stage_two_options_on_page.set(option_name_alias, value) ;
 
         if (this.stage_one_options_on_page.all_options_selected()) this.stage_one_finished = true;
         if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
-
+        console.log('Stage 1 options on page', this.stage_one_options_on_page);
         // if Stage 1 and Stage 2 are finished filter whatever is left in stage 3
         if (this.stage_one_finished && this.stage_two_finished)
             this.prepare_query($changedOption);
@@ -103,7 +103,7 @@ export default class WheelbuilderFiltersStages {
 
         // Stage 2: Filter after everything is done
         if (this.stage_two_finished && this.stage_two_first_pass) {
-            // this.filter_after_stage_two_done();
+            this.filter_after_stage_two_done();
             this.show_all_options();
             this.stage_two_first_pass = false;
         }
