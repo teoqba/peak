@@ -56,6 +56,9 @@ export default class WheelbuilderFiltersStages {
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                            this.all_known_options, this.common_options_roots);
 
+        this.stage_one_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+            Object.keys(this.stage_one_options_on_page.options), this.common_options_roots);
+        this.stage_one_query.set('inventory_type', 'Rims');
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
 
         this.hide_stage_two_stage_three_options();
@@ -106,6 +109,9 @@ export default class WheelbuilderFiltersStages {
             this.filter_after_stage_two_done();
             this.show_all_options();
             this.stage_two_first_pass = false;
+        }
+        if (!this.stage_one_finished) {
+            this.prepare_query_one($changedOption)
         }
     }
 
@@ -180,7 +186,7 @@ export default class WheelbuilderFiltersStages {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
-                console.log('Response', this.responseText);
+                // console.log('Response', this.responseText);
                 let result =  JSON.parse(this.responseText);
                 console.log('AJax result', result);
                 parser(result, _this);
@@ -228,6 +234,25 @@ export default class WheelbuilderFiltersStages {
         }
         this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
     }
+
+
+    prepare_query_one($changed_option) {
+        let option_name = this.get_name_of_changed_option($changed_option);
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+        const $option_values_object = $option_object.find('.form-select');
+        const $selected_item = $option_values_object.find(':selected');
+        let selected_index = $selected_item.index();
+        let value = $selected_item.text();
+        if (selected_index > 0 ) {
+            this.stage_one_query.set(option_name_alias, value);
+        } else {
+            this.stage_one_query.remove(option_name_alias);
+        }
+        this.stage_one_query.log('Stage one query');
+        this.ajax_post(this.stage_one_query.get_query(), this.query_api_url.query, this.result_parser);
+    }
+
 
     autoselect(option, query_result) {
         if (query_result.length === 1) {
