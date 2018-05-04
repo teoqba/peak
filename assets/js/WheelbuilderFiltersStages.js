@@ -62,7 +62,8 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
 
         this.hide_stage_two_stage_three_options();
-        this.initial_filer_done = true;
+        this.initial_filter();
+        this.initial_filer_done = true; //this is not completely right, should be called in results_parser for initial query
     }
 
     init_stage_one_two_options() {
@@ -95,7 +96,7 @@ export default class WheelbuilderFiltersStages {
         console.log('Stage 1 options on page', this.stage_one_options_on_page);
         // if Stage 1 and Stage 2 are finished filter whatever is left in stage 3
         if (this.stage_one_finished && this.stage_two_finished)
-            this.prepare_query($changedOption);
+            this.prepare_query($changedOption, this.query);
 
         // Stage 1: filter only after all choice is done
         if (this.stage_one_finished && this.stage_one_first_pass) {
@@ -111,7 +112,8 @@ export default class WheelbuilderFiltersStages {
             this.stage_two_first_pass = false;
         }
         if (!this.stage_one_finished) {
-            this.prepare_query_one($changedOption)
+            // this.prepare_query_one($changedOption);
+            this.prepare_query($changedOption, this.stage_one_query);
         }
     }
 
@@ -219,7 +221,37 @@ export default class WheelbuilderFiltersStages {
         return promise_obj;
     }
 
-    prepare_query($changed_option) {
+    initial_filter() {
+        // Used at class initialization.
+        // Filter all the options based on the resuls find for Rim-Choice
+        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+            this.all_known_options, this.common_options_roots);
+        let option_values_array = [];
+        for (let option_name in this.all_options_on_page) {
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            if (option_name_alias === 'Rim_Choice') {
+            // if (initial_query.is_option_rim(option_name_alias)) {
+                // let $option_object = $(this.all_options_on_page[option_name]);
+                let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+                let $option_values_object = $option_object.find('.wb-option');
+                $option_values_object.each(function(){
+                    let option_value = $(this).text()
+                    option_values_array.push(option_value);
+                });
+                initial_query.set(option_name_alias, option_values_array);
+                initial_query.set('inventory_type', 'Rims');
+                initial_query.log("INITIAL QUERY");
+            }
+        }
+        if (option_values_array.length !== 0) {
+            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
+            this.ajax_post(initial_query.get_query(), this.query_api_url.query, this.result_parser);
+        }
+
+    }
+
+
+    prepare_query($changed_option, query_object) {
         let option_name = this.get_name_of_changed_option($changed_option);
         let option_name_alias = this.option_aliases.option_alias[option_name];
         let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
@@ -228,31 +260,15 @@ export default class WheelbuilderFiltersStages {
         let selected_index = $selected_item.index();
         let value = $selected_item.text();
         if (selected_index > 0 ) {
-            this.query.set(option_name_alias, value);
+            // this.query.set(option_name_alias, value);
+            query_object.set(option_name_alias, value);
         } else {
-            this.query.remove(option_name_alias);
+            // this.query.remove(option_name_alias);
+            query_object.remove(option_name_alias);
         }
-        this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
+        // this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
+        this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
-
-
-    prepare_query_one($changed_option) {
-        let option_name = this.get_name_of_changed_option($changed_option);
-        let option_name_alias = this.option_aliases.option_alias[option_name];
-        let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
-        const $option_values_object = $option_object.find('.form-select');
-        const $selected_item = $option_values_object.find(':selected');
-        let selected_index = $selected_item.index();
-        let value = $selected_item.text();
-        if (selected_index > 0 ) {
-            this.stage_one_query.set(option_name_alias, value);
-        } else {
-            this.stage_one_query.remove(option_name_alias);
-        }
-        this.stage_one_query.log('Stage one query');
-        this.ajax_post(this.stage_one_query.get_query(), this.query_api_url.query, this.result_parser);
-    }
-
 
     autoselect(option, query_result) {
         if (query_result.length === 1) {
