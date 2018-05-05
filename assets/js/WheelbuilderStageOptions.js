@@ -33,9 +33,14 @@ export default class WheelbuilderStageOptions {
         return this.options[option_name];
     }
 
+    get_attributes() {
+        return Object.keys(this.options);
+    }
+
     to_query() {
         //TODO implement?
     }
+
 }
 
 

@@ -5,17 +5,6 @@ export default class WheelbuilderOptionAliases {
         this.all_options_on_page = all_options_on_page;
         //TODO: This should come from database. There should be application that would validate it
 
-        // roots with front/rear hub distinction
-        // this.option_name_roots = ['Rim_Size', 'Hole_Count', 'Rim_Choice', 'Rim_Material',
-        //     'Disc_Brake_Type', 'Front_Axle_Type', 'Rear_Axle_Type', 'Front_Hub', 'Front_Hub_Color',
-        //     'Rear_Hub', 'Rear_Hub_Color', 'Drivetrain_Type', 'Points_of_Engagement', 'Spoke_Type',
-        //     'Spoke_Color', 'Ceramic_Bearing_Option', 'Decals'];
-
-
-        // this.option_name_roots = ['Rim_Size', 'Hole_Count', 'Rim_Choice', 'Rim_Material',
-        //     'Disc_Brake_Type', 'Axle_Type','Hubs', 'Hub_Color',
-        //     'Drivetrain_Type', 'Points_of_Engagement', 'Spoke_Type',
-        //     'Spoke_Color', 'Ceramic_Bearing_Option', 'Decals'];
         this.option_name_roots = option_name_roots;
 
         this.option_alias = {}; //  {"old_option_name":"new_option_name" }
