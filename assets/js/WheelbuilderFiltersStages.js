@@ -92,17 +92,32 @@ export default class WheelbuilderFiltersStages {
         const $option_values_object = $option_object.find('.form-select');
         const $selected_item = $option_values_object.find(':selected');
         let value = $selected_item.text();
+        // set variables controlling stages visibility: this.stage_*_finished
+        this.stages_control(option_name_alias, value);
+
+        // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
+        if (this.stage_one_finished)
+            this.prepare_query($changedOption, this.query);
+
+        // decide if its time to show new stage
+        this.unravel_stages();
+
+        if (!this.stage_one_finished) {
+            this.prepare_query($changedOption, this.stage_one_query);
+        }
+    }
+
+    stages_control(option_name_alias, value) {
+        // sets variables that controls stages visibility
         if (this.stage_one_options_on_page.have_member(option_name_alias)) this.stage_one_options_on_page.set(option_name_alias, value) ;
         if (this.stage_two_options_on_page.have_member(option_name_alias)) this.stage_two_options_on_page.set(option_name_alias, value) ;
 
         if (this.stage_one_options_on_page.all_options_selected()) this.stage_one_finished = true;
         if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
+    }
 
-        // if Stage 1 and Stage 2 are finished filter whatever is left in stage 3
-        // if (this.stage_one_finished && this.stage_two_finished)
-        if (this.stage_one_finished)
-            this.prepare_query($changedOption, this.query);
-
+    unravel_stages() {
+        // decides if it is time to show new stage
         // Stage 1: filter only after all choice is done
         if (this.stage_one_finished && this.stage_one_first_pass) {
             this.filter_after_stage_one_done();
@@ -110,16 +125,11 @@ export default class WheelbuilderFiltersStages {
             this.stage_one_first_pass = false;
         }
 
-        // Stage 2: Filter after everything is done
+        // Stage 2:
         if (this.stage_two_finished && this.stage_two_first_pass) {
             // this.filter_after_stage_two_done();
             this.show_all_options();
             this.stage_two_first_pass = false;
-        }
-
-        if (!this.stage_one_finished) {
-            // this.prepare_query_one($changedOption);
-            this.prepare_query($changedOption, this.stage_one_query);
         }
     }
 
@@ -288,8 +298,8 @@ export default class WheelbuilderFiltersStages {
             // make sura that this selection is also reflected in query
             let option_name_alias = this.option_aliases.option_alias[option_name];
             this.query.set(option_name_alias, value);
-            if (this.stage_one_options_on_page.have_member(option_name_alias)) this.stage_one_options_on_page.set(option_name_alias, value) ;
-            if (this.stage_two_options_on_page.have_member(option_name_alias)) this.stage_two_options_on_page.set(option_name_alias, value) ;
+            this.stages_control(option_name_alias, value);
+            this.unravel_stages();
             return true;
         }
         return false;
