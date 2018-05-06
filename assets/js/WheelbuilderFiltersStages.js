@@ -42,7 +42,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     finish_init(query_result) {
-        // callback function called after ajax_get to fetch known set set op options
+        // this is callback function called after ajax_get to fetch known set of options
         this.all_options_on_page = this.get_all_options_on_page();
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
@@ -56,9 +56,10 @@ export default class WheelbuilderFiltersStages {
         // Define Query that will be used throughout the page
         this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                            this.all_known_options, this.common_options_roots);
+        this.query.set('inventory_type', 'Hubs');
 
         this.stage_one_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-            this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+                                                     this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
         this.stage_one_query.set('inventory_type', 'Rims');
         this.rim_hub_common_options = this.query.rim_hub_common_defaults;
 
@@ -163,17 +164,8 @@ export default class WheelbuilderFiltersStages {
         for(let option_name in this.stage_one_options_on_page.options) {
             this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
         }
-        this.query.set('inventory_type', 'Hubs');
         this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
     }
-
-    // filter_after_stage_two_done() {
-    //     for(let option_name in this.stage_two_options_on_page.options) {
-    //         this.query.set(option_name, this.stage_two_options_on_page.get(option_name));
-    //     }
-    //     this.query.set('inventory_type', 'Hubs');
-    //     this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
-    // }
 
 
     get_all_options_on_page() {
