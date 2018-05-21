@@ -168,18 +168,18 @@ export default class WheelbuilderFiltersStages {
         }
         // TODO: to be tested
         // Try to mess with brake type options
-        if (this.stage_one_options_on_page.have_member('Rim_Brake_Type')) {
-            let brake_type = this.stage_one_options_on_page.get('Rim_Brake_Type');
+        if (this.stage_one_options_on_page.have_member('Brake_Type')) {
+            let brake_type = this.stage_one_options_on_page.get('Brake_Type');
             if (brake_type === 'Rim Brake') {
-                this.query.set('Front_Disc_Brake_Type', 'Rim Brake');
-                this.query.set('Rear_Disc_Brake_Type', 'Rim Brake');
-                this.remove_option_from_page('Front_Disc_Brake_Type');
-                this.remove_option_from_page('Rear_Disc_Brake_Type');
-                this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Type');
-                this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Type');
+                this.query.set('Front_Disc_Brake_Interface', 'Rim Brake');
+                this.query.set('Rear_Disc_Brake_Interface', 'Rim Brake');
+                this.remove_option_from_page('Front_Disc_Brake_Interface');
+                this.remove_option_from_page('Rear_Disc_Brake_Interface');
+                this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Interface');
+                this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Interface');
             }else {
-                this.query.set('Front_Disc_Brake_Type', {'$ne':'Rim Brake'});
-                this.query.set('Rear_Disc_Brake_Type', {'$ne':'Rim Brake'});
+                this.query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+                this.query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
         this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
