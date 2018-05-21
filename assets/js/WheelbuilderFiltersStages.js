@@ -16,8 +16,8 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
 
         //TODO: put those to WB_DB too
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count'];
-        this.all_known_stage_two_options = ['Front_Disc_Brake_Type', 'Rear_Disc_Brake_Type',
+        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type'];
+        this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
@@ -29,8 +29,10 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_first_pass = true;
         this.stage_two_first_pass = true;
 
-        this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
-                              "query": "http://localhost:8000/wbdb_query"};
+        // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
+        //                       "query": "http://localhost:8000/wbdb_query"};
+        this.query_api_url = {"option_names_roots": "http://52.53.197.100:8000/options_names_roots",
+            "query": "http://52.53.197.100:8000/wbdb_query"};
     }
 
     init() {
@@ -121,7 +123,7 @@ export default class WheelbuilderFiltersStages {
         // decides if it is time to show new stage
         // Stage 1: filter only after all choice is done
         if (this.stage_one_finished && this.stage_one_first_pass) {
-            this.filter_after_stage_one_done();
+            this.filter_after_stage_one_is_done();
             this.show_stage_two_options();
             this.stage_one_first_pass = false;
         }
@@ -160,13 +162,35 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
-    filter_after_stage_one_done() {
+    filter_after_stage_one_is_done() {
         for(let option_name in this.stage_one_options_on_page.options) {
             this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
+        }
+        // TODO: to be tested
+        // Try to mess with brake type options
+        if (this.stage_one_options_on_page.have_member('Rim_Brake_Type')) {
+            let brake_type = this.stage_one_options_on_page.get('Rim_Brake_Type');
+            if (brake_type === 'Rim Brake') {
+                this.query.set('Front_Disc_Brake_Type', 'Rim Brake');
+                this.query.set('Rear_Disc_Brake_Type', 'Rim Brake');
+                this.remove_option_from_page('Front_Disc_Brake_Type');
+                this.remove_option_from_page('Rear_Disc_Brake_Type');
+                this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Type');
+                this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Type');
+            }else {
+                this.query.set('Front_Disc_Brake_Type', {'$ne':'Rim Brake'});
+                this.query.set('Rear_Disc_Brake_Type', {'$ne':'Rim Brake'});
+            }
         }
         this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
+    remove_option_from_page(option_name) {
+        let option = this.option_aliases.all_options_on_page_aliased[option_name];
+        let $option_values_object = $(option).find('.wb-option')
+        $option_values_object.remove();
+        delete this.option_aliases.all_options_on_page_aliased[option_name];
+    }
 
     get_all_options_on_page() {
         // Find all the options on currently loaded product page. Currently it only looks at the options from set-select.html
