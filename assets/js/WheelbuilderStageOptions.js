@@ -37,6 +37,10 @@ export default class WheelbuilderStageOptions {
         return Object.keys(this.options);
     }
 
+    remove_option(option_name) {
+        delete this.options[option_name];
+    }
+
     to_query() {
         //TODO implement?
     }
