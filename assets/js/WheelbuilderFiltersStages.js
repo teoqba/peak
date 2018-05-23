@@ -16,7 +16,7 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
 
         //TODO: put those to WB_DB too
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type'];
+        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
         // These two are used to decide if one of the stages is done.
@@ -99,7 +99,7 @@ export default class WheelbuilderFiltersStages {
         this.stages_control(option_name_alias, value);
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
-        if (this.stage_one_finished)
+        if (this.stage_one_finished && !this.stage_one_first_pass)
             this.prepare_query($changedOption, this.query);
 
         // decide if its time to show new stage
@@ -221,7 +221,6 @@ export default class WheelbuilderFiltersStages {
             if (this.readyState === 4 && this.status === 200) {
                 // console.log('Response', this.responseText);
                 let result =  JSON.parse(this.responseText);
-                console.log('AJax result', result);
                 parser(result, _this);
 
             }
@@ -261,7 +260,7 @@ export default class WheelbuilderFiltersStages {
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
-            if (option_name_alias === 'Rim_Choice') {
+            if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
             // if (initial_query.is_option_rim(option_name_alias)) {
                 // let $option_object = $(this.all_options_on_page[option_name]);
                 let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
@@ -298,6 +297,7 @@ export default class WheelbuilderFiltersStages {
             // this.query.remove(option_name_alias);
             query_object.remove(option_name_alias);
         }
+        query_object.log('Query in prepare query');
         // this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
