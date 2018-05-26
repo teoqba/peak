@@ -67,7 +67,21 @@ export default class WheelbuilderFiltersStages {
 
         this.hide_stage_two_stage_three_options();
         this.initial_filter();
+        this.analyze_options_on_page()
         this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
+    }
+
+    analyze_options_on_page(){
+        // Analyze which options are on the page and try to guess defaults for options that are not included
+        // If Brake Type is not given, and Front/Rear Disc Brake type is given, set Brake_Type: Disc
+        if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
+            ((this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
+            (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
+
+            this.stage_one_query.set('Brake_Type', 'Disc Brake');
+            this.query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+            this.query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+        }
     }
 
     init_stage_one_two_options() {
@@ -162,6 +176,36 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    initial_filter() {
+        // Used at class initialization.
+        // Filters options in Stage 1, to avoid incompatible builds
+        // Filter all the options based on the results find for Rim-Choice
+        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+            this.all_known_options, this.common_options_roots);
+        let option_values_array = [];
+        for (let option_name in this.all_options_on_page) {
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
+                // if (initial_query.is_option_rim(option_name_alias)) {
+                // let $option_object = $(this.all_options_on_page[option_name]);
+                let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+                let $option_values_object = $option_object.find('.wb-option');
+                $option_values_object.each(function(){
+                    let option_value = $(this).text()
+                    option_values_array.push(option_value);
+                });
+                initial_query.set(option_name_alias, option_values_array);
+                initial_query.set('inventory_type', 'Rims');
+                initial_query.log("INITIAL QUERY");
+            }
+        }
+        if (option_values_array.length !== 0) {
+            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
+            this.ajax_post(initial_query.get_query(), this.query_api_url.query, this.result_parser_initial);
+        }
+
+    }
+
     filter_after_stage_one_is_done() {
         for(let option_name in this.stage_one_options_on_page.options) {
             this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
@@ -182,6 +226,7 @@ export default class WheelbuilderFiltersStages {
                 this.query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
+        this.query.log('query in filter after stage one');
         this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -251,36 +296,6 @@ export default class WheelbuilderFiltersStages {
         return promise_obj;
     }
 
-    initial_filter() {
-        // Used at class initialization.
-        // Filters options in Stage 1, to avoid incompatible builds
-        // Filter all the options based on the results find for Rim-Choice
-        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-            this.all_known_options, this.common_options_roots);
-        let option_values_array = [];
-        for (let option_name in this.all_options_on_page) {
-            let option_name_alias = this.option_aliases.option_alias[option_name];
-            if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
-            // if (initial_query.is_option_rim(option_name_alias)) {
-                // let $option_object = $(this.all_options_on_page[option_name]);
-                let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
-                let $option_values_object = $option_object.find('.wb-option');
-                $option_values_object.each(function(){
-                    let option_value = $(this).text()
-                    option_values_array.push(option_value);
-                });
-                initial_query.set(option_name_alias, option_values_array);
-                initial_query.set('inventory_type', 'Rims');
-                initial_query.log("INITIAL QUERY");
-            }
-        }
-        if (option_values_array.length !== 0) {
-            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
-            this.ajax_post(initial_query.get_query(), this.query_api_url.query, this.result_parser_initial);
-        }
-
-    }
-
 
     prepare_query($changed_option, query_object) {
         let option_name = this.get_name_of_changed_option($changed_option);
@@ -293,7 +308,7 @@ export default class WheelbuilderFiltersStages {
         if (selected_index > 0 ) {
             // this.query.set(option_name_alias, value);
             query_object.set(option_name_alias, value);
-        } else {
+        } else { //user chosen Pick One ...
             // this.query.remove(option_name_alias);
             query_object.remove(option_name_alias);
         }
@@ -358,7 +373,7 @@ export default class WheelbuilderFiltersStages {
                         }
                     });
                     // if only one option is available, autoselect it
-                    parent.autoselect(option, query_result[option_name_alias])
+                    // parent.autoselect(option, query_result[option_name_alias])
                 }
             }
         }

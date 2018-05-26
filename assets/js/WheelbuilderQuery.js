@@ -94,8 +94,8 @@ export default class WheelbuilderQuery {
 
     remove(option_name) {
         delete this.query[option_name];
-        if (this.is_option_common(option_name)) {
-            this.revert_common_attributes_values_to_defaults(option_name);
-        }
+        // if (this.is_option_common(option_name)) {
+        //     this.revert_common_attributes_values_to_defaults(option_name);
+        // }
     }
 }
