@@ -26,7 +26,11 @@ export default class WheelbuilderStageOptions {
     }
 
     set(option_name, value) {
-        this.options[option_name] = value;
+        if (value === "Pick one...") {
+            this.options[option_name] = null;
+        } else {
+            this.options[option_name] = value;
+        }
     }
 
     get(option_name) {
