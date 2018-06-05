@@ -67,7 +67,7 @@ export default class WheelbuilderFiltersStages {
 
         this.hide_stage_two_stage_three_options();
         this.initial_filter();
-        this.analyze_options_on_page()
+        this.analyze_options_on_page();
         this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
     }
 
@@ -126,6 +126,7 @@ export default class WheelbuilderFiltersStages {
 
     stages_control(option_name_alias, value) {
         // sets variables that controls stages visibility
+        // TODO: if option is Pick One, unselect options
         if (this.stage_one_options_on_page.have_member(option_name_alias)) this.stage_one_options_on_page.set(option_name_alias, value) ;
         if (this.stage_two_options_on_page.have_member(option_name_alias)) this.stage_two_options_on_page.set(option_name_alias, value) ;
 
@@ -365,7 +366,7 @@ export default class WheelbuilderFiltersStages {
                     $option_values_object.each(function () {
                         let result = query_result[option_name_alias];
                         let name = $(this).text();
-                        if (name === 'Pick one ...') $(this).hide();
+                        // if (name === 'Pick one...') $(this).hide();
                         if (result.indexOf(name) < 0) {
                             $(this).hide();
                         } else {
@@ -394,7 +395,7 @@ export default class WheelbuilderFiltersStages {
                     $option_values_object.each(function () {
                         let result = query_result[option_name_alias];
                         let name = $(this).text();
-                        if (name === 'Pick one ...') $(this).hide();
+                        // if (name === 'Pick one...') $(this).hide();
                         if (result.indexOf(name) < 0) {
                             $(this).remove();}
 
