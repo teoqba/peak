@@ -18,6 +18,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
+        this.all_known_special_options = ['Points_of_Engagement'];
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
         // If all the null values are changed to option_values, given stage is considered done
@@ -54,7 +55,7 @@ export default class WheelbuilderFiltersStages {
             let $option_values_object = $(option).find('.wb-empty-option');
             $option_values_object.prop('selected', true)
         }
-        // show all optoptionsiond that were hidden before by the filters
+        // show all options values that were hidden before by the filters
         for (let option_name in this.all_options_on_page) {
             let option = this.option_aliases.all_options_on_page_aliased[option_name];
             let $option_values_object = $(option).find('.wb-option');
