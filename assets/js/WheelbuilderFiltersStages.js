@@ -5,7 +5,6 @@ import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 export default class WheelbuilderFiltersStages {
     constructor($parent_page) {
         console.log('WB init');
-
         this.$parent_page = $parent_page;
         this.all_options_on_page = null;
         this.initial_filter_done = false;
@@ -28,6 +27,8 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_finished = false;
         this.stage_one_first_pass = true;
         this.stage_two_first_pass = true;
+        this.eventHandler();
+
 
         // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
         //                       "query": "http://localhost:8000/wbdb_query"};
@@ -39,11 +40,46 @@ export default class WheelbuilderFiltersStages {
         this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
     }
 
+    eventHandler() {
+        var self = this; //https://stackoverflow.com/questions/3365005/calling-class-methods-within-jquery-function
+        this.$reset_button = this.$parent_page.find('.wb-reset-button');
+        this.$reset_button.on("click", function() {self.resetSelection()});
+
+    }
+
+    resetSelection() {
+        console.log("Reseting selections");
+        for (let option_name in this.all_options_on_page) {
+            let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let $option_values_object = $(option).find('.wb-empty-option');
+            $option_values_object.prop('selected', true)
+        }
+        // show all optoptionsiond that were hidden before by the filters
+        for (let option_name in this.all_options_on_page) {
+            let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let $option_values_object = $(option).find('.wb-option');
+            $option_values_object.each(function(){
+                $(this).show();
+            });
+        }
+
+        // Set stages variables to initial values
+        this.initial_filter_done = false;
+        this.stage_one_first_pass = true;
+        this.stage_two_first_pass = true;
+        this.stage_one_finished = false;
+        this.stage_two_finished = false;
+
+        // Start from scratch
+        this.init();
+    }
+
     errorHandler(e){
         console.log("Error in Promise", e);
     }
 
     finish_init(query_result) {
+        console.log("FINISHING INIT");
         // this is callback function called after ajax_get to fetch known set of options
         this.all_options_on_page = this.get_all_options_on_page();
         this.all_known_rim_options = query_result['rims_roots'];
@@ -238,6 +274,7 @@ export default class WheelbuilderFiltersStages {
         delete this.option_aliases.all_options_on_page_aliased[option_name];
     }
 
+
     get_all_options_on_page() {
         // Find all the options on currently loaded product page. Currently it only looks at the options from set-select.html
         // returns JSON with {option_name: option_object}
@@ -401,7 +438,7 @@ export default class WheelbuilderFiltersStages {
 
                     });
                     // if only one option is available, autoselect it
-                    parent.autoselect(option, query_result[option_name_alias])
+                    // parent.autoselect(option, query_result[option_name_alias])
                 }
             }
         }

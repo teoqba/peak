@@ -23,4 +23,8 @@
 
 
     ```
-     
+    /peak/templates/components/products/add-to-cart-form.html
+    {{#if product.options}}
+    ....
+         <button type="button" class="button button-secondary button-wide wb-reset-button">Reset Selection</button>
+    {{/if}}
