@@ -1,12 +1,15 @@
 import WheelbuilderQuery from './WheelbuilderQuery';
 import WheelbuilderOptionAliases from './WheelbuilderOptionAliases';
 import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
+import WheelbuilderConfig from './WheelbuilderConfig.js';
+import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
 
 export default class WheelbuilderFiltersStages {
     constructor($parent_page) {
         console.log('WB init');
         this.$parent_page = $parent_page;
         this.all_options_on_page = null;
+        this.all_other_options_on_page = null;
         this.initial_filter_done = false;
         this.all_known_rim_options = []; // not used here really, only in general wizard
         this.all_known_hub_options = []; // not used here really, only in general wizard
@@ -14,11 +17,14 @@ export default class WheelbuilderFiltersStages {
         this.common_options_roots = [];  // not used here really, only in general wizard
         this.rim_hub_common_options = {};// not used here really, only in general wizard
 
+        this.wb_config = new WheelbuilderConfig();
+
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
         this.all_known_special_options = ['Points_of_Engagement'];
+
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
         // If all the null values are changed to option_values, given stage is considered done
@@ -48,33 +54,6 @@ export default class WheelbuilderFiltersStages {
 
     }
 
-    resetSelection() {
-        console.log("Reseting selections");
-        for (let option_name in this.all_options_on_page) {
-            let option = this.option_aliases.all_options_on_page_aliased[option_name];
-            let $option_values_object = $(option).find('.wb-empty-option');
-            $option_values_object.prop('selected', true)
-        }
-        // show all options values that were hidden before by the filters
-        for (let option_name in this.all_options_on_page) {
-            let option = this.option_aliases.all_options_on_page_aliased[option_name];
-            let $option_values_object = $(option).find('.wb-option');
-            $option_values_object.each(function(){
-                $(this).show();
-            });
-        }
-
-        // Set stages variables to initial values
-        this.initial_filter_done = false;
-        this.stage_one_first_pass = true;
-        this.stage_two_first_pass = true;
-        this.stage_one_finished = false;
-        this.stage_two_finished = false;
-
-        // Start from scratch
-        this.init();
-    }
-
     errorHandler(e){
         console.log("Error in Promise", e);
     }
@@ -83,6 +62,7 @@ export default class WheelbuilderFiltersStages {
         console.log("FINISHING INIT");
         // this is callback function called after ajax_get to fetch known set of options
         this.all_options_on_page = this.get_all_options_on_page();
+        this.all_other_options_on_page = this.get_all_other_options_on_page();
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
@@ -90,6 +70,8 @@ export default class WheelbuilderFiltersStages {
         this.common_options_roots = query_result['common_roots'];
         // Find aliases of the option names on page
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
+
+        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
 
         this.init_stage_one_two_options();
         // Define Query that will be used throughout the page
@@ -133,7 +115,13 @@ export default class WheelbuilderFiltersStages {
 
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
-        if (this.initial_filter_done) this.divide_into_stages_and_query($changedOption);
+        if (this.initial_filter_done) {
+            if (this.get_name_of_changed_option($changedOption) === this.wb_config.build_type_option_name) {
+                this.wb_front_rear_selection.show_hide_front_rear();
+            } else {
+                this.divide_into_stages_and_query($changedOption);
+            }
+        }
     }
 
     divide_into_stages_and_query($changedOption) {
@@ -275,12 +263,26 @@ export default class WheelbuilderFiltersStages {
         delete this.option_aliases.all_options_on_page_aliased[option_name];
     }
 
-
     get_all_options_on_page() {
         // Find all the options on currently loaded product page. Currently it only looks at the options from set-select.html
         // returns JSON with {option_name: option_object}
         let all_options = {};
         let $all_set_select_options = this.$parent_page.find('.form-field-select');
+        $all_set_select_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            all_options[option_name] = $(this);
+        });
+        return all_options;
+    }
+
+    get_all_other_options_on_page() {
+        // finds other options on page of typeL
+        // - ractangle (used Wheelset/Front/Rear choice)
+
+        let all_options = {};
+        let $all_set_select_options = this.$parent_page.find('.form-field-rectangle');
         $all_set_select_options.each(function () {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
@@ -443,6 +445,34 @@ export default class WheelbuilderFiltersStages {
                 }
             }
         }
+    }
+
+    resetSelection() {
+        // Implementation for reset button
+        console.log("Reseting selections");
+        for (let option_name in this.all_options_on_page) {
+            let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let $option_values_object = $(option).find('.wb-empty-option');
+            $option_values_object.prop('selected', true)
+        }
+        // show all options values that were hidden before by the filters
+        for (let option_name in this.all_options_on_page) {
+            let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let $option_values_object = $(option).find('.wb-option');
+            $option_values_object.each(function(){
+                $(this).show();
+            });
+        }
+
+        // Set stages variables to initial values
+        this.initial_filter_done = false;
+        this.stage_one_first_pass = true;
+        this.stage_two_first_pass = true;
+        this.stage_one_finished = false;
+        this.stage_two_finished = false;
+
+        // Start from scratch
+        this.init();
     }
 
 }

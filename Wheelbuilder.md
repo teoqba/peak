@@ -23,8 +23,11 @@
 
 
     ```
-    /peak/templates/components/products/add-to-cart-form.html
+*  /peak/templates/components/products/add-to-cart-form.html
     {{#if product.options}}
     ....
          <button type="button" class="button button-secondary button-wide wb-reset-button">Reset Selection</button>
     {{/if}}
+
+* templates/core/froms/options/set-rectangle.html
+        {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
