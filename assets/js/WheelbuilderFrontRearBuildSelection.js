@@ -3,9 +3,14 @@ import WheelbuilderConfig from './WheelbuilderConfig.js';
 export default class WheelbuilderFrontRearBuildSelection {
     // Depending if customer chosen Wheelset/Front/Rear Wheel hide or show relevant options
     constructor(option_aliases, all_other_options_on_page) {
-        this.wb_config = new WheelbuilderConfig()
+        this.wb_config = new WheelbuilderConfig();
+
         this.front_wheel_options = this.wb_config.front_wheel_options;
         this.rear_wheel_options = this.wb_config.rear_wheel_options;
+
+        this.rear_wheel_stage_2_options = this.wb_config.rear_wheel_stage_2_options;
+        this.front_wheel_stage_2_options = this.wb_config.front_wheel_stage_2_options;
+
         this.option_aliases = option_aliases;
         this.all_other_options_on_page = all_other_options_on_page;
         this.is_front_wheel_hidden = false;
@@ -13,6 +18,7 @@ export default class WheelbuilderFrontRearBuildSelection {
     }
 
     get_wheel_build_type() {
+        console.log("Getting");
         const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];
         const $checked_rectangle = $option_object.find('.form-rectangle:checked');
         const $label = $checked_rectangle.parent('.form-label');
@@ -21,6 +27,8 @@ export default class WheelbuilderFrontRearBuildSelection {
         return wheel_build_type
 
     }
+
+
 
     __show_hide_action(action, wheel_choice_object) {
         // Goes through wheel_choice_object (its either front_wheel_options or rear_wheel_options arrays)
@@ -37,27 +45,40 @@ export default class WheelbuilderFrontRearBuildSelection {
         }
     }
 
-    rear_wheel_action(action){
+    rear_wheel_action(action, stage_one_finished, stage_two_finished){
         // if action can be 'hide' or 'show'
-        this.__show_hide_action(action, this.rear_wheel_options)
+        if (stage_two_finished === true) {
+            this.__show_hide_action(action, this.rear_wheel_options);
+        }
+        else if (stage_one_finished === true) {
+            this.__show_hide_action(action, this.rear_wheel_stage_2_options);
+        }
     }
 
-    front_wheel_action(action){
+    front_wheel_action(action, stage_one_finished, stage_two_finished){
         // if action can be 'hide' or 'show'
-        this.__show_hide_action(action, this.front_wheel_options)
+        if (stage_two_finished === true) {
+            this.__show_hide_action(action, this.front_wheel_options);
+        }
+        else if (stage_one_finished === true) {
+            this.__show_hide_action(action, this.front_wheel_stage_2_options);
+        }
+
     }
 
-    show_hide_front_rear(){
-        let wheel_build_type = this.get_wheel_build_type();
-        if (wheel_build_type === 'Front Wheel') {
-            this.rear_wheel_action('hide');
-            this.front_wheel_action('show');
-        } else if (wheel_build_type === 'Rear Wheel') {
-            this.rear_wheel_action('show');
-            this.front_wheel_action('hide');
-        } else { //Wheelset
-            this.rear_wheel_action('show' );
-            this.front_wheel_action('show');
+    show_hide_front_rear(stage_one_finished, stage_two_finished){
+        if (stage_one_finished === true) { //hide unhide Front Rear options only when stage one is completed
+            let wheel_build_type = this.get_wheel_build_type();
+            if (wheel_build_type === 'Front Wheel') {
+                this.rear_wheel_action('hide', stage_one_finished, stage_two_finished);
+                this.front_wheel_action('show', stage_one_finished, stage_two_finished);
+            } else if (wheel_build_type === 'Rear Wheel') {
+                this.rear_wheel_action('show', stage_one_finished, stage_two_finished);
+                this.front_wheel_action('hide', stage_one_finished, stage_two_finished);
+            } else { //Wheelset
+                this.rear_wheel_action('show', stage_one_finished, stage_two_finished);
+                this.front_wheel_action('show', stage_one_finished, stage_two_finished);
+            }
         }
     }
 }
