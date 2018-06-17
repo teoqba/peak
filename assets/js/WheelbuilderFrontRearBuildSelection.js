@@ -2,7 +2,7 @@ import WheelbuilderConfig from './WheelbuilderConfig.js';
 
 export default class WheelbuilderFrontRearBuildSelection {
     // Depending if customer chosen Wheelset/Front/Rear Wheel hide or show relevant options
-    constructor(option_aliases, all_other_options_on_page) {
+    constructor(option_aliases, all_other_options_on_page, stage_two_options_on_page) {
         this.wb_config = new WheelbuilderConfig();
 
         this.front_wheel_options = this.wb_config.front_wheel_options;
@@ -10,13 +10,22 @@ export default class WheelbuilderFrontRearBuildSelection {
 
         this.rear_wheel_stage_2_options = this.wb_config.rear_wheel_stage_2_options;
         this.front_wheel_stage_2_options = this.wb_config.front_wheel_stage_2_options;
+        this.rear_wheel_stage_3_options = this.wb_config.rear_wheel_stage_3_options;
+        this.front_wheel_stage_3_options = this.wb_config.front_wheel_stage_3_options;
 
         this.option_aliases = option_aliases;
         this.all_other_options_on_page = all_other_options_on_page;
         this.is_front_wheel_hidden = false;
         this.is_rear_wheel_hidden = false;
+        this.stage_two_options_on_page = stage_two_options_on_page
     }
+    init() {
+        if (this.all_other_options_on_page.hasOwnProperty(this.wb_config.build_type_option_name)) {
+            return true;
+        }
+        return false
 
+    }
     get_wheel_build_type() {
         console.log("Getting");
         const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];
@@ -27,8 +36,6 @@ export default class WheelbuilderFrontRearBuildSelection {
         return wheel_build_type
 
     }
-
-
 
     __show_hide_action(action, wheel_choice_object) {
         // Goes through wheel_choice_object (its either front_wheel_options or rear_wheel_options arrays)
@@ -80,5 +87,13 @@ export default class WheelbuilderFrontRearBuildSelection {
                 this.front_wheel_action('show', stage_one_finished, stage_two_finished);
             }
         }
+    }
+    disable_selections() {
+        const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];
+        const $options = $option_object.find('.form-rectangle');
+        $options.each(function() {
+            console.log('Disablong', $(this));
+            $(this).attr('disabled', 'disabled');
+        });
     }
 }

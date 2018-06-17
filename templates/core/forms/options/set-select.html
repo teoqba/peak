@@ -18,9 +18,9 @@
           {{#each values}}
             <option value="{{id}}" class="wb-option" data-wb-label="{{label}}" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{label}}</option>
           {{/each}}
-          {{#unless required}}
-            <option value="{{id}}" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{lang 'core.product.none'}}</option>
-          {{/unless}}
+          <!--{{#unless required}}-->
+            <!--<option value="{{id}}" {{#if selected}}selected{{/if}} data-product-attribute-value="{{id}}">{{lang 'core.product.none'}}</option>-->
+          <!--{{/unless}}-->
         </select>
       </div>
     </span>

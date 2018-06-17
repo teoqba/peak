@@ -71,8 +71,11 @@ export default class WheelbuilderFiltersStages {
         // Find aliases of the option names on page
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
 
-        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
-        this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
+        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page, this.stage_two_options_on_page);
+        this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
+        if (this.is_front_rear_selection_active) {
+            this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
+        }
 
         this.init_stage_one_two_options();
         // Define Query that will be used throughout the page
@@ -166,7 +169,10 @@ export default class WheelbuilderFiltersStages {
         if (this.stage_one_finished && this.stage_one_first_pass) {
             this.filter_after_stage_one_is_done();
             this.show_stage_two_options();
-            this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
+            if (this.is_front_rear_selection_active) {
+                this.wb_front_rear_selection.disable_selections();
+                this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
+            }
             this.stage_one_first_pass = false;
         }
 

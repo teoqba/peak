@@ -6,6 +6,7 @@
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/core/forms/options/set-select.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/core/forms/options/set-select.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,17 +23,8 @@
       <file leaf-file-name="set-select.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-select.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="set-rectangle.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-rectangle.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
+            <state relative-caret-position="315">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
@@ -40,8 +32,8 @@
       <file leaf-file-name="WheelbuilderFrontRearBuildSelection.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="31" selection-start-line="30" selection-end-line="31" />
+            <state relative-caret-position="393">
+              <caret line="96" column="11" selection-start-line="96" selection-start-column="11" selection-end-line="96" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -49,8 +41,8 @@
       <file leaf-file-name="WheelbuilderConfig.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="330">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
@@ -58,11 +50,20 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="168" column="86" selection-start-line="168" selection-start-column="86" selection-end-line="168" selection-end-column="86" />
+            <state relative-caret-position="222">
+              <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WheelbuilderStageOptions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-118">
+              <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -114,36 +115,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>autosele</find>
-      <find>reset_selec</find>
-      <find>bind</find>
-      <find>Pick one</find>
-      <find>option-ch</find>
-      <find>finish_init</find>
-      <find>all_known_stage_two_options</find>
-      <find>stage_two_options_on_page</find>
-      <find>get_all_</find>
-      <find>wb-option-d</find>
-      <find>form-select</find>
-      <find>form-se</find>
-      <find>WheelbuilderBuildType</find>
-      <find>wb_build_type</find>
       <find>hide_st</find>
       <find>this.option_ali</find>
       <find>hide_sta</find>
       <find>for (let option_name in this.option_aliases.all_options_on_page_aliased) {show_</find>
       <find>build_type_choice</find>
-      <find>filter_op</find>
-      <find>unravel</find>
       <find>show_stage_two_options</find>
       <find>show_hide</find>
       <find>stage_two_finished</find>
       <find>show_hide_front_rear</find>
-      <find>wb_front_rear_selection</find>
       <find>unravel_stages</find>
-      <find>each</find>
-      <find>get_wheel_build_type</find>
       <find>get_w</find>
+      <find>remove_option_from_page</find>
+      <find>hide</find>
+      <find>all_known_stage_two_options</find>
+      <find>stage_two_options_on_page</find>
+      <find>filter_op</find>
+      <find>remove_op</find>
+      <find>wb_fr</find>
+      <find>get_wheel_build_type</find>
+      <find>wb_front_rear_selection</find>
+      <find>f</find>
+      <find>show_all_options</find>
+      <find>stage_two_opt</find>
+      <find>show_all_</find>
+      <find>front_wheel_stage_2_options</find>
+      <find>unravel</find>
+      <find>None</find>
+      <find>each</find>
+      <find>wheel_choice_object</find>
+      <find>unrave</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -181,12 +182,12 @@
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js" />
         <option value="$PROJECT_DIR$/assets/js/theme/product/ProductUtils.js" />
-        <option value="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
         <option value="$PROJECT_DIR$/templates/components/products/add-to-cart-form.html" />
         <option value="$PROJECT_DIR$/templates/core/forms/options/set-rectangle.html" />
         <option value="$PROJECT_DIR$/Wheelbuilder.md" />
         <option value="$PROJECT_DIR$/assets/js/theme/WheelbuilderConfig.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderBuildType.js" />
+        <option value="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" />
@@ -215,7 +216,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -254,13 +254,6 @@
               <item name="peak" type="b2602c69:ProjectViewProjectNode" />
               <item name="peak" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="products" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
-              <item name="peak" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -282,6 +275,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -360,14 +354,8 @@
       <workItem from="1528621172818" duration="15210000" />
       <workItem from="1528740411885" duration="5090000" />
       <workItem from="1528911533205" duration="4078000" />
-      <workItem from="1529003751433" duration="2756000" />
-    </task>
-    <task id="LOCAL-00001" summary="wheelbuilder class, example ajax call, listing all options, modified set-select">
-      <created>1522007880082</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1522007880082</updated>
+      <workItem from="1529003751433" duration="2900000" />
+      <workItem from="1529232894456" duration="4361000" />
     </task>
     <task id="LOCAL-00002" summary="added Wheelbuilder.md">
       <created>1522008372660</created>
@@ -705,11 +693,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528919653832</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="working hiding front/ rear">
+      <created>1529006993491</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1529006993492</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="236723000" />
+    <option name="totallyTimeSpent" value="241228000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -724,16 +719,16 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.20730738" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23431295" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" visible="true" weight="0.20689656" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.20689656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.11172414" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.11172414" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -747,19 +742,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23113582" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.23448277" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.29517242" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.13517241" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.23448277" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.29517242" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32965517" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
@@ -772,7 +767,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="updated docs" />
     <MESSAGE value="Promises, Promises!" />
     <MESSAGE value="Query has now input paramters all_known options, and common options" />
     <MESSAGE value="fixed autoselect" />
@@ -797,7 +791,8 @@
     <MESSAGE value="reset button implemented" />
     <MESSAGE value="POE changed" />
     <MESSAGE value="Front/Rear slection enabled, congif added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Front/Rear slection enabled, congif added" />
+    <MESSAGE value="working hiding front/ rear" />
+    <option name="LAST_COMMIT_MESSAGE" value="working hiding front/ rear" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1097,13 +1092,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-select.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-rectangle.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -1113,29 +1101,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
+        <state relative-caret-position="-118">
           <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-select.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="31" selection-start-line="30" selection-end-line="31" />
+        <state relative-caret-position="393">
+          <caret line="96" column="11" selection-start-line="96" selection-start-column="11" selection-end-line="96" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="168" column="86" selection-start-line="168" selection-start-column="86" selection-end-line="168" selection-end-column="86" />
+        <state relative-caret-position="222">
+          <caret line="169" column="50" selection-start-line="169" selection-start-column="50" selection-end-line="169" selection-end-column="50" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>
