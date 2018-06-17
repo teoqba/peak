@@ -71,11 +71,8 @@ export default class WheelbuilderFiltersStages {
         // Find aliases of the option names on page
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
 
-        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page, this.stage_two_options_on_page);
+        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
         this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
-        if (this.is_front_rear_selection_active) {
-            this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
-        }
 
         this.init_stage_one_two_options();
         // Define Query that will be used throughout the page
@@ -120,9 +117,7 @@ export default class WheelbuilderFiltersStages {
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
         if (this.initial_filter_done) {
-            if (this.get_name_of_changed_option($changedOption) === this.wb_config.build_type_option_name) {
-                this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
-            } else {
+            if (this.get_name_of_changed_option($changedOption) !== this.wb_config.build_type_option_name) {
                 this.divide_into_stages_and_query($changedOption);
             }
         }
@@ -168,19 +163,46 @@ export default class WheelbuilderFiltersStages {
         // Stage 1: filter only after all choice is done
         if (this.stage_one_finished && this.stage_one_first_pass) {
             this.filter_after_stage_one_is_done();
-            this.show_stage_two_options();
+
             if (this.is_front_rear_selection_active) {
-                this.wb_front_rear_selection.disable_selections();
-                this.wb_front_rear_selection.show_hide_front_rear(this.stage_one_finished, this.stage_two_finished);
+                let to_hide = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished);
+                for (let i =0; i < to_hide.length; i++) {
+                    let option_name = to_hide[i];
+                    this.remove_option_from_page(option_name);
+                    this.stage_two_options_on_page.remove_option(option_name);
+                }
+                this.wb_front_rear_selection.hide_selections_buttons();
             }
+            this.hide_stage_one_options();
+            this.show_stage_two_options();
+
             this.stage_one_first_pass = false;
         }
 
         // Stage 2:
         if (this.stage_two_finished && this.stage_two_first_pass) {
             // this.filter_after_stage_two_done();
-            this.show_all_options();
+            // this.show_all_options();
+            this.show_remaining_options();
             this.stage_two_first_pass = false;
+        }
+    }
+
+    hide_stage_one_options() {
+        for (let option_name in this.option_aliases.all_options_on_page_aliased) {
+            if (this.stage_one_options_on_page.have_member(option_name)) {
+                let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+                option_object.hide();
+            }
+        }
+    }
+
+    show_stage_one_options() {
+        for (let option_name in this.option_aliases.all_options_on_page_aliased) {
+            if (this.stage_one_options_on_page.have_member(option_name)) {
+                let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+                option_object.show();
+            }
         }
     }
 
@@ -207,6 +229,17 @@ export default class WheelbuilderFiltersStages {
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
+        }
+    }
+
+    show_remaining_options() {
+        for (let option_name in this.option_aliases.all_options_on_page_aliased) {
+            if ((!this.stage_one_options_on_page.have_member(option_name)) &&
+                (!this.stage_two_options_on_page.have_member(option_name))) {
+                let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+                option_object.show();
+            }
+
         }
     }
 
@@ -267,7 +300,7 @@ export default class WheelbuilderFiltersStages {
     remove_option_from_page(option_name) {
         let option = this.option_aliases.all_options_on_page_aliased[option_name];
         let $option_values_object = $(option).find('.wb-option')
-        $option_values_object.remove();
+        // $option_values_object.remove(); // TODO: remove it or set it to Pick One...?
         delete this.option_aliases.all_options_on_page_aliased[option_name];
     }
 
@@ -286,8 +319,8 @@ export default class WheelbuilderFiltersStages {
     }
 
     get_all_other_options_on_page() {
-        // finds other options on page of typeL
-        // - ractangle (used Wheelset/Front/Rear choice)
+        // finds other options on page of type:
+        // - rectangle (used Wheelset/Front/Rear choice)
 
         let all_options = {};
         let $all_set_select_options = this.$parent_page.find('.form-field-rectangle');
@@ -397,7 +430,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     result_parser(query_result, parent) {
-        console.log('Query results in resilt pareser', query_result);
+        console.log('Query results in result parser', query_result);
         // parent.check_if_build_is_invalid(query_result);
         let all_known_options = parent.all_known_options; //aliases
         let all_options_on_page_aliased = parent.option_aliases.all_options_on_page_aliased;
@@ -471,7 +504,9 @@ export default class WheelbuilderFiltersStages {
                 $(this).show();
             });
         }
-
+        this.wb_front_rear_selection.reset_selection();
+        this.wb_front_rear_selection.show_selections_buttons();
+        this.show_stage_one_options();
         // Set stages variables to initial values
         this.initial_filter_done = false;
         this.stage_one_first_pass = true;
