@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -48,8 +46,8 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="387" column="58" selection-start-line="387" selection-start-column="58" selection-end-line="387" selection-end-column="58" />
+            <state relative-caret-position="500">
+              <caret line="510" column="68" selection-start-line="510" selection-start-column="68" selection-end-line="510" selection-end-column="68" />
               <folding>
                 <element signature="e#0#52#0" expanded="true" />
               </folding>
@@ -113,11 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>get_wheel_build_type</find>
-      <find>unrave</find>
-      <find>option_aliases</find>
-      <find>get_all_other_options_on_page</find>
-      <find>unravel_stages</find>
       <find>show_all</find>
       <find>delete</find>
       <find>unravel</find>
@@ -140,9 +133,14 @@
       <find>.first</find>
       <find>pick_</find>
       <find>pick</find>
-      <find>None</find>
       <find>WheelbuilderConfig</find>
       <find>zeroth</find>
+      <find>Pick one...</find>
+      <find>en.json</find>
+      <find>en</find>
+      <find>lang</find>
+      <find>None</find>
+      <find>zeroth_option_alternative_to_default_name</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -231,11 +229,6 @@
               <item name="peak" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
-              <item name="peak" type="462c0819:PsiDirectoryNode" />
-              <item name="lang" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="peak" type="b2602c69:ProjectViewProjectNode" />
@@ -353,14 +346,7 @@
       <workItem from="1528740411885" duration="5090000" />
       <workItem from="1528911533205" duration="4078000" />
       <workItem from="1529003751433" duration="2900000" />
-      <workItem from="1529232894456" duration="14722000" />
-    </task>
-    <task id="LOCAL-00005" summary="first working version!">
-      <created>1522270613668</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1522270613668</updated>
+      <workItem from="1529232894456" duration="15135000" />
     </task>
     <task id="LOCAL-00006" summary="introducing _this">
       <created>1522430189195</created>
@@ -698,11 +684,18 @@
       <option name="project" value="LOCAL" />
       <updated>1529252854536</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Pick One -&gt; Reset Selection toggle">
+      <created>1529343611717</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1529343611717</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251589000" />
+    <option name="totallyTimeSpent" value="252002000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -717,15 +710,15 @@
     <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.116187476" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.116187476" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.29517242" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.20689656" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.20659341" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2007326" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.2007326" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -765,7 +758,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="fixed autoselect" />
     <MESSAGE value="working for front and rear hubs" />
     <MESSAGE value="first implementation of filter stages" />
     <MESSAGE value="working 1st version" />
@@ -790,7 +782,8 @@
     <MESSAGE value="working hiding front/ rear" />
     <MESSAGE value="disabling front/rear options after stage 1" />
     <MESSAGE value="working version of show/hide" />
-    <option name="LAST_COMMIT_MESSAGE" value="working version of show/hide" />
+    <MESSAGE value="Pick One -&gt; Reset Selection toggle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pick One -&gt; Reset Selection toggle" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1055,13 +1048,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lang/en.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1355">
-          <caret line="206" column="17" selection-start-line="206" selection-start-column="17" selection-end-line="206" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Wheelbuilder.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -1125,10 +1111,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lang/en.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3090">
+          <caret line="206" column="17" selection-start-line="206" selection-start-column="17" selection-end-line="206" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="387" column="58" selection-start-line="387" selection-start-column="58" selection-end-line="387" selection-end-column="58" />
+        <state relative-caret-position="500">
+          <caret line="510" column="68" selection-start-line="510" selection-start-column="68" selection-end-line="510" selection-end-column="68" />
           <folding>
             <element signature="e#0#52#0" expanded="true" />
           </folding>

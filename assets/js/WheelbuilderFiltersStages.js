@@ -508,6 +508,7 @@ export default class WheelbuilderFiltersStages {
         console.log("Reseting selections");
         for (let option_name in this.all_options_on_page) {
             let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            this.zeroth_option_alternative_to_default_name($(option));
             let $option_values_object = $(option).find('.wb-empty-option');
             $option_values_object.prop('selected', true)
         }
