@@ -3,6 +3,7 @@ import WheelbuilderOptionAliases from './WheelbuilderOptionAliases';
 import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
+import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
 import utils from "@bigcommerce/stencil-utils/src/main";
 
 export default class WheelbuilderFiltersStages {
@@ -35,6 +36,8 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_finished = false;
         this.stage_one_first_pass = true;
         this.stage_two_first_pass = true;
+
+        this.step_label = null;
         this.eventHandler();
 
 
@@ -89,6 +92,9 @@ export default class WheelbuilderFiltersStages {
         this.hide_stage_two_stage_three_options();
         this.initial_filter();
         this.analyze_options_on_page();
+        this.step_label = new WheelbuilderStepLabel(this.$parent_page);
+        this.step_label.init();
+
         this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
     }
 
@@ -217,6 +223,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     show_stage_two_options() {
+        this.step_label.set_to_step_two();
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if (this.stage_two_options_on_page.have_member(option_name)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -531,6 +538,9 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_finished = false;
         this.stage_two_finished = false;
 
+        this.step_label.set_to_step_one();
+
+        // Emit product-change so prices get updated back to start value
         utils.hooks.emit('product-option-change');
         // Start from scratch
         this.init();

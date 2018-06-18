@@ -7,6 +7,9 @@ export default class WheelbuilderConfig {
         this.zeroth_option_default_name = 'Pick one...';
         this.zeroth_option_alternative_name = 'Reset selection...';
 
+        // Step names:
+        this.step_one_name = 'Step 1: Select Rim';
+        this.step_two_name = 'Step 2: Select Hub';
 
         // Front Rear Selection
         this.front_wheel_options = ['Front_Disc_Brake_Interface', 'Front_Axle_Type',
@@ -14,15 +17,6 @@ export default class WheelbuilderConfig {
 
         this.rear_wheel_options = ['Rear_Disc_Brake_Interface', 'Rear_Axle_Type',
             'Rear_Hub', 'Rear_Hub_Color', 'Points_of_Engagement',
-            'Drivetrain_Type'];
-
-        this.front_wheel_stage_2_options = ['Front_Disc_Brake_Interface', 'Front_Axle_Type'];
-
-        this.rear_wheel_stage_2_options = ['Rear_Disc_Brake_Interface', 'Rear_Axle_Type'];
-
-        this.front_wheel_stage_3_options = ['Front_Hub', 'Front_Hub_Color'];
-
-        this.rear_wheel_stage_3_options = ['Rear_Hub', 'Rear_Hub_Color', 'Points_of_Engagement',
             'Drivetrain_Type'];
 
     }

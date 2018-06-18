@@ -8,7 +8,7 @@
 >
   <input type="hidden" name="action" value="add">
   <input type="hidden" name="product_id" value="{{product.id}}" data-product-id/>
-
+  <div class="wb-step-label"> Step 1: Select Rim </div>
   <div class="product-options-container" data-product-option-change>
     {{#if product.customizations}}
       {{#each product.customizations}}
@@ -20,7 +20,7 @@
       {{#each product.options}}
         {{{dynamicComponent 'core/forms/options'}}}
       {{/each}}
-    <button type="button" class="button button-secondary button-wide wb-reset-button">Reset Selections</button>
+    <button type="button" class="button button-secondary button-wide wb-reset-button">Start Over</button>
     {{/if}}
   </div>
 
