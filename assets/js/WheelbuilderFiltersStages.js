@@ -3,6 +3,7 @@ import WheelbuilderOptionAliases from './WheelbuilderOptionAliases';
 import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
+import utils from "@bigcommerce/stencil-utils/src/main";
 
 export default class WheelbuilderFiltersStages {
     constructor($parent_page) {
@@ -530,6 +531,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_finished = false;
         this.stage_two_finished = false;
 
+        utils.hooks.emit('product-option-change');
         // Start from scratch
         this.init();
     }
