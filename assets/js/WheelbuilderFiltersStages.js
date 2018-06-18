@@ -338,7 +338,6 @@ export default class WheelbuilderFiltersStages {
         let $form = $changedOption.parents('.form-field-options');
         let name = $form.find('.wb-option-display-name').text();
         return name.split(' ').join('_');
-
     }
 
     ajax_post(query, url, parser) {
@@ -379,6 +378,18 @@ export default class WheelbuilderFiltersStages {
     }
 
 
+    zeroth_option_to_alternative_name($option_values_object) {
+        // changes Pick one... options to Reset selections ...
+        let empty_option = $option_values_object.find(".wb-empty-option");
+        $(empty_option).text(this.wb_config.zeroth_option_alternative_name);
+    }
+
+    zeroth_option_alternative_to_default_name($option_values_object) {
+        // Reverts back Reset selections... to Pick one...
+        let empty_option = $option_values_object.find(".wb-empty-option");
+        $(empty_option).text(this.wb_config.zeroth_option_default_name);
+    }
+
     prepare_query($changed_option, query_object) {
         let option_name = this.get_name_of_changed_option($changed_option);
         let option_name_alias = this.option_aliases.option_alias[option_name];
@@ -389,9 +400,13 @@ export default class WheelbuilderFiltersStages {
         let value = $selected_item.text();
         if (selected_index > 0 ) {
             // this.query.set(option_name_alias, value);
+            //set name Pick One -> Reset
+            this.zeroth_option_to_alternative_name($option_values_object);
             query_object.set(option_name_alias, value);
         } else { //user chosen Pick One ...
-            // this.query.remove(option_name_alias);
+            //revert name to Pick One...
+            this.zeroth_option_alternative_to_default_name($option_values_object);
+            // Remove selection from query
             query_object.remove(option_name_alias);
         }
         query_object.log('Query in prepare query');

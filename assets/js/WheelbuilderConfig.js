@@ -1,7 +1,14 @@
 export default class WheelbuilderConfig {
     constructor() {
+
+        // Option names
         this.build_type_option_name = 'You_want_to_build:';
 
+        this.zeroth_option_default_name = 'Pick one...';
+        this.zeroth_option_alternative_name = 'Reset selection...';
+
+
+        // Front Rear Selection
         this.front_wheel_options = ['Front_Disc_Brake_Interface', 'Front_Axle_Type',
             'Front_Hub', 'Front_Hub_Color'];
 
