@@ -38,9 +38,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_first_pass = true;
 
         this.step_label = null;
-        this.eventHandler();
-
-
+        this.saved_stage_one_choice = {};
         // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
         //                       "query": "http://localhost:8000/wbdb_query"};
         this.query_api_url = {"option_names_roots": "http://52.53.197.100:8000/options_names_roots",
@@ -51,10 +49,11 @@ export default class WheelbuilderFiltersStages {
         this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
     }
 
-    eventHandler() {
+    buttons_event_handler() {
         var self = this; //https://stackoverflow.com/questions/3365005/calling-class-methods-within-jquery-function
-        this.$reset_button = this.$parent_page.find('.wb-reset-button');
         this.$reset_button.on("click", function() {self.resetSelection()});
+        this.$back_button.on("click", function() {self.back_to_stage_one()});
+        this.$next_button.on("click", function() {self.forward_to_stage_two_three()});
 
     }
 
@@ -94,6 +93,13 @@ export default class WheelbuilderFiltersStages {
         this.analyze_options_on_page();
         this.step_label = new WheelbuilderStepLabel(this.$parent_page);
         this.step_label.init();
+
+        // Buttons
+        this.$reset_button = this.$parent_page.find('.wb-reset-button');
+        this.$back_button = this.$parent_page.find('.wb-back-button');
+        this.$next_button = this.$parent_page.find('.wb-next-button');
+        // handle buttons events
+        this.buttons_event_handler();
 
         this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
     }
@@ -165,6 +171,31 @@ export default class WheelbuilderFiltersStages {
         if (this.stage_two_options_on_page.all_options_selected()) this.stage_two_finished = true;
     }
 
+    back_to_stage_one(){
+        this.saved_stage_one_choice = this.stage_one_options_on_page.get_current_selection();
+        this.hide_stage_two_stage_three_options();
+        this.show_stage_one_options();
+        this.step_label.set_to_step_one();
+        this.$back_button.hide();
+        this.$next_button.show();
+
+    }
+
+    forward_to_stage_two_three(){
+        let current_stage_one_selection = this.stage_one_options_on_page.get_current_selection();
+        this.hide_stage_one_options();
+        if (this.stage_two_finished) {
+            this.show_stage_two_options();
+            this.show_remaining_options();
+        } else {
+            this.show_stage_two_options();
+        }
+        this.step_label.set_to_step_two();
+        this.$next_button.hide();
+        this.$back_button.show();
+
+    }
+
     unravel_stages() {
         // decides if it is time to show new stage
         // Stage 1: filter only after all choice is done
@@ -178,7 +209,7 @@ export default class WheelbuilderFiltersStages {
                     this.remove_option_from_page(option_name);
                     this.stage_two_options_on_page.remove_option(option_name);
                 }
-                this.wb_front_rear_selection.hide_selections_buttons();
+
             }
             this.hide_stage_one_options();
             this.show_stage_two_options();
@@ -202,6 +233,7 @@ export default class WheelbuilderFiltersStages {
                 option_object.hide();
             }
         }
+        this.wb_front_rear_selection.hide_selections_buttons();
     }
 
     show_stage_one_options() {
@@ -211,6 +243,7 @@ export default class WheelbuilderFiltersStages {
                 option_object.show();
             }
         }
+        this.wb_front_rear_selection.show_selections_buttons();
     }
 
     hide_stage_two_stage_three_options() {
@@ -224,6 +257,7 @@ export default class WheelbuilderFiltersStages {
 
     show_stage_two_options() {
         this.step_label.set_to_step_two();
+        this.$back_button.show();
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if (this.stage_two_options_on_page.have_member(option_name)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -266,7 +300,7 @@ export default class WheelbuilderFiltersStages {
                 let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
                 let $option_values_object = $option_object.find('.wb-option');
                 $option_values_object.each(function(){
-                    let option_value = $(this).text()
+                    let option_value = $(this).text();
                     option_values_array.push(option_value);
                 });
                 initial_query.set(option_name_alias, option_values_array);
@@ -384,7 +418,6 @@ export default class WheelbuilderFiltersStages {
         });
         return promise_obj;
     }
-
 
     zeroth_option_to_alternative_name($option_values_object) {
         // changes Pick one... options to Reset selections ...
@@ -529,7 +562,6 @@ export default class WheelbuilderFiltersStages {
             });
         }
         this.wb_front_rear_selection.reset_selection();
-        this.wb_front_rear_selection.show_selections_buttons();
         this.show_stage_one_options();
         // Set stages variables to initial values
         this.initial_filter_done = false;
@@ -539,6 +571,8 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_finished = false;
 
         this.step_label.set_to_step_one();
+        this.$next_button.hide();
+        this.$back_button.hide();
 
         // Emit product-change so prices get updated back to start value
         utils.hooks.emit('product-option-change');

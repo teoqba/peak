@@ -45,6 +45,10 @@ export default class WheelbuilderStageOptions {
         delete this.options[option_name];
     }
 
+    get_current_selection(){
+        return this.options;
+    }
+
     to_query() {
         //TODO implement?
     }
