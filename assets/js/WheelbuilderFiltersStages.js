@@ -4,6 +4,7 @@ import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
+import WheelbuilderPageModeSwitcher from "./WheelbuilderPageModeSwitcher";
 import utils from "@bigcommerce/stencil-utils/src/main";
 
 export default class WheelbuilderFiltersStages {
@@ -18,6 +19,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_options = [];     // this will be used for option names aliasing
         this.common_options_roots = [];  // not used here really, only in general wizard
         this.rim_hub_common_options = {};// not used here really, only in general wizard
+        this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
         this.wb_config = new WheelbuilderConfig();
 
@@ -32,6 +34,7 @@ export default class WheelbuilderFiltersStages {
         // If all the null values are changed to option_values, given stage is considered done
         this.stage_one_options_on_page = new WheelbuilderStageOptions();
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
+        this.mode_switcher = new WheelbuilderPageModeSwitcher();
         this.stage_one_finished = false;
         this.stage_two_finished = false;
         this.stage_one_first_pass = true;
@@ -79,14 +82,19 @@ export default class WheelbuilderFiltersStages {
 
         this.init_stage_one_two_options();
         // Define Query that will be used throughout the page
-        this.query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+        this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                            this.all_known_options, this.common_options_roots);
-        this.query.set('inventory_type', 'Hubs');
+        this.hub_query.set('inventory_type', 'Hubs');
 
         this.stage_one_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                                      this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+
         this.stage_one_query.set('inventory_type', 'Rims');
-        this.rim_hub_common_options = this.query.rim_hub_common_defaults;
+
+        this.mode_switcher.init(this.hub_query, this.stage_one_query);
+
+
+        this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
 
         this.hide_stage_two_stage_three_options();
         this.initial_filter();
@@ -112,8 +120,8 @@ export default class WheelbuilderFiltersStages {
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
 
             this.stage_one_query.set('Brake_Type', 'Disc Brake');
-            this.query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
-            this.query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+            this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+            this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
         }
     }
 
@@ -151,7 +159,7 @@ export default class WheelbuilderFiltersStages {
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
         if (this.stage_one_finished && !this.stage_one_first_pass)
-            this.prepare_query($changedOption, this.query);
+            this.prepare_query($changedOption, this.hub_query);
 
         // decide if its time to show new stage
         this.unravel_stages();
@@ -237,6 +245,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     show_stage_one_options() {
+        this.page_in_rim_choice_mode = true;
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if (this.stage_one_options_on_page.have_member(option_name)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -257,6 +266,7 @@ export default class WheelbuilderFiltersStages {
 
     show_stage_two_options() {
         this.step_label.set_to_step_two();
+        this.page_in_rim_choice_mode = false;
         this.$back_button.show();
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if (this.stage_two_options_on_page.have_member(option_name)) {
@@ -317,26 +327,26 @@ export default class WheelbuilderFiltersStages {
 
     filter_after_stage_one_is_done() {
         for(let option_name in this.stage_one_options_on_page.options) {
-            this.query.set(option_name, this.stage_one_options_on_page.get(option_name));
+            this.hub_query.set(option_name, this.stage_one_options_on_page.get(option_name));
         }
         // TODO: to be tested
         // Try to mess with brake type options
         if (this.stage_one_options_on_page.have_member('Brake_Type')) {
             let brake_type = this.stage_one_options_on_page.get('Brake_Type');
             if (brake_type === 'Rim Brake') {
-                this.query.set('Front_Disc_Brake_Interface', 'Rim Brake');
-                this.query.set('Rear_Disc_Brake_Interface', 'Rim Brake');
+                this.hub_query.set('Front_Disc_Brake_Interface', 'Rim Brake');
+                this.hub_query.set('Rear_Disc_Brake_Interface', 'Rim Brake');
                 this.remove_option_from_page('Front_Disc_Brake_Interface');
                 this.remove_option_from_page('Rear_Disc_Brake_Interface');
                 this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Interface');
                 this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Interface');
             }else {
-                this.query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
-                this.query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+                this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+                this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
-        this.query.log('query in filter after stage one');
-        this.ajax_post(this.query.get_query(),this.query_api_url.query, this.result_parser);
+        this.hub_query.log('query in filter after stage one');
+        this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
     remove_option_from_page(option_name) {
@@ -440,7 +450,7 @@ export default class WheelbuilderFiltersStages {
         let selected_index = $selected_item.index();
         let value = $selected_item.text();
         if (selected_index > 0 ) {
-            // this.query.set(option_name_alias, value);
+            // this.hub_query.set(option_name_alias, value);
             //set name Pick One -> Reset
             this.zeroth_option_to_alternative_name($option_values_object);
             query_object.set(option_name_alias, value);
@@ -451,7 +461,7 @@ export default class WheelbuilderFiltersStages {
             query_object.remove(option_name_alias);
         }
         query_object.log('Query in prepare query');
-        // this.ajax_post(this.query.get_query(), this.query_api_url.query, this.result_parser);
+        // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
 
@@ -466,7 +476,7 @@ export default class WheelbuilderFiltersStages {
             $(one_option).attr("selected", "selected");
             // make sura that this selection is also reflected in query
             let option_name_alias = this.option_aliases.option_alias[option_name];
-            this.query.set(option_name_alias, value);
+            this.hub_query.set(option_name_alias, value);
             this.stages_control(option_name_alias, value);
             this.unravel_stages();
             return true;
@@ -569,6 +579,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_first_pass = true;
         this.stage_one_finished = false;
         this.stage_two_finished = false;
+        this.page_in_rim_choice_mode = true;
 
         this.step_label.set_to_step_one();
         this.$next_button.hide();
