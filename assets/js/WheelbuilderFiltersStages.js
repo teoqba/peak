@@ -86,12 +86,12 @@ export default class WheelbuilderFiltersStages {
                                            this.all_known_options, this.common_options_roots);
         this.hub_query.set('inventory_type', 'Hubs');
 
-        this.stage_one_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+        this.rim_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
                                                      this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
 
-        this.stage_one_query.set('inventory_type', 'Rims');
+        this.rim_query.set('inventory_type', 'Rims');
 
-        this.mode_switcher.init(this.hub_query, this.stage_one_query);
+        this.mode_switcher.init(this.hub_query, this.rim_query);
 
 
         this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
@@ -119,7 +119,7 @@ export default class WheelbuilderFiltersStages {
             ((this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
 
-            this.stage_one_query.set('Brake_Type', 'Disc Brake');
+            this.rim_query.set('Brake_Type', 'Disc Brake');
             this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
         }
@@ -165,7 +165,7 @@ export default class WheelbuilderFiltersStages {
         this.unravel_stages();
 
         if (!this.stage_one_finished) {
-            this.prepare_query($changedOption, this.stage_one_query);
+            this.prepare_query($changedOption, this.rim_query);
         }
     }
 
