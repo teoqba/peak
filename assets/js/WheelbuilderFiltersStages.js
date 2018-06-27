@@ -4,7 +4,7 @@ import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
-import WheelbuilderPageModeSwitcher from "./WheelbuilderPageModeSwitcher";
+
 import utils from "@bigcommerce/stencil-utils/src/main";
 
 export default class WheelbuilderFiltersStages {
@@ -34,7 +34,6 @@ export default class WheelbuilderFiltersStages {
         // If all the null values are changed to option_values, given stage is considered done
         this.stage_one_options_on_page = new WheelbuilderStageOptions();
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
-        this.mode_switcher = new WheelbuilderPageModeSwitcher();
         this.stage_one_finished = false;
         this.stage_two_finished = false;
         this.stage_one_first_pass = true;
@@ -91,8 +90,6 @@ export default class WheelbuilderFiltersStages {
 
         this.rim_query.set('inventory_type', 'Rims');
 
-        this.mode_switcher.init(this.hub_query, this.rim_query);
-        
         this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
 
         this.hide_stage_two_stage_three_options();
@@ -182,7 +179,10 @@ export default class WheelbuilderFiltersStages {
     }
 
     back_to_stage_one(){
-        this.saved_stage_one_choice = this.stage_one_options_on_page.get_current_selection();
+        // before showing user stage one again, save all the chocices he has done previously
+        // we will monitor what changes he had made
+        // do js copy (not a deep copy but its ok since its only dictionary)
+        this.saved_stage_one_choice = Object.assign({}, this.stage_one_options_on_page.get_current_selection());
         this.hide_stage_two_stage_three_options();
         this.show_stage_one_options();
         this.step_label.set_to_step_one();
@@ -193,6 +193,14 @@ export default class WheelbuilderFiltersStages {
 
     forward_to_stage_two_three(){
         let current_stage_one_selection = this.stage_one_options_on_page.get_current_selection();
+        // if user changes the options when going back from rim selection to hub selection
+        // reset all he had in hub selection, as it is not guaranteed that what he had previously chosen
+        // is compatible with the build
+
+        if (JSON.stringify(current_stage_one_selection) !== JSON.stringify(this.saved_stage_one_choice)) {
+            this.reset_choices_in_stage_two_three();
+        }
+
         this.hide_stage_one_options();
         if (this.stage_two_finished) {
             this.show_stage_two_options();
@@ -204,6 +212,37 @@ export default class WheelbuilderFiltersStages {
         this.$next_button.hide();
         this.$back_button.show();
 
+    }
+    reset_choices_in_stage_two_three() {
+        // reset hub_query
+        this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+            this.all_known_options, this.common_options_roots);
+        this.hub_query.set('inventory_type', 'Hubs');
+        // reset option sets
+
+        for (let option_name in this.all_options_on_page) {
+            if (!this.stage_one_options_on_page.have_member(option_name)) {
+                let option = this.option_aliases.all_options_on_page_aliased[option_name];
+                this.zeroth_option_alternative_to_default_name($(option));
+                let $option_values_object = $(option).find('.wb-empty-option');
+                $option_values_object.prop('selected', true)
+            }
+        }
+        // show all options values that were hidden before by the filters
+        for (let option_name in this.all_options_on_page) {
+            if (!this.stage_one_options_on_page.have_member(option_name)) {
+                let option = this.option_aliases.all_options_on_page_aliased[option_name];
+                let $option_values_object = $(option).find('.wb-option');
+                $option_values_object.each(function () {
+                    $(this).show();
+                });
+            }
+        }
+        this.stage_two_finished = false;
+        this.stage_two_first_pass = true;
+        this.stage_two_options_on_page.reset();
+        this.hide_remaining_options();
+        this.filter_after_stage_one_is_done()
     }
 
     unravel_stages() {
@@ -292,6 +331,16 @@ export default class WheelbuilderFiltersStages {
                 (!this.stage_two_options_on_page.have_member(option_name))) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.show();
+            }
+
+        }
+    }
+    hide_remaining_options() {
+        for (let option_name in this.option_aliases.all_options_on_page_aliased) {
+            if ((!this.stage_one_options_on_page.have_member(option_name)) &&
+                (!this.stage_two_options_on_page.have_member(option_name))) {
+                let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+                option_object.hide();
             }
 
         }

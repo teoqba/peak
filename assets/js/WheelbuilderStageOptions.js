@@ -49,6 +49,12 @@ export default class WheelbuilderStageOptions {
         return this.options;
     }
 
+    reset() {
+        for (let key in this.options) {
+            this.options[key] = null;
+        }
+    }
+
     to_query() {
         //TODO implement?
     }
