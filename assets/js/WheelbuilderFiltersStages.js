@@ -38,7 +38,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_finished = false;
         this.stage_two_finished = false;
         this.stage_one_first_pass = true;
-        this.stage_two_first_pass = true;
+        this.stage_two_first_pass = true; // enables that on each option choice, the code does not try to reveal stage3 options
 
         this.step_label = null;
         this.saved_stage_one_choice = {};
@@ -92,8 +92,7 @@ export default class WheelbuilderFiltersStages {
         this.rim_query.set('inventory_type', 'Rims');
 
         this.mode_switcher.init(this.hub_query, this.rim_query);
-
-
+        
         this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
 
         this.hide_stage_two_stage_three_options();
@@ -158,13 +157,16 @@ export default class WheelbuilderFiltersStages {
         this.stages_control(option_name_alias, value);
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
-        if (this.stage_one_finished && !this.stage_one_first_pass)
+        if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
+            console.log('DOING HUB QUERY');
             this.prepare_query($changedOption, this.hub_query);
+        }
 
         // decide if its time to show new stage
         this.unravel_stages();
 
-        if (!this.stage_one_finished) {
+        if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
+            console.log('DOING RIM QUERY');
             this.prepare_query($changedOption, this.rim_query);
         }
     }
@@ -345,6 +347,7 @@ export default class WheelbuilderFiltersStages {
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
+        this.hub_query.set('Hole_Count', this.rim_query.get('Hole_Count'));
         this.hub_query.log('query in filter after stage one');
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
