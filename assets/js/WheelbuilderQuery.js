@@ -66,6 +66,9 @@ export default class WheelbuilderQuery {
         }
         this.query[option_name] = value;
     }
+    get(option_name) {
+        return this.query[option_name]
+    }
 
     get_query() {
         let mongo_query = {};
