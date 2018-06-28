@@ -350,8 +350,10 @@ export default class WheelbuilderFiltersStages {
 
     show_remaining_options() {
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
+            let is_hidden_front_rear = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished).indexOf(option_name);
             if ((!this.stage_one_options_on_page.have_member(option_name)) &&
-                (!this.stage_two_options_on_page.have_member(option_name))) {
+                (!this.stage_two_options_on_page.have_member(option_name)) &&
+                (is_hidden_front_rear < 0)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.show();
             }
