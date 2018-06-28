@@ -41,6 +41,7 @@ export default class WheelbuilderFiltersStages {
 
         this.step_label = null;
         this.saved_stage_one_choice = {};
+        this.saved_wheelbuild_type = null;
         // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
         //                       "query": "http://localhost:8000/wbdb_query"};
         this.query_api_url = {"option_names_roots": "http://52.53.197.100:8000/options_names_roots",
@@ -183,6 +184,7 @@ export default class WheelbuilderFiltersStages {
         // we will monitor what changes he had made
         // do js copy (not a deep copy but its ok since its only dictionary)
         this.saved_stage_one_choice = Object.assign({}, this.stage_one_options_on_page.get_current_selection());
+        this.saved_wheelbuild_type = this.wb_front_rear_selection.get_wheel_build_type();
         this.hide_stage_two_stage_three_options();
         this.show_stage_one_options();
         this.step_label.set_to_step_one();
@@ -196,9 +198,10 @@ export default class WheelbuilderFiltersStages {
         // if user changes the options when going back from rim selection to hub selection
         // reset all he had in hub selection, as it is not guaranteed that what he had previously chosen
         // is compatible with the build
-
-        if (JSON.stringify(current_stage_one_selection) !== JSON.stringify(this.saved_stage_one_choice)) {
-            this.reset_choices_in_stage_two_three();
+        let current_wheel_build_type = this.wb_front_rear_selection.get_wheel_build_type();
+        if ((JSON.stringify(current_stage_one_selection) !== JSON.stringify(this.saved_stage_one_choice)) ||
+            (this.saved_wheelbuild_type !== current_wheel_build_type)){
+            this.reset_choices_on_forward_button();
         }
 
         this.hide_stage_one_options();
@@ -213,13 +216,13 @@ export default class WheelbuilderFiltersStages {
         this.$back_button.show();
 
     }
-    reset_choices_in_stage_two_three() {
+    reset_choices_on_forward_button() {
         // reset hub_query
         this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
             this.all_known_options, this.common_options_roots);
         this.hub_query.set('inventory_type', 'Hubs');
-        // reset option sets
 
+        // reset option sets
         for (let option_name in this.all_options_on_page) {
             if (!this.stage_one_options_on_page.have_member(option_name)) {
                 let option = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -238,11 +241,31 @@ export default class WheelbuilderFiltersStages {
                 });
             }
         }
+        // analyze what is current Front/Rear/Wheelset choice and show hide appropriate options
+        // TODO this is copy from from init_stage_one_two_options and
+        for(let key in this.option_aliases.all_options_on_page_aliased) {
+            if (this.all_known_stage_two_options.indexOf(key) > -1) {
+                this.stage_two_options_on_page.set(key, null);
+            }
+        }
+        // this is copy from unravel stages
+        if (this.is_front_rear_selection_active) {
+            let to_hide = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished);
+            for (let i=0; i < to_hide.length; i++) {
+                let option_name = to_hide[i];
+                // this.remove_option_from_page(option_name);
+                this.stage_two_options_on_page.remove_option(option_name);
+            }
+
+        }
+
         this.stage_two_finished = false;
         this.stage_two_first_pass = true;
+        // reset selection in stage two options
         this.stage_two_options_on_page.reset();
         this.hide_remaining_options();
-        this.filter_after_stage_one_is_done()
+        this.filter_after_stage_one_is_done();
+
     }
 
     unravel_stages() {
@@ -253,9 +276,9 @@ export default class WheelbuilderFiltersStages {
 
             if (this.is_front_rear_selection_active) {
                 let to_hide = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished);
-                for (let i =0; i < to_hide.length; i++) {
+                for (let i=0; i < to_hide.length; i++) {
                     let option_name = to_hide[i];
-                    this.remove_option_from_page(option_name);
+                    // this.remove_option_from_page(option_name);
                     this.stage_two_options_on_page.remove_option(option_name);
                 }
 
@@ -370,7 +393,6 @@ export default class WheelbuilderFiltersStages {
             }
         }
         if (option_values_array.length !== 0) {
-            console.log("INITIAL QUERY NOT EMPTY MAKING AJAX CALL");
             this.ajax_post(initial_query.get_query(), this.query_api_url.query, this.result_parser_initial);
         }
 
@@ -397,7 +419,6 @@ export default class WheelbuilderFiltersStages {
             }
         }
         this.hub_query.set('Hole_Count', this.rim_query.get('Hole_Count'));
-        this.hub_query.log('query in filter after stage one');
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -512,7 +533,6 @@ export default class WheelbuilderFiltersStages {
             // Remove selection from query
             query_object.remove(option_name_alias);
         }
-        query_object.log('Query in prepare query');
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -548,7 +568,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     result_parser(query_result, parent) {
-        console.log('Query results in result parser', query_result);
         // parent.check_if_build_is_invalid(query_result);
         let all_known_options = parent.all_known_options; //aliases
         let all_options_on_page_aliased = parent.option_aliases.all_options_on_page_aliased;
@@ -608,7 +627,6 @@ export default class WheelbuilderFiltersStages {
 
     resetSelection() {
         // Implementation for reset button
-        console.log("Reseting selections");
         for (let option_name in this.all_options_on_page) {
             let option = this.option_aliases.all_options_on_page_aliased[option_name];
             this.zeroth_option_alternative_to_default_name($(option));
