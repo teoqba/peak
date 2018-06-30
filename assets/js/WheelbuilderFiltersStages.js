@@ -4,6 +4,7 @@ import WheelbuilderStageOptions from './WheelbuilderStageOptions.js';
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
+import WheelbuilderSpecialOptions from "./WheelbuilderSpecialOptions";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -22,7 +23,6 @@ export default class WheelbuilderFiltersStages {
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
         this.wb_config = new WheelbuilderConfig();
-
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
@@ -76,6 +76,9 @@ export default class WheelbuilderFiltersStages {
         this.common_options_roots = query_result['common_roots'];
         // Find aliases of the option names on page
         this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
+
+        this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
+        this.special_options.init();
 
         this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
         this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
@@ -156,7 +159,6 @@ export default class WheelbuilderFiltersStages {
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
         if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
-            console.log('DOING HUB QUERY');
             this.prepare_query($changedOption, this.hub_query);
         }
 
@@ -164,7 +166,6 @@ export default class WheelbuilderFiltersStages {
         this.unravel_stages();
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
-            console.log('DOING RIM QUERY');
             this.prepare_query($changedOption, this.rim_query);
         }
     }
@@ -351,9 +352,11 @@ export default class WheelbuilderFiltersStages {
     show_remaining_options() {
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             let is_hidden_front_rear = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished).indexOf(option_name);
+            let is_special_option_hidden = this.special_options.is_special_option_hidden(option_name);
             if ((!this.stage_one_options_on_page.have_member(option_name)) &&
                 (!this.stage_two_options_on_page.have_member(option_name)) &&
-                (is_hidden_front_rear < 0)) {
+                (is_hidden_front_rear < 0) &&
+                (!is_special_option_hidden)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.show();
             }
@@ -571,8 +574,10 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
+        // console.log('Query result', query_result);
         let all_known_options = parent.all_known_options; //aliases
         let all_options_on_page_aliased = parent.option_aliases.all_options_on_page_aliased;
+        let special_options = parent.special_options;
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
             for (let i = 0; i < all_known_options.length; i++) {
                 let option_name_alias = all_known_options[i];
@@ -598,6 +603,7 @@ export default class WheelbuilderFiltersStages {
                 }
             }
         }
+        special_options.show_hide(query_result);
     }
 
     result_parser_initial(query_result, parent) {

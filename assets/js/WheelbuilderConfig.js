@@ -19,5 +19,8 @@ export default class WheelbuilderConfig {
             'Rear_Hub', 'Rear_Hub_Color', 'Points_of_Engagement',
             'Drivetrain_Type'];
 
+        // special attributes that will be optionally shown
+        this.poe_option_name = 'Points_of_Engagement';
+        this.special_options = [this.poe_option_name];
     }
 }
