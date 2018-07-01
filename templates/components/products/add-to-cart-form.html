@@ -8,7 +8,10 @@
 >
   <input type="hidden" name="action" value="add">
   <input type="hidden" name="product_id" value="{{product.id}}" data-product-id/>
+  {{#unless product.custom_fields}}
   <div class="wb-step-label"> Step 1: Select Rim </div>
+  {{/unless}}
+
   <div class="product-options-container" data-product-option-change>
     {{#if product.customizations}}
       {{#each product.customizations}}
@@ -20,9 +23,12 @@
       {{#each product.options}}
         {{{dynamicComponent 'core/forms/options'}}}
       {{/each}}
+    {{#unless product.custom_fields}}
     <button type="button" style="display:none" class="button button-wide wb-button wb-next-button">Forward To Hub Selection</button>
     <button type="button" style="display:none" class="button button-wide wb-button wb-back-button">Back To Rim Selection</button>
     <button type="button" class="button button-secondary button-wide wb-reset-button">Start Over</button>
+    {{/unless}}
+
     {{/if}}
   </div>
 

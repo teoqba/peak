@@ -22,6 +22,8 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
+        this.enable_filtering = false; // is set to false filtering will not start
+
         this.wb_config = new WheelbuilderConfig();
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
@@ -65,7 +67,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     finish_init(query_result) {
-        console.log("FINISHING INIT");
         // this is callback function called after ajax_get to fetch known set of options
         this.all_options_on_page = this.get_all_options_on_page();
         this.all_other_options_on_page = this.get_all_other_options_on_page();
@@ -73,43 +74,55 @@ export default class WheelbuilderFiltersStages {
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
 
-        this.common_options_roots = query_result['common_roots'];
-        // Find aliases of the option names on page
-        this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
 
-        this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
-        this.special_options.init();
+        // check if there is at least on option on the page that belongs
+        // to all_known_options. If not, dont event start filtering
+        for (let i=0; i< this.all_known_options.length; i++ ) {
+            let option_name = this.all_known_options[i];
+            if (Object.keys(this.all_options_on_page).includes(option_name)) {
+                this.enable_filtering = true;
+            }
+        }
+        if (this.enable_filtering) {
+            console.log("FINISHING INIT");
+            this.common_options_roots = query_result['common_roots'];
+            // Find aliases of the option names on page
+            this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
 
-        this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
-        this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
+            this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
+            this.special_options.init();
 
-        this.init_stage_one_two_options();
-        // Define Query that will be used throughout the page
-        this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-                                           this.all_known_options, this.common_options_roots);
-        this.hub_query.set('inventory_type', 'Hubs');
+            this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
+            this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
 
-        this.rim_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-                                                     this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+            this.init_stage_one_two_options();
+            // Define Query that will be used throughout the page
+            this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+                this.all_known_options, this.common_options_roots);
+            this.hub_query.set('inventory_type', 'Hubs');
 
-        this.rim_query.set('inventory_type', 'Rims');
+            this.rim_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
+                this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
 
-        this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
+            this.rim_query.set('inventory_type', 'Rims');
 
-        this.hide_stage_two_stage_three_options();
-        this.initial_filter();
-        this.analyze_options_on_page();
-        this.step_label = new WheelbuilderStepLabel(this.$parent_page);
-        this.step_label.init();
+            this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
 
-        // Buttons
-        this.$reset_button = this.$parent_page.find('.wb-reset-button');
-        this.$back_button = this.$parent_page.find('.wb-back-button');
-        this.$next_button = this.$parent_page.find('.wb-next-button');
-        // handle buttons events
-        this.buttons_event_handler();
+            this.hide_stage_two_stage_three_options();
+            this.initial_filter();
+            this.analyze_options_on_page();
+            this.step_label = new WheelbuilderStepLabel(this.$parent_page);
+            this.step_label.init();
 
-        this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
+            // Buttons
+            this.$reset_button = this.$parent_page.find('.wb-reset-button');
+            this.$back_button = this.$parent_page.find('.wb-back-button');
+            this.$next_button = this.$parent_page.find('.wb-next-button');
+            // handle buttons events
+            this.buttons_event_handler();
+
+            this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
+        }
     }
 
     analyze_options_on_page(){
@@ -137,9 +150,11 @@ export default class WheelbuilderFiltersStages {
 
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
-        if (this.initial_filter_done) {
-            if (this.get_name_of_changed_option($changedOption) !== this.wb_config.build_type_option_name) {
-                this.divide_into_stages_and_query($changedOption);
+        if (this.enable_filtering) {
+            if (this.initial_filter_done) {
+                if (this.get_name_of_changed_option($changedOption) !== this.wb_config.build_type_option_name) {
+                    this.divide_into_stages_and_query($changedOption);
+                }
             }
         }
     }
