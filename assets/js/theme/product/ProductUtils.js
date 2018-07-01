@@ -3,7 +3,6 @@ import Alert from '../components/Alert';
 import FormValidator from '../utils/FormValidator';
 
 import ProgressButton from '../utils/ProgressButton';
-import WheelbuilderFilters from "../../WheelbuilderFilters";
 import WheelbuilderFiltersStages from "../../WheelbuilderFiltersStages";
 
 export default class ProductUtils {
