@@ -33,7 +33,7 @@ export default class WheelbuilderSpecialOptions {
         if (this.option_aliases.all_options_on_page_aliased.hasOwnProperty(this.poe_option_name)) {
             try {
                 this.points_of_engagements_logic(query_result);
-            } catch (e) {console.log('PEO Error', e);}
+            } catch (e) {} // poe does not exist, don't do anything.
         }
     }
 

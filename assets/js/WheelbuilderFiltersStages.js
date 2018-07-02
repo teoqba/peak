@@ -22,6 +22,17 @@ export default class WheelbuilderFiltersStages {
         this.rim_hub_common_options = {};// not used here really, only in general wizard
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
+        // Buttons
+        this.$reset_button = this.$parent_page.find('.wb-reset-button');
+        this.$back_button = this.$parent_page.find('.wb-back-button');
+        this.$next_button = this.$parent_page.find('.wb-next-button');
+        // Step label
+        this.step_label = new WheelbuilderStepLabel(this.$parent_page);
+        // to remove it from regular product page, hide stuff until enable_filtering === true to
+        this.step_label.init();
+        this.$reset_button.hide();
+        this.step_label.hide();
+
         this.enable_filtering = false; // is set to false filtering will not start
 
         this.wb_config = new WheelbuilderConfig();
@@ -41,7 +52,6 @@ export default class WheelbuilderFiltersStages {
         this.stage_one_first_pass = true;
         this.stage_two_first_pass = true; // enables that on each option choice, the code does not try to reveal stage3 options
 
-        this.step_label = null;
         this.saved_stage_one_choice = {};
         this.saved_wheelbuild_type = null;
         // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
@@ -85,6 +95,7 @@ export default class WheelbuilderFiltersStages {
         }
         if (this.enable_filtering) {
             console.log("FINISHING INIT");
+
             this.common_options_roots = query_result['common_roots'];
             // Find aliases of the option names on page
             this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
@@ -111,13 +122,9 @@ export default class WheelbuilderFiltersStages {
             this.hide_stage_two_stage_three_options();
             this.initial_filter();
             this.analyze_options_on_page();
-            this.step_label = new WheelbuilderStepLabel(this.$parent_page);
-            this.step_label.init();
 
-            // Buttons
-            this.$reset_button = this.$parent_page.find('.wb-reset-button');
-            this.$back_button = this.$parent_page.find('.wb-back-button');
-            this.$next_button = this.$parent_page.find('.wb-next-button');
+            this.$reset_button.show();
+            this.step_label.show();
             // handle buttons events
             this.buttons_event_handler();
 

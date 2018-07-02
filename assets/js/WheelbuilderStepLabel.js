@@ -2,7 +2,7 @@ import WheelbuilderConfig from './WheelbuilderConfig.js';
 
 export default class WheelbuilderStepLabel {
     constructor($parent_page) {
-        this.$parent_page = $parent_page
+        this.$parent_page = $parent_page;
         this.wb_config = new WheelbuilderConfig();
 
         this.$step_label = null;
@@ -24,5 +24,12 @@ export default class WheelbuilderStepLabel {
 
     set_to_step_two(){
         this.$step_label.text(this.step_two_name);
+    }
+    hide() {
+        this.$step_label.hide();
+
+    }
+    show() {
+        this.$step_label.show();
     }
 }
