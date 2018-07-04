@@ -184,12 +184,12 @@ export default class WheelbuilderFiltersStages {
             this.prepare_query($changedOption, this.hub_query);
         }
 
-        // decide if its time to show new stage
-        this.unravel_stages();
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
             this.prepare_query($changedOption, this.rim_query);
         }
+        // decide if its time to show new stage
+        this.unravel_stages();
     }
 
     stages_control(option_name_alias, value) {
@@ -296,7 +296,6 @@ export default class WheelbuilderFiltersStages {
         // Stage 1: filter only after all choice is done
         if (this.stage_one_finished && this.stage_one_first_pass) {
             this.filter_after_stage_one_is_done();
-
             if (this.is_front_rear_selection_active) {
                 let to_hide = this.wb_front_rear_selection.get_front_rear_options_to_hide(this.stage_one_finished);
                 for (let i=0; i < to_hide.length; i++) {
