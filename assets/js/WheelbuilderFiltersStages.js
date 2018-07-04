@@ -121,7 +121,7 @@ export default class WheelbuilderFiltersStages {
 
             this.hide_stage_two_stage_three_options();
             this.initial_filter();
-            this.analyze_options_on_page();
+            this.analyze_disc_brake_options();
 
             this.$reset_button.show();
             this.step_label.show();
@@ -132,7 +132,7 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
-    analyze_options_on_page(){
+    analyze_disc_brake_options(){
         // Analyze which options are on the page and try to guess defaults for options that are not included
         // If Brake Type is not given, and Front/Rear Disc Brake type is given, set Brake_Type: Disc
         if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
@@ -558,6 +558,13 @@ export default class WheelbuilderFiltersStages {
             this.zeroth_option_alternative_to_default_name($option_values_object);
             // Remove selection from query
             query_object.remove(option_name_alias);
+            // If the option that was reset was Disc Brake interface, make sure its not
+            // pointing to Rim Brake as one of the alternatives
+            if((option_name_alias === 'Front_Disc_Brake_Interface') ||
+                (option_name_alias === 'Rear_Disc_Brake_Interface')) {
+                this.analyze_disc_brake_options();
+            }
+
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
