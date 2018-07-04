@@ -244,6 +244,7 @@ export default class WheelbuilderFiltersStages {
         this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
             this.all_known_options, this.common_options_roots);
         this.hub_query.set('inventory_type', 'Hubs');
+        this.analyze_disc_brake_options();
 
         // reset option sets
         for (let option_name in this.all_options_on_page) {
