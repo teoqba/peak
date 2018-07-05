@@ -21,6 +21,9 @@ export default class WheelbuilderConfig {
 
         // special attributes that will be optionally shown
         this.poe_option_name = 'Points_of_Engagement';
-        this.special_options = [this.poe_option_name];
+        this.front_bearing_upgrade = 'Front_Hub_Ceramic_Bearing_Upgrade';
+        this.rear_bearing_upgrade = 'Rear_Hub_Ceramic_Bearing_Upgrade';
+
+        this.special_options = [this.poe_option_name, this.rear_bearing_upgrade, this.front_bearing_upgrade];
     }
 }
