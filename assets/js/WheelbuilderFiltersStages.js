@@ -99,7 +99,6 @@ export default class WheelbuilderFiltersStages {
             this.common_options_roots = query_result['common_roots'];
             // Find aliases of the option names on page
             this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
-            console.log("ALIAS", this.option_aliases.all_options_on_page_aliased);
             this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
             this.special_options.init();
 
