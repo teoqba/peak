@@ -59,6 +59,8 @@ export default class WheelbuilderSpecialOptions {
             this.special_option_status[option_name] = false;
         } else {
             option_object.hide();
+            let $option_values_object = $(option_object).find('.wb-empty-option');
+            $option_values_object.prop('selected', true);
             this.special_option_status[option_name] = true;
         }
     }
@@ -70,6 +72,9 @@ export default class WheelbuilderSpecialOptions {
             this.special_option_status[option_name] = false;
         } else {
             option_object.hide();
+            let $empty_option = $(option_object).find('.wb-empty-option');
+            $empty_option.prop('selected', true);
+            $empty_option.text(this.config.zeroth_option_default_name);
             this.special_option_status[option_name] = true;
         }
     }
@@ -82,6 +87,9 @@ export default class WheelbuilderSpecialOptions {
             this.special_option_status[option_name] = false;
         } else {
             option_object.hide();
+            let $empty_option = $(option_object).find('.wb-empty-option');
+            $empty_option.prop('selected', true);
+            $empty_option.text(this.config.zeroth_option_default_name);
             this.special_option_status[option_name] = true;
         }
     }
