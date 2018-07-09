@@ -78,11 +78,11 @@ export default class WheelbuilderFiltersStages {
 
     finish_init(query_result) {
         // this is callback function called after ajax_get to fetch known set of options
-        this.all_options_on_page = this.get_all_options_on_page();
-        this.all_other_options_on_page = this.get_all_other_options_on_page();
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
+        this.all_options_on_page = this.get_all_options_on_page();
+        this.all_other_options_on_page = this.get_all_other_options_on_page();
 
 
         // check if there is at least on option on the page that belongs
@@ -119,6 +119,7 @@ export default class WheelbuilderFiltersStages {
             this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
 
             this.hide_stage_two_stage_three_options();
+            this.hide_non_filter_options();
             this.initial_filter();
             this.analyze_disc_brake_options();
 
@@ -381,9 +382,11 @@ export default class WheelbuilderFiltersStages {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.show();
             }
-
+        // show all the options that might be included in options set but does not belong to any filtering
+        this.show_non_filter_options();
         }
     }
+
     hide_remaining_options() {
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             if ((!this.stage_one_options_on_page.have_member(option_name)) &&
@@ -391,7 +394,26 @@ export default class WheelbuilderFiltersStages {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.hide();
             }
+        }
+        // hide all the options that might be included in options set but does not belong to any filtering
+        this.hide_non_filter_options();
+    }
 
+    hide_non_filter_options() {
+        for (let option_name in this.all_other_options_on_page) {
+            if (option_name !== this.wb_config.build_type_option_name) {
+                let $option_object = this.all_other_options_on_page[option_name];
+                $option_object.hide();
+            }
+        }
+    }
+
+    show_non_filter_options() {
+        for (let option_name in this.all_other_options_on_page) {
+            if (option_name !== this.wb_config.build_type_option_name) {
+                let $option_object = this.all_other_options_on_page[option_name];
+                $option_object.show();
+            }
         }
     }
 
@@ -472,14 +494,27 @@ export default class WheelbuilderFiltersStages {
     get_all_other_options_on_page() {
         // finds other options on page of type:
         // - rectangle (used Wheelset/Front/Rear choice)
+        // - set select
 
+        //look for set-rectagnle options
         let all_options = {};
-        let $all_set_select_options = this.$parent_page.find('.form-field-rectangle');
-        $all_set_select_options.each(function () {
+        let $all_field_rectangle_options = this.$parent_page.find('.form-field-rectangle');
+        $all_field_rectangle_options.each(function () {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
             option_name = option_name.split(' ').join('_');
             all_options[option_name] = $(this);
+        });
+        // look for other set-select options
+        let $all_set_select_options = this.$parent_page.find('.form-field-select');
+        var parent = this;
+        $all_set_select_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            if (parent.all_known_options.indexOf(option_name) < 0) {
+                all_options[option_name] = $(this);
+            }
         });
         return all_options;
     }
