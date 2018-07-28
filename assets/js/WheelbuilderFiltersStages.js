@@ -418,6 +418,16 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    reset_non_filter_options() {
+        for (let option_name in this.all_other_options_on_page) {
+            if (option_name !== this.wb_config.build_type_option_name) {
+                let $option_object = this.all_other_options_on_page[option_name];
+                let $option_values_object = $($option_object).find('.wb-empty-option');
+                $option_values_object.prop('selected', true);
+            }
+        }
+    }
+
     initial_filter() {
         // Used at class initialization.
         // Filters options in Stage 1, to avoid incompatible builds
@@ -714,6 +724,7 @@ export default class WheelbuilderFiltersStages {
             });
         }
         this.wb_front_rear_selection.reset_selection();
+        this.reset_non_filter_options();
         this.show_stage_one_options();
         // Set stages variables to initial values
         this.initial_filter_done = false;
