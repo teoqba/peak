@@ -209,6 +209,7 @@ export default class WheelbuilderFiltersStages {
         this.saved_stage_one_choice = Object.assign({}, this.stage_one_options_on_page.get_current_selection());
         this.saved_wheelbuild_type = this.wb_front_rear_selection.get_wheel_build_type();
         this.hide_stage_two_stage_three_options();
+        this.hide_non_filter_options();
         this.show_stage_one_options();
         this.step_label.set_to_step_one();
         this.$back_button.hide();

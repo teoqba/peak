@@ -29,8 +29,8 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="498" column="40" selection-start-line="498" selection-start-column="40" selection-end-line="498" selection-end-column="40" />
+            <state relative-caret-position="272">
+              <caret line="211" column="39" selection-start-line="211" selection-start-column="39" selection-end-line="211" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -65,7 +65,7 @@
       <file leaf-file-name="WheelbuilderStageOptions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
+            <state relative-caret-position="765">
               <caret line="51" column="9" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="9" />
             </state>
           </provider>
@@ -74,7 +74,7 @@
       <file leaf-file-name="add-to-cart-form.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/components/products/add-to-cart-form.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
+            <state relative-caret-position="150">
               <caret line="10" column="21" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="21" />
               <folding>
                 <element signature="n#style#0;n#button#0;n#div#1;n#form#0;n#!!top" expanded="true" />
@@ -121,12 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Disc</find>
-      <find>stage_one_options_on_page</find>
-      <find>init_stage_one_two_options</find>
-      <find>Brake_</find>
-      <find>filter_opt</find>
-      <find>console</find>
       <find>Rim Brake</find>
       <find>zeroth</find>
       <find>zeroth_option_to_alternative_name</find>
@@ -139,7 +133,6 @@
       <find>zeroth_option_default_name</find>
       <find>get_all_other</find>
       <find>show_</find>
-      <find>hide_remaining_options</find>
       <find>hide_stage_two_stage_three_options</find>
       <find>get_all_other_op</find>
       <find>bind</find>
@@ -147,10 +140,17 @@
       <find>indexOf</find>
       <find>all_other_options_on_page</find>
       <find>all_known_options</find>
-      <find>hide_non_filter_options</find>
       <find>all_other_op</find>
       <find>get_all_options_on_page</find>
       <find>get_all</find>
+      <find>show_remaining_options</find>
+      <find>show_non_filter_options</find>
+      <find>hide_non_filter_options</find>
+      <find>show_non_filter_op</find>
+      <find>hide_remaining_options</find>
+      <find>button</find>
+      <find>$next_button</find>
+      <find>back_to_stage_one</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -368,14 +368,9 @@
       <workItem from="1530728197151" duration="3458000" />
       <workItem from="1530821857048" duration="944000" />
       <workItem from="1531057065593" duration="2213000" />
-      <workItem from="1531161463015" duration="2695000" />
-    </task>
-    <task id="LOCAL-00029" summary="working 1st version">
-      <created>1525014067267</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1525014067267</updated>
+      <workItem from="1531161463015" duration="3516000" />
+      <workItem from="1532453304179" duration="95000" />
+      <workItem from="1532780678123" duration="156000" />
     </task>
     <task id="LOCAL-00030" summary="cleaning of Fitlers">
       <created>1525015536275</created>
@@ -713,11 +708,18 @@
       <option name="project" value="LOCAL" />
       <updated>1531070020350</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="hiding reaminig non_filter options">
+      <created>1531164807152</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1531164807153</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="302790000" />
+    <option name="totallyTimeSpent" value="303862000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -732,17 +734,16 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.299444" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26767275" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.55448276" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.37655172" />
       <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.37655172" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.15310344" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.18896551" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -750,6 +751,7 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.55448276" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +762,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="POE changed" />
     <MESSAGE value="Front/Rear slection enabled, congif added" />
     <MESSAGE value="working hiding front/ rear" />
     <MESSAGE value="disabling front/rear options after stage 1" />
@@ -785,7 +786,8 @@
     <MESSAGE value="ceramic bearin upgrade implemented" />
     <MESSAGE value="removing printout" />
     <MESSAGE value="new servers, special optiopns resets selections when hidden" />
-    <option name="LAST_COMMIT_MESSAGE" value="new servers, special optiopns resets selections when hidden" />
+    <MESSAGE value="hiding reaminig non_filter options" />
+    <option name="LAST_COMMIT_MESSAGE" value="hiding reaminig non_filter options" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -799,6 +801,20 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7785">
+          <caret line="519" column="5" selection-start-line="519" selection-start-column="5" selection-end-line="519" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongodb-stitch/.babelrc" />
     <entry file="file://$PROJECT_DIR$/node_modules/bson/lib/bson/bson.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/bson/browser_build/bson.js" />
@@ -1073,12 +1089,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/components/common/forms/select.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/components/products/customizations/select.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-rectangle.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -1088,7 +1098,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
+        <state relative-caret-position="765">
           <caret line="51" column="9" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="9" />
         </state>
       </provider>
@@ -1102,7 +1112,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/components/products/add-to-cart-form.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
+        <state relative-caret-position="150">
           <caret line="10" column="21" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="21" />
           <folding>
             <element signature="n#style#0;n#button#0;n#div#1;n#form#0;n#!!top" expanded="true" />
@@ -1126,8 +1136,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="498" column="40" selection-start-line="498" selection-start-column="40" selection-end-line="498" selection-end-column="40" />
+        <state relative-caret-position="272">
+          <caret line="211" column="39" selection-start-line="211" selection-start-column="39" selection-end-line="211" selection-end-column="39" />
         </state>
       </provider>
     </entry>
