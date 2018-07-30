@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Wheelbuilder.md" beforeDir="false" afterPath="$PROJECT_DIR$/Wheelbuilder.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/scss/theme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/theme.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/components/products/product-single-details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/products/product-single-details.html" afterDir="false" />
@@ -22,17 +23,31 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
+            <state relative-caret-position="8145">
               <caret line="543" column="27" selection-start-line="543" selection-start-column="27" selection-end-line="543" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="theme.scss" pinned="false" current-in-tab="true">
+      <file leaf-file-name="theme.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/scss/theme.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="12320" column="43" selection-start-line="12320" selection-start-column="43" selection-end-line="12320" selection-end-column="43" />
+            <state relative-caret-position="70">
+              <caret line="12363" column="13" selection-start-line="12363" selection-start-column="13" selection-end-line="12363" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="Wheelbuilder.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Wheelbuilder.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="379">
+              <caret line="43" column="2" selection-start-line="43" selection-start-column="2" selection-end-line="43" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -40,8 +55,8 @@
       <file leaf-file-name="product-single-details.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/components/products/product-single-details.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+            <state relative-caret-position="300">
+              <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -49,7 +64,7 @@
       <file leaf-file-name="Category.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/theme/Category.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
+            <state relative-caret-position="540">
               <caret line="43" column="62" selection-start-line="43" selection-start-column="62" selection-end-line="43" selection-end-column="62" />
             </state>
           </provider>
@@ -58,7 +73,7 @@
       <file leaf-file-name="WheelbuilderOptionAliases.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderOptionAliases.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
+            <state relative-caret-position="30">
               <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="48" />
             </state>
           </provider>
@@ -88,26 +103,8 @@
       <file leaf-file-name="product.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/core/structured-data/product.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
+            <state relative-caret-position="465">
               <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="set-radio.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-radio.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="set-select.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-select.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -147,11 +144,11 @@
       <find>spinner</find>
       <find>this.all_other_options_on_pagere</find>
       <find>loading</find>
-      <find>add</find>
       <find>loader</find>
       <find>ajax</find>
       <find>ajax_get</find>
       <find>result_parser</find>
+      <find>add</find>
       <find>ajax_post</find>
     </findStrings>
     <replaceStrings>
@@ -192,7 +189,6 @@
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderBuildType.js" />
         <option value="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" />
-        <option value="$PROJECT_DIR$/Wheelbuilder.md" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderPageModeSwitcher.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js" />
@@ -203,9 +199,10 @@
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderSpecialOptions.js" />
         <option value="$PROJECT_DIR$/templates/core/forms/options/set-radio.html" />
-        <option value="$PROJECT_DIR$/templates/components/products/product-single-details.html" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" />
         <option value="$PROJECT_DIR$/assets/scss/theme.scss" />
+        <option value="$PROJECT_DIR$/templates/components/products/product-single-details.html" />
+        <option value="$PROJECT_DIR$/Wheelbuilder.md" />
       </list>
     </option>
   </component>
@@ -353,14 +350,8 @@
       <workItem from="1531057065593" duration="2213000" />
       <workItem from="1531161463015" duration="3516000" />
       <workItem from="1532453304179" duration="95000" />
-      <workItem from="1532780678123" duration="4569000" />
-    </task>
-    <task id="LOCAL-00032" summary="working 1st version with 3 stage filtering">
-      <created>1525161164343</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1525161164344</updated>
+      <workItem from="1532780678123" duration="6453000" />
+      <workItem from="1532973514266" duration="112000" />
     </task>
     <task id="LOCAL-00033" summary="Brake Type remove from stage 1 filtering">
       <created>1525202833904</created>
@@ -698,11 +689,18 @@
       <option name="project" value="LOCAL" />
       <updated>1532782297460</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="spinner implemented">
+      <created>1532787402299</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1532787402299</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="308275000" />
+    <option name="totallyTimeSpent" value="310271000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -717,17 +715,16 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26767275" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3081811" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.55448276" />
-      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.21793103" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.18896551" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.28551725" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -735,6 +732,7 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.55448276" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -745,7 +743,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="disabling front/rear options after stage 1" />
     <MESSAGE value="working version of show/hide" />
     <MESSAGE value="Pick One -&gt; Reset Selection toggle" />
     <MESSAGE value="Reset Selection restores Pick One" />
@@ -770,7 +767,8 @@
     <MESSAGE value="hiding reaminig non_filter options" />
     <MESSAGE value="hiding not filter options on backwards/forwards" />
     <MESSAGE value="reseting non-filter options" />
-    <option name="LAST_COMMIT_MESSAGE" value="reseting non-filter options" />
+    <MESSAGE value="spinner implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="spinner implemented" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -784,13 +782,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7785">
-          <caret line="519" column="5" selection-start-line="519" selection-start-column="5" selection-end-line="519" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mongodb-stitch/.babelrc" />
     <entry file="file://$PROJECT_DIR$/node_modules/bson/lib/bson/bson.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/bson/browser_build/bson.js" />
@@ -983,13 +974,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderPageModeSwitcher.js" />
-    <entry file="file://$PROJECT_DIR$/Wheelbuilder.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="735">
@@ -1067,14 +1051,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderOptionAliases.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
+        <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/theme/Category.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
+        <state relative-caret-position="540">
           <caret line="43" column="62" selection-start-line="43" selection-start-column="62" selection-end-line="43" selection-end-column="62" />
         </state>
       </provider>
@@ -1091,7 +1075,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/core/structured-data/product.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
+        <state relative-caret-position="465">
           <caret line="31" column="32" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
         </state>
       </provider>
@@ -1103,24 +1087,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/components/products/product-single-details.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
+        <state relative-caret-position="8145">
           <caret line="543" column="27" selection-start-line="543" selection-start-column="27" selection-end-line="543" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/scss/theme.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="12320" column="43" selection-start-line="12320" selection-start-column="43" selection-end-line="12320" selection-end-column="43" />
+        <state relative-caret-position="70">
+          <caret line="12363" column="13" selection-start-line="12363" selection-start-column="13" selection-end-line="12363" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/components/products/product-single-details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Wheelbuilder.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="43" column="2" selection-start-line="43" selection-start-column="2" selection-end-line="43" selection-end-column="2" />
         </state>
       </provider>
     </entry>

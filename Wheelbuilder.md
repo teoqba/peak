@@ -40,6 +40,10 @@
         {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
 
 
+* templates/components/products/product-single-details.html
+    <div id="wb-load-spinner"></div>
+
+
 Changes in CSS:
 /* Wheelbuilder options */
 .wb-step-label {

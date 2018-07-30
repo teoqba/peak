@@ -58,9 +58,11 @@ export default class WheelbuilderFiltersStages {
         //                       "query": "http://localhost:8000/wbdb_query"};
         this.query_api_url = {"option_names_roots": "http://13.56.207.152:8000/options_names_roots",
             "query": "http://13.56.207.152:8000/wbdb_query"};
+        this.loader = $('#wb-load-spinner');
     }
 
     init() {
+        this.loader.show();
         this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
     }
 
@@ -83,7 +85,6 @@ export default class WheelbuilderFiltersStages {
         this.all_known_options = query_result['rims_hubs_roots'];
         this.all_options_on_page = this.get_all_options_on_page();
         this.all_other_options_on_page = this.get_all_other_options_on_page();
-
 
         // check if there is at least on option on the page that belongs
         // to all_known_options. If not, dont event start filtering
@@ -129,6 +130,7 @@ export default class WheelbuilderFiltersStages {
             this.buttons_event_handler();
 
             this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
+            this.loader.hide();
         }
     }
 
@@ -539,6 +541,7 @@ export default class WheelbuilderFiltersStages {
 
     ajax_post(query, url, parser) {
         let _this = this;
+        this.loader.show();
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
@@ -678,6 +681,7 @@ export default class WheelbuilderFiltersStages {
             }
         }
         special_options.show_hide(query_result);
+        parent.loader.hide();
     }
 
     result_parser_initial(query_result, parent) {

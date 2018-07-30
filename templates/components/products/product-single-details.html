@@ -16,7 +16,7 @@
     {{#unless quick_view}}
       {{> components/common/breadcrumbs breadcrumbs}}
     {{/unless}}
-
+    <div id="wb-load-spinner"></div>
     <div class="product-details-column">
       {{> components/products/product-single-images
         images=product.images
@@ -86,6 +86,7 @@
       {{#if quick_view}}
         <a class="quick-shop-details-lower link" href="{{this.product.url}}">{{lang 'product.view_full_details'}}</a>
       {{/if}}
+
     </div>
 
     {{{snippet 'product_details'}}}
