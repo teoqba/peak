@@ -1,9 +1,9 @@
-import WheelbuilderQuery from './WheelbuilderQuery';
-
+import WheelbuilderConfig from './WheelbuilderConfig';
 
 export default class WheelbuilderStageOptions {
     constructor() {
-        this.options = {}
+        this.options = {};
+        this.wb_config = new WheelbuilderConfig();
     }
 
     init() {
@@ -26,7 +26,8 @@ export default class WheelbuilderStageOptions {
     }
 
     set(option_name, value) {
-        if (value === "Pick one...") {
+        if ((value === this.wb_config.zeroth_option_default_name) ||
+            (value === this.wb_config.zeroth_option_alternative_name)) {
             this.options[option_name] = null;
         } else {
             this.options[option_name] = value;

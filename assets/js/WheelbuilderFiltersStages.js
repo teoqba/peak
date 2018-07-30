@@ -221,6 +221,10 @@ export default class WheelbuilderFiltersStages {
     }
 
     forward_to_stage_two_three(){
+        if (!this.stage_one_options_on_page.all_options_selected()) {
+            alert('Please select all the options.');
+            return;
+        }
         let current_stage_one_selection = this.stage_one_options_on_page.get_current_selection();
         // if user changes the options when going back from rim selection to hub selection
         // reset all he had in hub selection, as it is not guaranteed that what he had previously chosen
