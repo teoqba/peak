@@ -49,7 +49,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
         this.stage_one_finished = false;
         this.stage_two_finished = false;
-        this.stage_one_first_pass = true;
+        this.stage_one_first_pass = true; //fires hub query after all selection in Stage 1 is done
         this.stage_two_first_pass = true; // enables that on each option choice, the code does not try to reveal stage3 options
 
         this.saved_stage_one_choice = {};
@@ -182,7 +182,8 @@ export default class WheelbuilderFiltersStages {
         this.stages_control(option_name_alias, value);
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
-        if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
+        // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
+        if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
             this.prepare_query($changedOption, this.hub_query);
         }
 
