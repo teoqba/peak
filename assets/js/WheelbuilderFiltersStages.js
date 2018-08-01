@@ -520,6 +520,7 @@ export default class WheelbuilderFiltersStages {
         // finds other options on page of type:
         // - rectangle (used Wheelset/Front/Rear choice)
         // - set select
+        // - swatch
 
         //look for set-rectagnle options
         let all_options = {};
@@ -541,6 +542,15 @@ export default class WheelbuilderFiltersStages {
                 all_options[option_name] = $(this);
             }
         });
+        // swatch
+        let $all_swatch_options = this.$parent_page.find('.form-field-swatch');
+        $all_swatch_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            all_options[option_name] = $(this);
+        });
+
         return all_options;
     }
 

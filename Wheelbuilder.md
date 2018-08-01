@@ -4,7 +4,7 @@
 
 
 ## Changes in templates
-* templates/core/froms/options/set-select.html
+* templates/core/forms/options/set-select.html
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
     
@@ -28,6 +28,12 @@
               <!--{{/unless}}-->
 
     ```
+* templates/core/forms/options/swatch.html
+    ```
+    {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
+    ```
+
+
 *  /peak/templates/components/products/add-to-cart-form.html
     {{#if product.options}}
     ....
