@@ -40,7 +40,6 @@ export default class WheelbuilderFiltersStages {
         this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
-        this.all_known_special_options = ['Points_of_Engagement'];
 
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
@@ -58,6 +57,7 @@ export default class WheelbuilderFiltersStages {
         //                       "query": "http://localhost:8000/wbdb_query"};
         this.query_api_url = {"option_names_roots": "http://13.56.207.152:8000/options_names_roots",
             "query": "http://13.56.207.152:8000/wbdb_query"};
+        // handle the loading spinner
         this.loader = $('#wb-load-spinner');
     }
 
