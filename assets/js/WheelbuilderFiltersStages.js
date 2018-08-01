@@ -144,6 +144,13 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.set('Brake_Type', 'Disc Brake');
             this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+        // if Brake Type is not given and Front/Rear Disc Brake  are _NOT_ given, assume Brake_Type: Disc
+        } else if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
+                  ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
+                  (!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))) {
+            this.rim_query.set('Brake_Type', 'Rim Brake');
+            this.hub_query.set('Front_Disc_Brake_Interface', 'Rim Brake');
+            this.hub_query.set('Rear_Disc_Brake_Interface', 'Rim Brake');
         }
     }
 
