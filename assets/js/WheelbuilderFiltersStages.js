@@ -63,6 +63,9 @@ export default class WheelbuilderFiltersStages {
 
     init() {
         this.loader.show();
+        this.all_options_on_page = this.get_all_options_on_page();
+        this.all_other_options_on_page = this.get_all_other_options_on_page();
+        this.hide_all_options_on_page();
         this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
     }
 
@@ -79,12 +82,13 @@ export default class WheelbuilderFiltersStages {
     }
 
     finish_init(query_result) {
+        this.scroll_to_top_of_page();
         // this is callback function called after ajax_get to fetch known set of options
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
         this.all_known_options = query_result['rims_hubs_roots'];
-        this.all_options_on_page = this.get_all_options_on_page();
-        this.all_other_options_on_page = this.get_all_other_options_on_page();
+        this.all_options_on_page = this.get_all_options_on_page(); // keep it here despite they are in init()
+        this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
 
         // check if there is at least on option on the page that belongs
         // to all_known_options. If not, dont event start filtering
@@ -94,6 +98,9 @@ export default class WheelbuilderFiltersStages {
                 this.enable_filtering = true;
             }
         }
+
+        this.show_all_options_on_page();
+
         if (this.enable_filtering) {
             console.log("FINISHING INIT");
 
@@ -118,7 +125,7 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.set('inventory_type', 'Rims');
 
             this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
-
+            // this.show_all_options_on_page();
             this.hide_stage_two_stage_three_options();
             this.hide_non_filter_options();
             this.initial_filter();
@@ -130,8 +137,9 @@ export default class WheelbuilderFiltersStages {
             this.buttons_event_handler();
 
             this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
-            this.loader.hide();
         }
+
+        this.loader.hide();
     }
 
     analyze_disc_brake_options(){
@@ -224,7 +232,7 @@ export default class WheelbuilderFiltersStages {
         this.step_label.set_to_step_one();
         this.$back_button.hide();
         this.$next_button.show();
-
+        this.scroll_to_top_of_page();
     }
 
     forward_to_stage_two_three(){
@@ -252,8 +260,10 @@ export default class WheelbuilderFiltersStages {
         this.step_label.set_to_step_two();
         this.$next_button.hide();
         this.$back_button.show();
+        this.scroll_to_top_of_page();
 
     }
+
     reset_choices_on_forward_button() {
         // reset hub_query
         this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
@@ -330,7 +340,6 @@ export default class WheelbuilderFiltersStages {
         // Stage 2:
         if (this.stage_two_finished && this.stage_two_first_pass) {
             // this.filter_after_stage_two_done();
-            // this.show_all_options();
             this.show_remaining_options();
             this.stage_two_first_pass = false;
         }
@@ -442,6 +451,35 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    hide_all_options_on_page() {
+        for (let option_name in this.all_options_on_page) {
+                let $option_object = this.all_options_on_page[option_name];
+                $option_object.hide();
+        }
+        for (let option_name in this.all_other_options_on_page) {
+                let $option_object = this.all_other_options_on_page[option_name];
+                $option_object.hide();
+        }
+        // console.log('Body,', $('body'));
+        // $('body').scrollTop(0);
+    }
+
+    show_all_options_on_page() {
+        for (let option_name in this.all_options_on_page) {
+                let $option_object = this.all_options_on_page[option_name];
+                $option_object.show();
+        }
+        for (let option_name in this.all_other_options_on_page) {
+                let $option_object = this.all_other_options_on_page[option_name];
+                $option_object.show();
+        }
+    }
+
+    scroll_to_top_of_page(){
+        let scroll_duration = 500;
+        $('html,body').animate({scrollTop:0},scroll_duration);
+    }
+
     initial_filter() {
         // Used at class initialization.
         // Filters options in Stage 1, to avoid incompatible builds
@@ -522,7 +560,7 @@ export default class WheelbuilderFiltersStages {
         // - set select
         // - swatch
 
-        //look for set-rectagnle options
+        //look for set-rectangle options
         let all_options = {};
         let $all_field_rectangle_options = this.$parent_page.find('.form-field-rectangle');
         $all_field_rectangle_options.each(function () {
