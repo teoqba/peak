@@ -342,6 +342,7 @@ export default class WheelbuilderFiltersStages {
             }
             this.hide_stage_one_options();
             this.show_stage_two_options();
+            this.scroll_to_top_of_page();
 
             this.stage_one_first_pass = false;
         }
