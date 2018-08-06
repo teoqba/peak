@@ -25,6 +25,7 @@ export default class WheelbuilderFiltersStages {
         this.$reset_button = this.$parent_page.find('.wb-reset-button');
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
+        this.add_to_cart_button = $('.add-to-cart');
         // Step label
         this.step_label = new WheelbuilderStepLabel(this.$parent_page);
         // to remove it from regular product page, hide stuff until enable_filtering === true to
@@ -61,6 +62,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     init() {
+        this.add_to_cart_button.hide();
         this.loader.show();
         this.all_options_on_page = this.get_all_options_on_page();
         this.all_other_options_on_page = this.get_all_other_options_on_page();
@@ -343,7 +345,6 @@ export default class WheelbuilderFiltersStages {
             this.hide_stage_one_options();
             this.show_stage_two_options();
             this.scroll_to_top_of_page();
-
             this.stage_one_first_pass = false;
         }
 
@@ -352,6 +353,7 @@ export default class WheelbuilderFiltersStages {
             // this.filter_after_stage_two_done();
             this.show_remaining_options();
             this.stage_two_first_pass = false;
+            this.add_to_cart_button.show();
         }
     }
 

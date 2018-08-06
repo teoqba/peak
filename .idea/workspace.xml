@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,8 +20,17 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="516" column="95" selection-start-line="516" selection-start-column="95" selection-end-line="516" selection-end-column="95" />
+            <state relative-caret-position="629">
+              <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add-to-cart-form.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/components/products/add-to-cart-form.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="452">
+              <caret line="92" column="65" selection-start-line="92" selection-start-column="54" selection-end-line="92" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -102,14 +109,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>is_option_common</find>
-      <find>get_common_options_defaults</find>
-      <find>revert_common_attributes_values_to_defaults</find>
-      <find>rim_qu</find>
-      <find>prepare_query</find>
-      <find>result_parser_initial</find>
-      <find>analyze_disc_brake_options</find>
-      <find>result_parser</find>
       <find>prepare_q</find>
       <find>analyze_disc</find>
       <find>results_par</find>
@@ -132,6 +131,14 @@
       <find>set_initial_option_values</find>
       <find>is_option_rim</find>
       <find>console.log</find>
+      <find>find</find>
+      <find>divide</find>
+      <find>loader</find>
+      <find>button</find>
+      <find>this.loader</find>
+      <find>unravel_stages</find>
+      <find>add_to_cart</find>
+      <find>this.reset</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -230,6 +237,24 @@
               <item name="peak" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="peak" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="peak" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
+              <item name="peak" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="products" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -332,21 +357,7 @@
       <workItem from="1532973514266" duration="4375000" />
       <workItem from="1533121012537" duration="7439000" />
       <workItem from="1533211209099" duration="6730000" />
-      <workItem from="1533566424586" duration="4686000" />
-    </task>
-    <task id="LOCAL-00041" summary="Brake Type in Stage 1 Options&#10;&#10;Brake Type -&gt; Brake Interface">
-      <created>1526923299934</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1526923299934</updated>
-    </task>
-    <task id="LOCAL-00042" summary="Fixing association Brake_Type -&gt; Brake Interface">
-      <created>1526927804780</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1526927804780</updated>
+      <workItem from="1533566424586" duration="5660000" />
     </task>
     <task id="LOCAL-00043" summary="Deployment ready with Rim Choice">
       <created>1527103516611</created>
@@ -677,11 +688,25 @@
       <option name="project" value="LOCAL" />
       <updated>1533214020461</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="subset of initial option values included for Rim query">
+      <created>1533573886763</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1533573886764</updated>
+    </task>
+    <task id="LOCAL-00091" summary="scrolling to top of the page on automatic stage 1 -&gt; stage 2 transition">
+      <created>1533574856238</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1533574856238</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="333389000" />
+    <option name="totallyTimeSpent" value="334363000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -700,10 +725,10 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.20355555" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.20355555" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" sideWeight="0.5011161" side_tool="true" weight="0.28751975" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.20266667" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.20266667" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -724,8 +749,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="switching back and forth implemented" />
-    <MESSAGE value="back and forth between rim&lt;-&gt;hub works" />
     <MESSAGE value="reseting choices on Front/Rear build" />
     <MESSAGE value="fixed unraveling options on front/rear" />
     <MESSAGE value="points of engagement implemented" />
@@ -749,7 +772,9 @@
     <MESSAGE value="removed not used special -options on page" />
     <MESSAGE value="top page scrolling implemented" />
     <MESSAGE value="cleansed up query" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleansed up query" />
+    <MESSAGE value="subset of initial option values included for Rim query" />
+    <MESSAGE value="scrolling to top of the page on automatic stage 1 -&gt; stage 2 transition" />
+    <option name="LAST_COMMIT_MESSAGE" value="scrolling to top of the page on automatic stage 1 -&gt; stage 2 transition" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1061,13 +1086,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/components/products/add-to-cart-form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
-          <caret line="10" column="21" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/core/forms/options/set-select.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -1117,10 +1135,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/components/products/add-to-cart-form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="92" column="65" selection-start-line="92" selection-start-column="54" selection-end-line="92" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="516" column="95" selection-start-line="516" selection-start-column="95" selection-end-line="516" selection-end-column="95" />
+        <state relative-caret-position="629">
+          <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
         </state>
       </provider>
     </entry>
