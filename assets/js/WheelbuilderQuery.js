@@ -1,9 +1,10 @@
 export default class WheelbuilderQuery {
-    constructor(product_attributes_on_page, common_options_roots) {
+    constructor(inventory_type, product_attributes_on_page, common_options_roots) {
         this.product_attributes_on_page = product_attributes_on_page;
         this.common_options = common_options_roots;
         this.initial_option_values = {}; // format {option_name: [], option_name1: []}
         this.query = {};
+        this.set('inventory_type', inventory_type)
     }
 
     log(message) {
@@ -58,8 +59,6 @@ export default class WheelbuilderQuery {
             // TODO to implement spokes, put spokes options here
             if (this.is_option_common(option_name)) {
                 mongo_query[option_name] = this.query[option_name];
-            // } else if (option_name === 'Rim Model'){
-            //     mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'inventory_type'){
                 mongo_query[option_name] = this.query[option_name];
             } else {

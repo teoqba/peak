@@ -116,12 +116,12 @@ export default class WheelbuilderFiltersStages {
 
             this.init_stage_one_two_options();
             // Define Query that will be used throughout the page
-            this.hub_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
-            this.hub_query.set('inventory_type', 'Hubs');
+            this.hub_query = new WheelbuilderQuery('Hubs', this.all_known_options, this.common_options_roots);
+            // this.hub_query.set('inventory_type', 'Hubs');
 
-            this.rim_query = new WheelbuilderQuery(this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+            this.rim_query = new WheelbuilderQuery('Rims', this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+            // this.rim_query.set('inventory_type', 'Rims');
 
-            this.rim_query.set('inventory_type', 'Rims');
             //Set initial values of selected options
             for (let i in this.wb_config.find_initial_subset_of_rim_options) {
                 let option_name = this.wb_config.find_initial_subset_of_rim_options[i];
@@ -275,8 +275,8 @@ export default class WheelbuilderFiltersStages {
 
     reset_choices_on_forward_button() {
         // reset hub_query
-        this.hub_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
-        this.hub_query.set('inventory_type', 'Hubs');
+        this.hub_query = new WheelbuilderQuery('Hubs', this.all_known_options, this.common_options_roots);
+        // this.hub_query.set('inventory_type', 'Hubs');
         this.analyze_disc_brake_options();
 
         // reset option sets
@@ -509,14 +509,14 @@ export default class WheelbuilderFiltersStages {
         // Used at class initialization.
         // Filters options in Stage 1, to avoid incompatible builds
         // Filter all the options based on the results find for Rim-Choice
-        let initial_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
+        let initial_query = new WheelbuilderQuery('Rims', this.all_known_options, this.common_options_roots);
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
             if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
                 option_values_array = this.find_options_values(option_name_alias);
                 initial_query.set(option_name_alias, option_values_array);
-                initial_query.set('inventory_type', 'Rims');
+                // initial_query.set('inventory_type', 'Rims');
                 initial_query.log("INITIAL QUERY");
             }
         }
@@ -694,6 +694,7 @@ export default class WheelbuilderFiltersStages {
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         // console.log("Query", query_object.log());
+        //TODO here is query is spoke: make duble query and post to diffent url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
 

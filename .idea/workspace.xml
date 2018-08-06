@@ -4,6 +4,7 @@
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,8 +21,8 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
+            <state>
+              <caret column="46" selection-start-column="33" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -47,8 +48,8 @@
       <file leaf-file-name="WheelbuilderQuery.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="669">
-              <caret line="83" column="91" selection-start-line="83" selection-start-column="91" selection-end-line="83" selection-end-column="91" />
+            <state relative-caret-position="915">
+              <caret line="61" column="54" selection-start-line="61" selection-start-column="40" selection-end-line="61" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -109,19 +110,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prepare_q</find>
-      <find>analyze_disc</find>
-      <find>results_par</find>
-      <find>parser</find>
-      <find>prepare_quer</find>
-      <find>initial_filter</find>
-      <find>result_parser_ini</find>
-      <find>finish_init</find>
-      <find>Rim Model</find>
-      <find>db</find>
-      <find>initial_q</find>
-      <find>common_op</find>
-      <find>DT</find>
       <find>in</find>
       <find>rim_hub_common_defaults</find>
       <find>rim_hub_common_options</find>
@@ -139,6 +127,19 @@
       <find>unravel_stages</find>
       <find>add_to_cart</find>
       <find>this.reset</find>
+      <find>ajax_post</find>
+      <find>inventory_type</find>
+      <find>all_known_rim_options</find>
+      <find>all_known_hub_options</find>
+      <find>common_options</find>
+      <find>all_known_optionsWhe</find>
+      <find>is_option_common</find>
+      <find>all_known_options</find>
+      <find>rim_query</find>
+      <find>rim_q</find>
+      <find>=hun</find>
+      <find>prepare_q</find>
+      <find>WheelbuilderQ</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -237,24 +238,6 @@
               <item name="peak" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
-              <item name="peak" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
-              <item name="peak" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="peak" type="b2602c69:ProjectViewProjectNode" />
-              <item name="peak" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="products" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -357,21 +340,7 @@
       <workItem from="1532973514266" duration="4375000" />
       <workItem from="1533121012537" duration="7439000" />
       <workItem from="1533211209099" duration="6730000" />
-      <workItem from="1533566424586" duration="5660000" />
-    </task>
-    <task id="LOCAL-00043" summary="Deployment ready with Rim Choice">
-      <created>1527103516611</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1527103516611</updated>
-    </task>
-    <task id="LOCAL-00044" summary="analyze_query added, fixed problem with removing Hole Count">
-      <created>1527362054257</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1527362054257</updated>
+      <workItem from="1533566424586" duration="8567000" />
     </task>
     <task id="LOCAL-00045" summary="setting &quot;Pick One...&quot; resets the selection">
       <created>1528226564651</created>
@@ -702,11 +671,25 @@
       <option name="project" value="LOCAL" />
       <updated>1533574856238</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="hiding/showing add-to-cart button">
+      <created>1533576729104</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1533576729104</updated>
+    </task>
+    <task id="LOCAL-00093" summary="refactored query">
+      <created>1533589606099</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1533589606099</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="334363000" />
+    <option name="totallyTimeSpent" value="337270000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -721,14 +704,15 @@
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.28751975" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.28751975" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.20355555" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.55377775" />
+      <window_info anchor="bottom" id="Version Control" order="9" visible="true" weight="0.20355555" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" sideWeight="0.5011161" side_tool="true" weight="0.28751975" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.20266667" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.20266667" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -738,7 +722,6 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.55448276" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -749,8 +732,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="reseting choices on Front/Rear build" />
-    <MESSAGE value="fixed unraveling options on front/rear" />
     <MESSAGE value="points of engagement implemented" />
     <MESSAGE value="disabling filtering and display for for non-filtered product" />
     <MESSAGE value="step label show and hide irrespective of handlebar templates" />
@@ -774,7 +755,9 @@
     <MESSAGE value="cleansed up query" />
     <MESSAGE value="subset of initial option values included for Rim query" />
     <MESSAGE value="scrolling to top of the page on automatic stage 1 -&gt; stage 2 transition" />
-    <option name="LAST_COMMIT_MESSAGE" value="scrolling to top of the page on automatic stage 1 -&gt; stage 2 transition" />
+    <MESSAGE value="hiding/showing add-to-cart button" />
+    <MESSAGE value="refactored query" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored query" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1114,24 +1097,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="83" selection-start-line="21" selection-start-column="83" selection-end-line="21" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="669">
-          <caret line="83" column="91" selection-start-line="83" selection-start-column="91" selection-end-line="83" selection-end-column="91" />
         </state>
       </provider>
     </entry>
@@ -1142,10 +1111,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="915">
+          <caret line="61" column="54" selection-start-line="61" selection-start-column="40" selection-end-line="61" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
+        <state>
+          <caret column="46" selection-start-column="33" selection-end-column="46" />
         </state>
       </provider>
     </entry>
