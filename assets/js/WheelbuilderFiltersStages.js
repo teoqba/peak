@@ -17,8 +17,8 @@ export default class WheelbuilderFiltersStages {
         this.initial_filter_done = false;
         this.all_known_rim_options = []; // not used here really, only in general wizard
         this.all_known_hub_options = []; // not used here really, only in general wizard
-        this.all_known_options = [];     // this will be used for option names aliasing
-        this.common_options_roots = [];  // not used here really, only in general wizard
+        this.all_known_options = [];
+        this.common_options_roots = [];
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
         // Buttons
@@ -116,12 +116,10 @@ export default class WheelbuilderFiltersStages {
 
             this.init_stage_one_two_options();
             // Define Query that will be used throughout the page
-            this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-                this.all_known_options, this.common_options_roots);
+            this.hub_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
             this.hub_query.set('inventory_type', 'Hubs');
 
-            this.rim_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-                this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
+            this.rim_query = new WheelbuilderQuery(this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
 
             this.rim_query.set('inventory_type', 'Rims');
             //Set initial values of selected options
@@ -210,9 +208,9 @@ export default class WheelbuilderFiltersStages {
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
         if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
+            // TODO: here we will decide if we do spoke query or hub query
             this.prepare_query($changedOption, this.hub_query);
         }
-
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
             this.prepare_query($changedOption, this.rim_query);
@@ -277,8 +275,7 @@ export default class WheelbuilderFiltersStages {
 
     reset_choices_on_forward_button() {
         // reset hub_query
-        this.hub_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-            this.all_known_options, this.common_options_roots);
+        this.hub_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
         this.hub_query.set('inventory_type', 'Hubs');
         this.analyze_disc_brake_options();
 
@@ -512,8 +509,7 @@ export default class WheelbuilderFiltersStages {
         // Used at class initialization.
         // Filters options in Stage 1, to avoid incompatible builds
         // Filter all the options based on the results find for Rim-Choice
-        let initial_query = new WheelbuilderQuery(this.all_known_rim_options, this.all_known_hub_options,
-            this.all_known_options, this.common_options_roots);
+        let initial_query = new WheelbuilderQuery(this.all_known_options, this.common_options_roots);
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];

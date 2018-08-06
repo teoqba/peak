@@ -1,8 +1,6 @@
 export default class WheelbuilderQuery {
-    constructor(rim_options, hub_options, all_known_options, common_options_roots) {
-        this.all_known_rim_options = rim_options;
-        this.all_known_hub_options = hub_options;
-        this.all_known_options = all_known_options;
+    constructor(product_attributes_on_page, common_options_roots) {
+        this.product_attributes_on_page = product_attributes_on_page;
         this.common_options = common_options_roots;
         this.initial_option_values = {}; // format {option_name: [], option_name1: []}
         this.query = {};
@@ -53,7 +51,7 @@ export default class WheelbuilderQuery {
 
     get_query() {
         let mongo_query = {};
-        mongo_query['attributes'] = this.all_known_options;
+        mongo_query['attributes'] = this.product_attributes_on_page;
         mongo_query['$and'] = [];
         // if Option is inventory or common options (eg. Hole Count) don't set it as mongo experssion, but make it direct
         for (let option_name in this.query){
