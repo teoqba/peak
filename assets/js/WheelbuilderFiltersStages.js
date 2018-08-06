@@ -19,7 +19,6 @@ export default class WheelbuilderFiltersStages {
         this.all_known_hub_options = []; // not used here really, only in general wizard
         this.all_known_options = [];     // this will be used for option names aliasing
         this.common_options_roots = [];  // not used here really, only in general wizard
-        this.rim_hub_common_options = {};// not used here really, only in general wizard
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
         // Buttons
@@ -123,9 +122,19 @@ export default class WheelbuilderFiltersStages {
                 this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
 
             this.rim_query.set('inventory_type', 'Rims');
+            //Set initial values of selected options
+            for (let i in this.wb_config.find_initial_subset_of_rim_options) {
+                let option_name = this.wb_config.find_initial_subset_of_rim_options[i];
+                let values = this.find_options_values(option_name);
+                this.rim_query.set_initial_option_values(option_name, values);
+            }
 
-            this.rim_hub_common_options = this.hub_query.rim_hub_common_defaults;
-            // this.show_all_options_on_page();
+            for (let i in this.wb_config.find_initial_subset_of_hub_options) {
+                let option_name = this.wb_config.find_initial_subset_of_hub_options[i];
+                let values = this.find_options_values(option_name);
+                this.hub_query.set_initial_option_values(option_name, values);
+            }
+
             this.hide_stage_two_stage_three_options();
             this.hide_non_filter_options();
             this.initial_filter();
@@ -480,6 +489,22 @@ export default class WheelbuilderFiltersStages {
         $('html,body').animate({scrollTop:0},scroll_duration);
     }
 
+    find_options_values(option_name) {
+        // For given option name, returns list with values associated wit this option
+        let option_values_array = [];
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+
+        if (option_name_alias != undefined) {
+            let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+            let $option_values_object = $option_object.find('.wb-option');
+            $option_values_object.each(function () {
+                let option_value = $(this).text();
+                option_values_array.push(option_value);
+            });
+        }
+        return option_values_array;
+    }
+
     initial_filter() {
         // Used at class initialization.
         // Filters options in Stage 1, to avoid incompatible builds
@@ -490,14 +515,7 @@ export default class WheelbuilderFiltersStages {
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
             if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
-                // if (initial_query.is_option_rim(option_name_alias)) {
-                // let $option_object = $(this.all_options_on_page[option_name]);
-                let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
-                let $option_values_object = $option_object.find('.wb-option');
-                $option_values_object.each(function(){
-                    let option_value = $(this).text();
-                    option_values_array.push(option_value);
-                });
+                option_values_array = this.find_options_values(option_name_alias);
                 initial_query.set(option_name_alias, option_values_array);
                 initial_query.set('inventory_type', 'Rims');
                 initial_query.log("INITIAL QUERY");
@@ -676,6 +694,7 @@ export default class WheelbuilderFiltersStages {
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
+        // console.log("Query", query_object.log());
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
 

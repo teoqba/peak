@@ -19,6 +19,11 @@ export default class WheelbuilderConfig {
             'Rear_Hub', 'Rear_Hub_Color', 'Points_of_Engagement',
             'Drivetrain_Type'];
 
+        // List of options for which subset of the values will be included in query
+        this.find_initial_subset_of_rim_options = ['Rim_Model', 'Rim_Choice'];
+        this.find_initial_subset_of_hub_options = [];
+
+
         // special attributes that will be optionally shown
         this.poe_option_name = 'Points_of_Engagement';
         this.front_bearing_upgrade = 'Front_Hub_Ceramic_Bearing_Upgrade';

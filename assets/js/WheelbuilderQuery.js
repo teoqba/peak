@@ -4,6 +4,7 @@ export default class WheelbuilderQuery {
         this.all_known_hub_options = hub_options;
         this.all_known_options = all_known_options;
         this.common_options = common_options_roots;
+        this.initial_option_values = {}; // format {option_name: [], option_name1: []}
         this.query = {};
     }
 
@@ -13,6 +14,18 @@ export default class WheelbuilderQuery {
        }
        let mongo_query = this.get_query();
        console.log(message, mongo_query);
+    }
+
+    set_initial_option_values(option_name, values_list) {
+        // for selected option_name sets values to values_list
+        // if this option_names will be reset by user, its value will be reverted to values list (see this.remove)
+        if (values_list.length > 0) {
+            this.initial_option_values[option_name] = values_list;
+            // if query does not have given option name set, set it.
+            if (!this.query.hasOwnProperty(option_name)) {
+                this.set(option_name, values_list);
+            }
+        }
     }
 
     is_option_rim(option_name) {
@@ -47,6 +60,8 @@ export default class WheelbuilderQuery {
             // TODO to implement spokes, put spokes options here
             if (this.is_option_common(option_name)) {
                 mongo_query[option_name] = this.query[option_name];
+            // } else if (option_name === 'Rim Model'){
+            //     mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'inventory_type'){
                 mongo_query[option_name] = this.query[option_name];
             } else {
@@ -66,5 +81,9 @@ export default class WheelbuilderQuery {
 
     remove(option_name) {
         delete this.query[option_name];
+        // if option_name has associated initial values, revert this option to these values
+        if (this.initial_option_values.hasOwnProperty(option_name)) {
+            this.set(option_name, this.initial_option_values[option_name])
+        }
     }
 }
