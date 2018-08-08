@@ -5,6 +5,7 @@ import WheelbuilderConfig from './WheelbuilderConfig.js';
 import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSelection";
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
 import WheelbuilderSpecialOptions from "./WheelbuilderSpecialOptions";
+import WheelbuilderHubSpokeConnector from "./WheelbuilderHubSpokeConnector";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -18,6 +19,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_rim_options = []; // not used here really, only in general wizard
         this.all_known_hub_options = []; // not used here really, only in general wizard
         this.all_known_options = [];
+        this.all_spoke_options = [];
         this.common_options_roots = [];
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
@@ -87,7 +89,8 @@ export default class WheelbuilderFiltersStages {
         // this is callback function called after ajax_get to fetch known set of options
         this.all_known_rim_options = query_result['rims_roots'];
         this.all_known_hub_options = query_result['hubs_roots'];
-        this.all_known_options = query_result['rims_hubs_roots'];
+        this.all_known_spokes_options = query_result['spokes_roots'];
+        this.all_known_options = query_result['rims_hubs_spokes_roots'];
         this.all_options_on_page = this.get_all_options_on_page(); // keep it here despite they are in init()
         this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
 
@@ -117,10 +120,8 @@ export default class WheelbuilderFiltersStages {
             this.init_stage_one_two_options();
             // Define Query that will be used throughout the page
             this.hub_query = new WheelbuilderQuery('Hubs', this.all_known_options, this.common_options_roots);
-            // this.hub_query.set('inventory_type', 'Hubs');
-
             this.rim_query = new WheelbuilderQuery('Rims', this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
-            // this.rim_query.set('inventory_type', 'Rims');
+            this.spoke_query = new WheelbuilderQuery('Spokes', this.all_known_spokes_options, this.common_options_roots);
 
             //Set initial values of selected options
             for (let i in this.wb_config.find_initial_subset_of_rim_options) {
@@ -135,6 +136,8 @@ export default class WheelbuilderFiltersStages {
                 this.hub_query.set_initial_option_values(option_name, values);
             }
 
+            this.hub_spoke_connector = new WheelbuilderHubSpokeConnector();
+            // this.hub_spoke_connector.init();
             this.hide_stage_two_stage_three_options();
             this.hide_non_filter_options();
             this.initial_filter();
@@ -208,8 +211,11 @@ export default class WheelbuilderFiltersStages {
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
         if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
-            // TODO: here we will decide if we do spoke query or hub query
-            this.prepare_query($changedOption, this.hub_query);
+            if (this.is_option_hub($changedOption)) {
+                this.prepare_query($changedOption, this.hub_query);
+            } else {
+                this.prepare_query($changedOption, this.spoke_query);
+            }
         }
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
@@ -230,7 +236,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     back_to_stage_one(){
-        // before showing user stage one again, save all the chocices he has done previously
+        // before showing user stage one again, save all the choices he has done previously
         // we will monitor what changes he had made
         // do js copy (not a deep copy but its ok since its only dictionary)
         this.saved_stage_one_choice = Object.assign({}, this.stage_one_options_on_page.get_current_selection());
@@ -547,6 +553,7 @@ export default class WheelbuilderFiltersStages {
             }
         }
         this.hub_query.set('Hole_Count', this.rim_query.get('Hole_Count'));
+        console.log("Query after stage one is done");
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -614,6 +621,14 @@ export default class WheelbuilderFiltersStages {
         let $form = $changedOption.parents('.form-field-options');
         let name = $form.find('.wb-option-display-name').text();
         return name.split(' ').join('_');
+    }
+
+    is_option_hub($changedOption) {
+        let option_name = this.get_name_of_changed_option($changedOption)
+        if (this.all_known_hub_options.indexOf(option_name) > -1) {
+            return true;
+        }
+        return false;
     }
 
     ajax_post(query, url, parser) {
@@ -730,8 +745,23 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
-        let all_known_options = parent.all_known_options; //aliases
+        console.log('Query result', query_result);
+
+        let inventory_type = query_result['inventory_type'];
+
+        // Filter appropriate options based on inventory type
+        let all_known_options = null; //aliases
+        if (inventory_type === 'Hubs') {
+            all_known_options = parent.all_known_hub_options;
+        } else if (inventory_type === 'Rims'){
+            all_known_options = parent.all_known_rim_options;
+        } else if (inventory_type === 'Spokes') {
+            all_known_options = parent.all_known_spokes_options;
+        } else {
+            all_known_options = parent.all_known_options;
+        }
+
+        // let all_known_options = parent.all_known_options; //aliases
         let all_options_on_page_aliased = parent.option_aliases.all_options_on_page_aliased;
         let special_options = parent.special_options;
         if (JSON.stringify(query_result) !== JSON.stringify({})) {
@@ -760,6 +790,21 @@ export default class WheelbuilderFiltersStages {
             }
         }
         special_options.show_hide(query_result);
+
+        if (inventory_type === 'Hubs') {
+            if ((parent.hub_spoke_connector.front_hub_style_changed(query_result)) ||
+                (parent.hub_spoke_connector.rear_hub_style_changed(query_result))){
+                console.log('Will fly spoke query');
+                parent.spoke_query.set('Spokes_Style', parent.hub_spoke_connector.last_spoke_style);
+                parent.spoke_query.log('SPOKE QUERY');
+                parent.ajax_post(parent.spoke_query.get_query(),parent.query_api_url.query, parent.result_parser);
+            }
+         } else if (inventory_type === 'Spokes') {
+            if (parent.hub_spoke_connector.spoke_style_changed(query_result)) {
+                console.log('Will fly hub query');
+            }
+        }
+
         parent.loader.hide();
     }
 

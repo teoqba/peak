@@ -4,7 +4,23 @@ export default class WheelbuilderQuery {
         this.common_options = common_options_roots;
         this.initial_option_values = {}; // format {option_name: [], option_name1: []}
         this.query = {};
-        this.set('inventory_type', inventory_type)
+        this.set('inventory_type', inventory_type);
+        this.add_special_attributes(inventory_type);
+
+    }
+
+    add_special_attributes(inventory_type) {
+        // Depending on inventory type add special attributes that are used in aggregation query, that does not
+        // exist as an option to select by user on product in the page
+        // Hub_Style attribute is added to query Hubs and Spokes
+        if (inventory_type === 'Spokes') {
+            this.product_attributes_on_page.push('Spokes_Style');
+        }
+
+        if (inventory_type === 'Hubs') {
+            this.product_attributes_on_page.push('Front_Hub_Style');
+            this.product_attributes_on_page.push('Rear_Hub_Style');
+        }
     }
 
     log(message) {
@@ -58,6 +74,8 @@ export default class WheelbuilderQuery {
         for (let option_name in this.query){
             // TODO to implement spokes, put spokes options here
             if (this.is_option_common(option_name)) {
+                mongo_query[option_name] = this.query[option_name];
+            } else if (option_name === 'Spokes_Style') {
                 mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'inventory_type'){
                 mongo_query[option_name] = this.query[option_name];
