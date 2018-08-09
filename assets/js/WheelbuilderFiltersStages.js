@@ -523,7 +523,7 @@ export default class WheelbuilderFiltersStages {
                 option_values_array = this.find_options_values(option_name_alias);
                 initial_query.set(option_name_alias, option_values_array);
                 // initial_query.set('inventory_type', 'Rims');
-                initial_query.log("INITIAL QUERY");
+                // initial_query.log("INITIAL QUERY");
             }
         }
         if (option_values_array.length !== 0) {
@@ -553,7 +553,6 @@ export default class WheelbuilderFiltersStages {
             }
         }
         this.hub_query.set('Hole_Count', this.rim_query.get('Hole_Count'));
-        console.log("Query after stage one is done");
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -745,7 +744,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        console.log('Query result', query_result);
+        // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
@@ -791,17 +790,37 @@ export default class WheelbuilderFiltersStages {
         }
         special_options.show_hide(query_result);
 
+        let run_spoke_query = false;
         if (inventory_type === 'Hubs') {
-            if ((parent.hub_spoke_connector.front_hub_style_changed(query_result)) ||
-                (parent.hub_spoke_connector.rear_hub_style_changed(query_result))){
-                console.log('Will fly spoke query');
+            if (parent.hub_spoke_connector.front_hub_style_changed(query_result)) { //returns true only on change from null to HubStyle
+                let hub_style = query_result['Front_Hub_Style'];
+                parent.hub_spoke_connector.set_front_hub_style(hub_style);
+                run_spoke_query = true;
+            }
+
+            if (parent.hub_spoke_connector.rear_hub_style_changed(query_result)) { //returns true only on change from null to HubStyle
+                let hub_style = query_result['Rear_Hub_Style'];
+                parent.hub_spoke_connector.set_rear_hub_style(hub_style);
+                run_spoke_query = true;
+            }
+
+            if (run_spoke_query) {
                 parent.spoke_query.set('Spokes_Style', parent.hub_spoke_connector.last_spoke_style);
                 parent.spoke_query.log('SPOKE QUERY');
-                parent.ajax_post(parent.spoke_query.get_query(),parent.query_api_url.query, parent.result_parser);
+                parent.ajax_post(parent.spoke_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
-         } else if (inventory_type === 'Spokes') {
+        }
+
+         if (inventory_type === 'Spokes') {
             if (parent.hub_spoke_connector.spoke_style_changed(query_result)) {
-                console.log('Will fly hub query');
+                let spoke_style = query_result['Spokes_Style'];
+                parent.hub_spoke_connector.set_front_hub_style(spoke_style);
+                parent.hub_spoke_connector.set_rear_hub_style(spoke_style);
+                parent.hub_spoke_connector.set_spoke_style(spoke_style);
+                parent.hub_query.set('Rear_Hub_Style', parent.hub_spoke_connector.last_rear_hub_style);
+                parent.hub_query.set('Front_Hub_Style', parent.hub_spoke_connector.last_front_hub_style);
+                parent.hub_query.log('HUB QUERY IN SPOKES QUERY');
+                parent.ajax_post(parent.hub_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
         }
 

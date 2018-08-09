@@ -1,63 +1,56 @@
+import WheelbuilderConfig from './WheelbuilderConfig.js';
+
 export default class WheelbuilderHubSpokeConnector {
     constructor() {
-        this.last_hub_style = null;
+        this.wb_config = new WheelbuilderConfig();
+
         this.last_front_hub_style = null;
         this.last_rear_hub_style = null;
         this.last_spoke_style = null;
     }
 
-
-    // hub_style_changed(query_result) {
-    //     let new_hub_style = query_result['Hub_Style'];
-    //     console.log('Got hub style', new_hub_style);
-    //     if (JSON.stringify(new_hub_style) !== JSON.stringify(this.last_hub_style)) {
-    //         this.last_hub_style = new_hub_style;
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     front_hub_style_changed(query_result) {
         let new_hub_style = query_result['Front_Hub_Style'];
-        console.log('Got hub front style', new_hub_style);
-        if (JSON.stringify(new_hub_style) !== JSON.stringify(this.last_front_hub_style)) {
-            this.last_front_hub_style = new_hub_style;
-            if (this.is_straight_pull(this.last_rear_hub_style)) {
-                this.last_spoke_style = this.last_rear_hub_style;
-            } else {
-                this.last_spoke_style = this.last_front_hub_style;
+        if (this.last_front_hub_style === null) {
+            if (JSON.stringify(new_hub_style) !== JSON.stringify(this.last_front_hub_style)) {
+                return true;
             }
-            return true;
         }
         return false;
+    }
+
+    set_front_hub_style(new_hub_style) {
+        this.last_front_hub_style = new_hub_style;
+        this.last_spoke_style = this.last_front_hub_style;
     }
 
     rear_hub_style_changed(query_result) {
         let new_hub_style = query_result['Front_Hub_Style'];
-        console.log('Got hub rear style', new_hub_style);
-        if (JSON.stringify(new_hub_style) !== JSON.stringify(this.last_rear_hub_style)) {
-            this.last_rear_hub_style = new_hub_style;
-            if (this.is_straight_pull(this.last_front_hub_style)) {
-                this.last_spoke_style = this.last_front_hub_style;
-            } else {
-                this.last_spoke_style = this.last_rear_hub_style;
+        if (this.rear_hub_style_changed === null) {
+            if (JSON.stringify(new_hub_style) !== JSON.stringify(this.last_rear_hub_style)) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    set_rear_hub_style(new_hub_style) {
+        this.last_rear_hub_style = new_hub_style;
+        this.last_spoke_style = this.last_rear_hub_style;
+    }
+
+    spoke_style_changed(query_result) {
+        let new_spoke_style = query_result['Spokes_Style'];
+        if (JSON.stringify(new_spoke_style) !== JSON.stringify(this.last_spoke_style)) {
             return true;
         }
         return false;
     }
 
-
-    spoke_style_changed(query_result) {
-        let new_spoke_style = query_result['Spokes_Style'];
-        console.log('Got hub spoke style', new_spoke_style);
-        if (JSON.stringify(new_spoke_style) !== JSON.stringify(this.last_spoke_style)) {
-            this.last_spoke_style = new_spoke_style;
-            this.last_front_hub_style = new_spoke_style;
-            this.last_rear_hub_style = new_spoke_style;
-            return true;
-        }
-        return false;
+    set_spoke_style(new_spoke_style) {
+        this.last_spoke_style = new_spoke_style;
+        this.last_front_hub_style = new_spoke_style;
+        this.last_rear_hub_style = new_spoke_style;
     }
 
     is_straight_pull(spoke_style) {
@@ -72,4 +65,11 @@ export default class WheelbuilderHubSpokeConnector {
         }
         return false;
     }
+
+    reset() {
+        this.last_front_hub_style = null;
+        this.last_rear_hub_style = null;
+        this.last_spoke_style = null;
+    }
+
 }

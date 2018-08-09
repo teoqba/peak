@@ -30,5 +30,8 @@ export default class WheelbuilderConfig {
         this.rear_bearing_upgrade = 'Rear_Hub_Ceramic_Bearing_Upgrade';
 
         this.special_options = [this.poe_option_name, this.rear_bearing_upgrade, this.front_bearing_upgrade];
+
+        // Spokes options
+        this.spokes_default_style = ["J-Bend", "Straight Pull"];
     }
 }
