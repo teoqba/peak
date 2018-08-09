@@ -558,7 +558,7 @@ export default class WheelbuilderFiltersStages {
 
     remove_option_from_page(option_name) {
         let option = this.option_aliases.all_options_on_page_aliased[option_name];
-        let $option_values_object = $(option).find('.wb-option')
+        let $option_values_object = $(option).find('.wb-option');
         // $option_values_object.remove(); // TODO: remove it or set it to Pick One...?
         delete this.option_aliases.all_options_on_page_aliased[option_name];
     }
