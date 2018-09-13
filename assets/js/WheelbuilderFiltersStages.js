@@ -39,7 +39,8 @@ export default class WheelbuilderFiltersStages {
 
         this.wb_config = new WheelbuilderConfig();
         //TODO: put those to WB_DB too
-        this.all_known_stage_one_options = ['Rim_Choice', 'Rim_Size', 'Hole_Count', 'Brake_Type', 'Rim_Model'];
+        this.all_known_stage_one_options = ['Front_Rim_Choice', 'Rear_Rim_Choice', 'Rim_Size', 'Front_Hole_Count',
+                                            'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
@@ -519,7 +520,8 @@ export default class WheelbuilderFiltersStages {
         let option_values_array = [];
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
-            if ((option_name_alias === 'Rim_Choice') || (option_name_alias === 'Rim_Model') ) {
+            if ((option_name_alias === 'Front_Rim_Choice') || (option_name_alias === 'Front_Rim_Model') ||
+                (option_name_alias === 'Rear_Rim_Choice') || (option_name_alias === 'Rear_Rim_Model')) {
                 option_values_array = this.find_options_values(option_name_alias);
                 initial_query.set(option_name_alias, option_values_array);
                 // initial_query.set('inventory_type', 'Rims');
@@ -552,7 +554,8 @@ export default class WheelbuilderFiltersStages {
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
-        this.hub_query.set('Hole_Count', this.rim_query.get('Hole_Count'));
+        this.hub_query.set('Front_Hole_Count', this.rim_query.get('Front_Hole_Count'));
+        this.hub_query.set('Rear_Hole_Count', this.rim_query.get('Rear_Hole_Count'));
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -707,7 +710,7 @@ export default class WheelbuilderFiltersStages {
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        // console.log("Query", query_object.log());
+        console.log("Query", query_object.log());
         //TODO here is query is spoke: make duble query and post to diffent url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -744,7 +747,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
+        console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 

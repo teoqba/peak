@@ -20,7 +20,7 @@ export default class WheelbuilderConfig {
             'Drivetrain_Type'];
 
         // List of options for which subset of the values will be included in query
-        this.find_initial_subset_of_rim_options = ['Rim_Model', 'Rim_Choice'];
+        this.find_initial_subset_of_rim_options = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Rim_Choice', 'Rear_Rim_Choice'];
         this.find_initial_subset_of_hub_options = [];
 
 
