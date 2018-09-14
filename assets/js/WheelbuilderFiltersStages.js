@@ -194,10 +194,10 @@ export default class WheelbuilderFiltersStages {
         // analyzes which "hiddable" Front/Rear wheel options in Stage 1 are on page
         for(let key in this.option_aliases.all_options_on_page_aliased) {
             if ((this.all_known_stage_one_options.indexOf(key) > -1) &&
-                (this.wb_config.front_wheel_options_stage_1.indexOf(key) > -1)) {
+                (this.wb_config.front_wheel_options_stage_one.indexOf(key) > -1)) {
                 this.stage_one_front_wheel_options_on_page.push(key);
             } else if ((this.all_known_stage_one_options.indexOf(key) > -1) &&
-                (this.wb_config.rear_wheel_options_stage_1.indexOf(key) > -1)){
+                (this.wb_config.rear_wheel_options_stage_one.indexOf(key) > -1)){
                 this.stage_one_rear_wheel_options_on_page.push(key);
             }
 
@@ -426,7 +426,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     show_all_options() {
-        console.log("Starting to show all options");
         for (let option_name in this.option_aliases.all_options_on_page_aliased) {
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
@@ -440,6 +439,8 @@ export default class WheelbuilderFiltersStages {
             if ((!this.stage_one_options_on_page.have_member(option_name)) &&
                 (!this.stage_two_options_on_page.have_member(option_name)) &&
                 (is_hidden_front_rear < 0) &&
+                (this.wb_config.front_wheel_options_stage_one.indexOf(option_name) < 0 ) && // checks if option does not belong to hiddable stage 1 options
+                (this.wb_config.rear_wheel_options_stage_one.indexOf(option_name) < 0 ) && // checks if option does not belong to hiddable stage 1 options
                 (!is_special_option_hidden)) {
                 let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
                 option_object.show();
@@ -800,7 +801,7 @@ export default class WheelbuilderFiltersStages {
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        console.log("Query", query_object.log());
+        // console.log("Query", query_object.log());
         //TODO here is query is spoke: make duble query and post to diffent url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -837,7 +838,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        console.log('Query result', query_result);
+        // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 

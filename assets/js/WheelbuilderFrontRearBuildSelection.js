@@ -8,8 +8,8 @@ export default class WheelbuilderFrontRearBuildSelection {
         this.front_wheel_options = this.wb_config.front_wheel_options;
         this.rear_wheel_options = this.wb_config.rear_wheel_options;
 
-        this.front_wheel_options_stage_1 = this.wb_config.front_wheel_options_stage_1;
-        this.rear_wheel_options_stage_1 = this.wb_config.rear_wheel_options_stage_1;
+        this.front_wheel_options_stage_one = this.wb_config.front_wheel_options_stage_one;
+        this.rear_wheel_options_stage_one = this.wb_config.rear_wheel_options_stage_one;
 
         this.option_aliases = option_aliases;
         this.all_other_options_on_page = all_other_options_on_page;
