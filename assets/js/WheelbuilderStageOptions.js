@@ -1,5 +1,6 @@
 import WheelbuilderConfig from './WheelbuilderConfig';
 
+// collects options associated with given Stage that are present on page
 export default class WheelbuilderStageOptions {
     constructor() {
         this.options = {};

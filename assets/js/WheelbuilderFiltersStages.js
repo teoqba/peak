@@ -24,7 +24,7 @@ export default class WheelbuilderFiltersStages {
         this.page_in_rim_choice_mode = true; // used to switch between query for rim or hubs
 
         // Buttons
-        this.$reset_button = this.$parent_page.find('.wb-reset-button');
+        this.$start_over_button = this.$parent_page.find('.wb-start-over-button');
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.add_to_cart_button = $('.add-to-cart');
@@ -32,7 +32,7 @@ export default class WheelbuilderFiltersStages {
         this.step_label = new WheelbuilderStepLabel(this.$parent_page);
         // to remove it from regular product page, hide stuff until enable_filtering === true to
         this.step_label.init();
-        this.$reset_button.hide();
+        this.$start_over_button.hide();
         this.step_label.hide();
 
         this.enable_filtering = false; // is set to false filtering will not start
@@ -79,7 +79,7 @@ export default class WheelbuilderFiltersStages {
 
     buttons_event_handler() {
         var self = this; //https://stackoverflow.com/questions/3365005/calling-class-methods-within-jquery-function
-        this.$reset_button.on("click", function() {self.resetSelection()});
+        this.$start_over_button.on("click", function() {self.startOver()});
         this.$back_button.on("click", function() {self.back_to_stage_one()});
         this.$next_button.on("click", function() {self.forward_to_stage_two_three()});
 
@@ -149,7 +149,7 @@ export default class WheelbuilderFiltersStages {
             this.initial_filter();
             this.analyze_disc_brake_options();
 
-            this.$reset_button.show();
+            this.$start_over_button.show();
             this.step_label.show();
             // handle buttons events
             this.buttons_event_handler();
@@ -212,17 +212,8 @@ export default class WheelbuilderFiltersStages {
                     // user clicked one of the dropdown options
                     this.divide_into_stages_and_query($changedOption);
                 } else if (this.get_name_of_changed_option($changedOption) === this.wb_config.build_type_option_name){
-                    // user clicked one of Front/Rear/Wheelset buttons while in Stage 1
-                    let to_hide = this.wb_front_rear_selection.get_stage_one_front_rear_options_to_hide(this.stage_one_finished);
-                    if (to_hide === 'rear') {
-                        this.hide_stage_one_rear_wheel_options();
-                    } else if (to_hide === 'front'){
-                        this.hide_stage_one_front_wheel_options();
-                    } else {
-                        this.show_stage_one_front_rear_options();
-                    }
+                    this.stage_one_front_rear_options_control();
                 }
-                console.log("Stage one options on page: ", this.stage_one_options_on_page);
             }
         }
     }
@@ -522,12 +513,24 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    stage_one_front_rear_options_control(){
+        // controls hiding/showing Front/Rear wheel related options in Stage 1
+        // depending on Wheel Build Type Selection (Front/Rear/Wheelset)
+        let to_hide = this.wb_front_rear_selection.get_stage_one_front_rear_options_to_hide(this.stage_one_finished);
+        if (to_hide === 'rear') {
+            this.hide_stage_one_rear_wheel_options();
+        } else if (to_hide === 'front'){
+            this.hide_stage_one_front_wheel_options();
+        } else { //wheelset
+            this.show_stage_one_front_rear_options();
+        }
+    }
+
     hide_stage_one_front_wheel_options() {
         for (let i=0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
-            console.log("Removing", option_name);
-            // this.remove_option_from_page(option_name);
             this.stage_one_options_on_page.remove_option(option_name);
+            this.resetOptionSelection(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.hide();
         }
@@ -544,12 +547,12 @@ export default class WheelbuilderFiltersStages {
         for (let i = 0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
             this.stage_one_options_on_page.remove_option(option_name);
+            this.resetOptionSelection(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.hide();
         }
         for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
-            // this.remove_option_from_page(option_name);
             this.stage_one_options_on_page.set(option_name, null);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
@@ -942,15 +945,22 @@ export default class WheelbuilderFiltersStages {
                 }
             }
         }
+        parent.stage_one_front_rear_options_control();
     }
 
-    resetSelection() {
-        // Implementation for reset button
+    resetOptionSelection(option_name) {
+        // resets current selection in given option
+        let option = this.option_aliases.all_options_on_page_aliased[option_name];
+        this.zeroth_option_alternative_to_default_name($(option));
+        let $option_values_object = $(option).find('.wb-empty-option');
+        $option_values_object.prop('selected', true)
+    }
+
+
+    startOver() {
+        // Implementation for Start Over button
         for (let option_name in this.all_options_on_page) {
-            let option = this.option_aliases.all_options_on_page_aliased[option_name];
-            this.zeroth_option_alternative_to_default_name($(option));
-            let $option_values_object = $(option).find('.wb-empty-option');
-            $option_values_object.prop('selected', true)
+            this.resetOptionSelection(option_name);
         }
         // show all options values that were hidden before by the filters
         for (let option_name in this.all_options_on_page) {
