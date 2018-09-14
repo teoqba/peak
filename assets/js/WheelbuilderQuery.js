@@ -66,6 +66,14 @@ export default class WheelbuilderQuery {
         return this.query[option_name]
     }
 
+    has_option(option_name) {
+        if (this.query.hasOwnProperty(option_name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     get_query() {
         let mongo_query = {};
         mongo_query['attributes'] = this.product_attributes_on_page;

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="working prototype of spokes filtering">
+    <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,11 +23,8 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="713" column="26" selection-start-line="713" selection-start-column="26" selection-end-line="713" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#52#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="458">
+              <caret line="644" column="9" selection-start-line="644" selection-start-column="9" selection-end-line="644" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -33,17 +32,8 @@
       <file leaf-file-name="WheelbuilderStageOptions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WheelbuilderHubSpokeConnector.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderHubSpokeConnector.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="50" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="50" />
+            <state relative-caret-position="15">
+              <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -51,8 +41,8 @@
       <file leaf-file-name="WheelbuilderFrontRearBuildSelection.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="67" column="7" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="7" />
+            <state relative-caret-position="261">
+              <caret line="52" column="51" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -60,8 +50,8 @@
       <file leaf-file-name="WheelbuilderConfig.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+            <state relative-caret-position="330">
+              <caret line="22" column="95" selection-start-line="22" selection-start-column="95" selection-end-line="22" selection-end-column="95" />
             </state>
           </provider>
         </entry>
@@ -69,8 +59,8 @@
       <file leaf-file-name="WheelbuilderQuery.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="72" column="57" selection-start-line="72" selection-start-column="57" selection-end-line="72" selection-end-column="57" />
+            <state relative-caret-position="396">
+              <caret line="73" column="9" lean-forward="true" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -95,26 +85,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>initial_fi</find>
-      <find>result_pa</find>
-      <find>show_hide</find>
-      <find>all_known_options</find>
-      <find>this.all_known_options</find>
-      <find>results_parse</find>
-      <find>results_parser</find>
-      <find>results_par</find>
-      <find>hiding</find>
-      <find>inven</find>
-      <find>last_hub_style</find>
-      <find>filter_after_stage</find>
-      <find>promise</find>
-      <find>ajax_get</find>
-      <find>filter_after_stage_one_is_done</find>
-      <find>result_parser</find>
-      <find>console</find>
-      <find>cons</find>
-      <find>INITIAL</find>
-      <find>finish_init</find>
       <find>Hole Count</find>
       <find>Count</find>
       <find>Hole_Count</find>
@@ -125,6 +95,26 @@
       <find>Rim_Model</find>
       <find>rim_q</find>
       <find>hub_q</find>
+      <find>filter</find>
+      <find>unrae</find>
+      <find>unra</find>
+      <find>bac</find>
+      <find>stage_two_options_one</find>
+      <find>stage_one_options_on_page</find>
+      <find>init_stage</find>
+      <find>save =</find>
+      <find>filter_stages</find>
+      <find>filter_opt</find>
+      <find>option_aliases</find>
+      <find>stage_one_front_wheel_options_on_page_save</find>
+      <find>Trying to hide</find>
+      <find>Tt</find>
+      <find>hide_</find>
+      <find>unravel_stage</find>
+      <find>stage_two_options_on_page</find>
+      <find>hide_stage</find>
+      <find>filter_after_sta</find>
+      <find>filter_after_stage_one</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -164,7 +154,6 @@
         <option value="$PROJECT_DIR$/assets/js/theme/WheelbuilderConfig.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderBuildType.js" />
         <option value="$PROJECT_DIR$/templates/core/forms/options/set-select.html" />
-        <option value="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderPageModeSwitcher.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderSpecialAttributes.js" />
         <option value="$PROJECT_DIR$/assets/js/theme/product/ProductUtils.js" />
@@ -179,9 +168,10 @@
         <option value="$PROJECT_DIR$/Wheelbuilder.md" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderHubSpokeSwicher.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderHubSpokeSwitcher.js" />
-        <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderHubSpokeConnector.js" />
+        <option value="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" />
+        <option value="$PROJECT_DIR$/assets/js/WheelbuilderQuery.js" />
         <option value="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" />
       </list>
     </option>
@@ -330,13 +320,8 @@
       <workItem from="1533211209099" duration="6730000" />
       <workItem from="1533566424586" duration="28470000" />
       <workItem from="1536774916071" duration="2294000" />
-    </task>
-    <task id="LOCAL-00048" summary="POE changed">
-      <created>1528659604258</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1528659604258</updated>
+      <workItem from="1536864408773" duration="3702000" />
+      <workItem from="1536941433110" duration="3699000" />
     </task>
     <task id="LOCAL-00049" summary="Front/Rear slection enabled, congif added">
       <created>1528919653832</created>
@@ -674,11 +659,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536781858586</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="front - rear rim working">
+      <created>1536864664961</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1536864664961</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="359890000" />
+    <option name="totallyTimeSpent" value="367291000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -690,17 +682,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="2560" height="1440" extended-state="0" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.09058685" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.2279587" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.55377775" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.10769231" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.2137931" />
       <window_info id="Structure" order="1" sideWeight="0.5011161" side_tool="true" weight="0.28751975" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.14344828" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.14344828" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -710,6 +702,7 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.55377775" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -720,7 +713,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="fixed problem with filtering crashing when HoleCount was the last option in stage 1" />
     <MESSAGE value="fixed that on Disc Options reset, no Rim Brake choice appears" />
     <MESSAGE value="reseting Rim choice on forward button reset" />
     <MESSAGE value="ceramic bearin upgrade implemented" />
@@ -745,7 +737,8 @@
     <MESSAGE value="query inventory type set internally in query object" />
     <MESSAGE value="working prototype of spokes filtering" />
     <MESSAGE value="before dividing into fron-rear rim" />
-    <option name="LAST_COMMIT_MESSAGE" value="before dividing into fron-rear rim" />
+    <MESSAGE value="front - rear rim working" />
+    <option name="LAST_COMMIT_MESSAGE" value="front - rear rim working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -763,9 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1560">
           <caret line="104" column="42" lean-forward="true" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1060,31 +1050,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderOptionAliases.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="46" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderSpecialOptions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="67" column="7" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1102,27 +1071,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderSpecialOptions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="72" column="57" selection-start-line="72" selection-start-column="57" selection-end-line="72" selection-end-column="57" />
+        <state relative-caret-position="480">
+          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderStageOptions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderConfig.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="17" column="35" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+        <state relative-caret-position="330">
+          <caret line="22" column="95" selection-start-line="22" selection-start-column="95" selection-end-line="22" selection-end-column="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="52" column="51" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="73" column="9" lean-forward="true" selection-start-line="73" selection-start-column="9" selection-end-line="73" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="713" column="26" selection-start-line="713" selection-start-column="26" selection-end-line="713" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="458">
+          <caret line="644" column="9" selection-start-line="644" selection-start-column="9" selection-end-line="644" selection-end-column="9" />
         </state>
       </provider>
     </entry>

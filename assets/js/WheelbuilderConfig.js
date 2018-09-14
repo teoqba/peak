@@ -19,6 +19,9 @@ export default class WheelbuilderConfig {
             'Rear_Hub', 'Rear_Hub_Color', 'Points_of_Engagement',
             'Drivetrain_Type'];
 
+        this.front_wheel_options_stage_1 = ['Front_Hole_Count', 'Front_Rim_Choice', 'Front_Rim_Model'];
+        this.rear_wheel_options_stage_1 =['Rear_Hole_Count', 'Rear_Rim_Choice', 'Rear_Rim_Model'];
+
         // List of options for which subset of the values will be included in query
         this.find_initial_subset_of_rim_options = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Rim_Choice', 'Rear_Rim_Choice'];
         this.find_initial_subset_of_hub_options = [];

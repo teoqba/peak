@@ -8,6 +8,9 @@ export default class WheelbuilderFrontRearBuildSelection {
         this.front_wheel_options = this.wb_config.front_wheel_options;
         this.rear_wheel_options = this.wb_config.rear_wheel_options;
 
+        this.front_wheel_options_stage_1 = this.wb_config.front_wheel_options_stage_1;
+        this.rear_wheel_options_stage_1 = this.wb_config.rear_wheel_options_stage_1;
+
         this.option_aliases = option_aliases;
         this.all_other_options_on_page = all_other_options_on_page;
         this.is_front_wheel_hidden = false;
@@ -40,9 +43,24 @@ export default class WheelbuilderFrontRearBuildSelection {
             } else { //Wheelset
                 return [];
             }
+        } else {
+            return []; //nothing to hide
         }
     }
 
+     get_stage_one_front_rear_options_to_hide() {
+        // if Front Wheel button selected - return 'rear'
+        // if Rear Wheel button selected - return 'front'
+        // if Wheelset button selected - return 'wheelset'
+        let wheel_build_type = this.get_wheel_build_type();
+        if (wheel_build_type === 'Front Wheel') {
+            return 'rear';
+        } else if (wheel_build_type === 'Rear Wheel') {
+            return 'front';
+        } else { //Wheelset
+            return 'wheelset';
+        }
+    }
 
     disable_selections() {
         const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];

@@ -49,9 +49,13 @@ export default class WheelbuilderFiltersStages {
         // If all the null values are changed to option_values, given stage is considered done
         this.stage_one_options_on_page = new WheelbuilderStageOptions();
         this.stage_two_options_on_page = new WheelbuilderStageOptions();
+        // These variables control hide/show options in Stage 1 upon pressing Front/Rear/Wheelset buttons
+        this.stage_one_front_wheel_options_on_page = [];
+        this.stage_one_rear_wheel_options_on_page = [];
+
         this.stage_one_finished = false;
         this.stage_two_finished = false;
-        this.stage_one_first_pass = true; //fires hub query after all selection in Stage 1 is done
+        this.stage_one_first_pass = true; // fires hub query after all selection in Stage 1 is done
         this.stage_two_first_pass = true; // enables that on each option choice, the code does not try to reveal stage3 options
 
         this.saved_stage_one_choice = {};
@@ -119,6 +123,7 @@ export default class WheelbuilderFiltersStages {
             this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
 
             this.init_stage_one_two_options();
+            this.init_stage_one_front_rear_options_on_page();
             // Define Query that will be used throughout the page
             this.hub_query = new WheelbuilderQuery('Hubs', this.all_known_options, this.common_options_roots);
             this.rim_query = new WheelbuilderQuery('Rims', this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
@@ -185,13 +190,39 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    init_stage_one_front_rear_options_on_page(){
+        // analyzes which "hiddable" Front/Rear wheel options in Stage 1 are on page
+        for(let key in this.option_aliases.all_options_on_page_aliased) {
+            if ((this.all_known_stage_one_options.indexOf(key) > -1) &&
+                (this.wb_config.front_wheel_options_stage_1.indexOf(key) > -1)) {
+                this.stage_one_front_wheel_options_on_page.push(key);
+            } else if ((this.all_known_stage_one_options.indexOf(key) > -1) &&
+                (this.wb_config.rear_wheel_options_stage_1.indexOf(key) > -1)){
+                this.stage_one_rear_wheel_options_on_page.push(key);
+            }
+
+        }
+    }
+
     filter_options($changedOption) {
         // Main call. This is called from ProductUtils page.
         if (this.enable_filtering) {
             if (this.initial_filter_done) {
                 if (this.get_name_of_changed_option($changedOption) !== this.wb_config.build_type_option_name) {
+                    // user clicked one of the dropdown options
                     this.divide_into_stages_and_query($changedOption);
+                } else if (this.get_name_of_changed_option($changedOption) === this.wb_config.build_type_option_name){
+                    // user clicked one of Front/Rear/Wheelset buttons while in Stage 1
+                    let to_hide = this.wb_front_rear_selection.get_stage_one_front_rear_options_to_hide(this.stage_one_finished);
+                    if (to_hide === 'rear') {
+                        this.hide_stage_one_rear_wheel_options();
+                    } else if (to_hide === 'front'){
+                        this.hide_stage_one_front_wheel_options();
+                    } else {
+                        this.show_stage_one_front_rear_options();
+                    }
                 }
+                console.log("Stage one options on page: ", this.stage_one_options_on_page);
             }
         }
     }
@@ -491,6 +522,58 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    hide_stage_one_front_wheel_options() {
+        for (let i=0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_front_wheel_options_on_page[i];
+            console.log("Removing", option_name);
+            // this.remove_option_from_page(option_name);
+            this.stage_one_options_on_page.remove_option(option_name);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.hide();
+        }
+
+        for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_rear_wheel_options_on_page[i];
+            this.stage_one_options_on_page.set(option_name, null);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.show();
+        }
+    }
+
+    hide_stage_one_rear_wheel_options() {
+        for (let i = 0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_rear_wheel_options_on_page[i];
+            this.stage_one_options_on_page.remove_option(option_name);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.hide();
+        }
+        for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_front_wheel_options_on_page[i];
+            // this.remove_option_from_page(option_name);
+            this.stage_one_options_on_page.set(option_name, null);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.show();
+        }
+    }
+
+    show_stage_one_front_rear_options() {
+        for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_rear_wheel_options_on_page[i];
+            this.stage_one_options_on_page.set(option_name, null);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.show();
+        }
+
+        for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
+            let option_name = this.stage_one_front_wheel_options_on_page[i];
+            // this.remove_option_from_page(option_name);
+            this.stage_one_options_on_page.set(option_name, null);
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+            option_object.show();
+        }
+
+    }
+
     scroll_to_top_of_page(){
         let scroll_duration = 500;
         $('html,body').animate({scrollTop:0},scroll_duration);
@@ -554,8 +637,12 @@ export default class WheelbuilderFiltersStages {
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
         }
-        this.hub_query.set('Front_Hole_Count', this.rim_query.get('Front_Hole_Count'));
-        this.hub_query.set('Rear_Hole_Count', this.rim_query.get('Rear_Hole_Count'));
+        if (this.rim_query.has_option('Front_Hole_Count')) {
+            this.hub_query.set('Front_Hole_Count', this.rim_query.get('Front_Hole_Count'));
+        }
+        if (this.rim_query.has_option('Rear_Hole_Count')) {
+            this.hub_query.set('Rear_Hole_Count', this.rim_query.get('Rear_Hole_Count'));
+        }
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
