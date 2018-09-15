@@ -66,6 +66,7 @@ export default class WheelbuilderFiltersStages {
             "query": "http://13.56.207.152:8000/wbdb_query"};
         // handle the loading spinner
         this.loader = $('#wb-load-spinner');
+
     }
 
     init() {
@@ -121,6 +122,7 @@ export default class WheelbuilderFiltersStages {
 
             this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
             this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
+            this.is_previous_option_wheelset = false;
 
             this.init_stage_one_two_options();
             this.init_stage_one_front_rear_options_on_page();
@@ -519,12 +521,16 @@ export default class WheelbuilderFiltersStages {
         // depending on Wheel Build Type Selection (Front/Rear/Wheelset)
         let to_hide = this.wb_front_rear_selection.get_stage_one_front_rear_options_to_hide(this.stage_one_finished);
         if (to_hide === 'rear') {
-            this.hide_stage_one_rear_wheel_options();
+            this.hide_stage_one_rear_wheel_options(this.is_previous_option_wheelset);
+            this.is_previous_option_wheelset = false;
         } else if (to_hide === 'front'){
-            this.hide_stage_one_front_wheel_options();
+            this.hide_stage_one_front_wheel_options(this.is_previous_option_wheelset);
+            this.is_previous_option_wheelset = false;
         } else { //wheelset
             this.show_stage_one_front_rear_options();
+            this.is_previous_option_wheelset = true;
         }
+        // console.log('stage one options on page ', this.stage_one_options_on_page)
     }
 
     hide_stage_one_front_wheel_options() {
@@ -538,7 +544,9 @@ export default class WheelbuilderFiltersStages {
 
         for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
-            this.stage_one_options_on_page.set(option_name, null);
+            if (this.is_previous_option_wheelset === false) {
+                this.stage_one_options_on_page.set(option_name, null);
+            }
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
@@ -554,7 +562,9 @@ export default class WheelbuilderFiltersStages {
         }
         for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
-            this.stage_one_options_on_page.set(option_name, null);
+            if (this.is_previous_option_wheelset === false) {
+                this.stage_one_options_on_page.set(option_name, null);
+            }
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
@@ -563,7 +573,9 @@ export default class WheelbuilderFiltersStages {
     show_stage_one_front_rear_options() {
         for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
-            this.stage_one_options_on_page.set(option_name, null);
+            if (this.stage_one_options_on_page.have_member(option_name) === false) {
+                this.stage_one_options_on_page.set(option_name, null);
+            }
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
@@ -571,7 +583,9 @@ export default class WheelbuilderFiltersStages {
         for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
             // this.remove_option_from_page(option_name);
-            this.stage_one_options_on_page.set(option_name, null);
+            if (this.stage_one_options_on_page.have_member(option_name) === false) {
+                this.stage_one_options_on_page.set(option_name, null);
+            }
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }

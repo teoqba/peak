@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2d47bc1-8946-4c3f-be36-438797dd510a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/WheelbuilderFrontRearBuildSelection.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,8 +20,11 @@
       <file leaf-file-name="WheelbuilderFiltersStages.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="443" column="42" selection-start-line="443" selection-start-column="18" selection-end-line="443" selection-end-column="42" />
+            <state relative-caret-position="176">
+              <caret line="533" column="5" lean-forward="true" selection-start-line="533" selection-start-column="5" selection-end-line="533" selection-end-column="5" />
+              <folding>
+                <marker date="1537016831000" expanded="true" signature="28427:28452" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,8 +58,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>stage_one_options_on_page</find>
-      <find>init_stage</find>
       <find>save =</find>
       <find>filter_stages</find>
       <find>filter_opt</find>
@@ -83,10 +82,12 @@
       <find>stage_one_fr</find>
       <find>initial_filter</find>
       <find>stage_one_front_rear_options_control</find>
-      <find>console.log</find>
       <find>stage_th</find>
       <find>show_all</find>
       <find>show_rem</find>
+      <find>control</find>
+      <find>is_previous_option_wheelset</find>
+      <find>console.log</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -293,14 +294,7 @@
       <workItem from="1533566424586" duration="28470000" />
       <workItem from="1536774916071" duration="2294000" />
       <workItem from="1536864408773" duration="3702000" />
-      <workItem from="1536941433110" duration="7141000" />
-    </task>
-    <task id="LOCAL-00051" summary="disabling front/rear options after stage 1">
-      <created>1529242079156</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1529242079156</updated>
+      <workItem from="1536941433110" duration="9369000" />
     </task>
     <task id="LOCAL-00052" summary="working version of show/hide">
       <created>1529252835380</created>
@@ -638,11 +632,18 @@
       <option name="project" value="LOCAL" />
       <updated>1536952736323</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="propery hiding options on stage 3">
+      <created>1536954554191</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1536954554191</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="370733000" />
+    <option name="totallyTimeSpent" value="372961000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -657,13 +658,13 @@
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.2279587" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888393" visible="true" weight="0.2279587" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32827586" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.55310345" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.2137931" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="9" visible="true" weight="0.2137931" />
       <window_info id="Structure" order="1" sideWeight="0.5011161" side_tool="true" weight="0.28751975" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.14344828" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -685,7 +686,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="SHOW_FILE_HISTORY_DETAILS" value="false" />
-    <MESSAGE value="ceramic bearin upgrade implemented" />
     <MESSAGE value="removing printout" />
     <MESSAGE value="new servers, special optiopns resets selections when hidden" />
     <MESSAGE value="hiding reaminig non_filter options" />
@@ -710,7 +710,8 @@
     <MESSAGE value="front - rear rim working" />
     <MESSAGE value="working prototype of hiding/showing stage 1 options depending on build type" />
     <MESSAGE value="hiding/showing stage 1 options depending on build type on start" />
-    <option name="LAST_COMMIT_MESSAGE" value="hiding/showing stage 1 options depending on build type on start" />
+    <MESSAGE value="propery hiding options on stage 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="propery hiding options on stage 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -728,6 +729,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1560">
           <caret line="104" column="42" lean-forward="true" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+          <folding>
+            <marker date="1537016831000" expanded="true" signature="28427:28452" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1080,8 +1084,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/WheelbuilderFiltersStages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="443" column="42" selection-start-line="443" selection-start-column="18" selection-end-line="443" selection-end-column="42" />
+        <state relative-caret-position="176">
+          <caret line="533" column="5" lean-forward="true" selection-start-line="533" selection-start-column="5" selection-end-line="533" selection-end-column="5" />
+          <folding>
+            <marker date="1537016831000" expanded="true" signature="28427:28452" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
