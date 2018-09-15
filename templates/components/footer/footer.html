@@ -20,12 +20,20 @@
           <p>{{settings.phone_number}}</p>
         </div>
       {{/if}}
-      {{#if social_media.length}}
+      {{#any social_media.length theme_settings.geotrust-ssl-common-name}}
         <div class="footer-col footer-social">
-          <h4 class="footer-title">{{lang 'footer.social_title'}}</h4>
-          {{> components/common/social-media-links links=social_media}}
+          {{#if social_media.length}}
+            <h4 class="footer-title">{{lang 'footer.social_title'}}</h4>
+                {{> components/common/social-media-links links=social_media}}
+          {{/if}}
+           <div class="footer-newsletter-signup">
+                {{> components/common/newsletter-signup}}
+            </div>
+          {{#if theme_settings.geotrust-ssl-common-name}}
+            {{> core/geotrust-ssl-seal}}
+          {{/if}}
         </div>
-      {{/if}}
+      {{/any}}
     </div>
 
 

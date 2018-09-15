@@ -1,4 +1,4 @@
-/*! Theme: Peak v1.14.0 */
+/*! Theme: Peak v1.18.1 */
 // Libraries
 /* scss-combine:../../node_modules/normalize.scss/normalize */
 /*! normalize.scss v0.1.0 | MIT License | based on git.io/normalize */
@@ -6918,6 +6918,17 @@ th {
   color: $color-input;
 }
 
+table.geotrust-ssl-seal-table {
+  margin-top: 30px;
+  margin-bottom: 0;
+  border: 0;
+
+  td {
+    padding: 0;
+    border: 0;
+  }
+}
+
 /* scss-combine:general/alerts */
 .alert {
   position: relative;
@@ -7146,6 +7157,11 @@ th {
   .form-inline-message {
     text-align: left;
   }
+
+  .newsletter-summary {
+    margin-top: 30px;
+    text-align: center;
+  }
 }
 
 
@@ -7256,6 +7272,49 @@ th {
 
 .ratio-3-4 {
   @include maintain-ratio(3 4);
+}
+
+/* scss-combine:general/amp-product-options */
+.amp-product-options {
+  .form-field-quantity-control {
+    position: relative;
+    display: block;
+
+    .form-input {
+      width: 100%;
+      padding-right: 40px;
+      padding-left: 40px;
+      text-align: center;
+    }
+
+    .quantity-control-action {
+      position: absolute;
+      top: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      margin-top: -20px;
+      cursor: pointer;
+
+      &:hover {
+        color: $color-accent;
+      }
+    }
+
+    .quantity-decrement {
+      left: 8px;
+    }
+
+    .quantity-increment {
+      right: 8px;
+    }
+  }
+
+  .button-progress .complete-text {
+    top: calc(50% - 10px);
+  }
 }
 
 
@@ -7395,6 +7454,14 @@ th {
 
   .thumbnail-cover & {
     background-size: cover;
+  }
+
+  &.no-image {
+    background-color: $color-background;
+
+    @if ($color-mini-cart-background == $color-background) {
+      box-shadow: 1px 0 0 0 $color-border inset;
+    }
   }
 }
 
@@ -10433,10 +10500,28 @@ th {
 
   .container { max-height: 100%; }
 
-  .multi-row & { top: 53px; }
-
   .compressed & {
     top: rem-calc(55);
+  }
+}
+
+.multi-row {
+  .mega-nav {
+    &.dropdown-open .dropdown-toggle {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 47px;
+        background-color: rgba($color-nav-active, 0.97);
+        content: "";
+      }
+    }
   }
 }
 
@@ -12133,6 +12218,24 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
   }
 }
 
+.brand-item-image-container {
+  overflow: hidden;
+
+  .brand-name {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba($color-background, 0.75);
+    transition: background-color 0.6s ease-out;
+  }
+
+  .brand-item:hover & {
+    .brand-name {
+      background-color: rgba($color-bold, 0.75);
+    }
+  }
+}
+
 .brand-item-title {
   font-family: $font-secondary;
   text-transform: uppercase;
@@ -12302,7 +12405,374 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
   font-weight: 600;
 }
 
-/* Wheelbuilder options */
+/******************* Product-page custome Styles ******************/
+
+.product-options-container {
+        @include media($min: $breakpoint-s) {
+                .form-field {
+                        margin-bottom: 5px;
+                        clear: both;
+                }
+                .form-field-title{
+                    float: left;
+                    text-align: right;
+                    margin-top: 3px;
+                    width: 29%;
+                    margin-right: 2%;
+                    margin-bottom:11px;
+                }
+                
+                
+                .form-field-control{
+                   float: left;
+                    margin-left: 0;
+                    margin-right: 0;
+                    width: 69%;
+                }
+                
+                
+                
+            .form-input:not(textarea):not([type=radio]):not([type=checkbox]), 
+            .form-select-wrapper .form-select{
+                height: 2rem;
+            }
+            
+            .form-field-swatch .form-field-control{
+                clear:none;
+            }
+            
+            .product-quantity-submit .product-quantity-container{
+                padding:10px 0;
+                border:0;
+            }
+            
+            .form-field-text{
+                .form-field-control{
+                    .form-input{
+                        min-height:95px;
+                    }
+                }
+            }
+            
+            
+        }
+}
+
+@include media($min: $breakpoint-s) {
+        .add-to-cart-form{
+            .product-quantity-submit {
+                .product-quantity-container{
+                    padding:10px 0 5px;
+                    border:0;
+                }
+            }
+            .product-quantity-submit .add-to-cart {
+                margin: 8px 30px 8px 0;
+            }
+            .wishlist-form {
+                padding: 10px 0;
+            }
+        }
+        .product-tabs{
+            padding: 0.55rem 0 2rem;
+        }
+        .product-details{
+            padding-bottom:0.5rem;
+        }
+        
+        .tabs{
+            margin:0.5rem 0 1rem;
+        }
+        .products-related{
+            padding: 2rem 0;
+        }
+        .container.container-small{
+            max-width:100%;
+        }
+        .product-quantity-submit{
+            clear:both;
+        }
+        .main-nav-bar .navigation{
+            text-align:right;
+        }
+        .main-nav-bar .navigation>ul>li {
+            margin-right: 0.7rem !important;
+        }
+        .wishlist-form .button.button-secondary, .add-to-cart-form .product-quantity-submit .add-to-cart {
+            padding:0.6em 2.5em;
+        }
+        .mega-nav-root-list li{
+            padding:0 4px;
+        }
+        .mega-nav-child-list .mega-nav-child-item{
+            Padding:0 4px 0 0;
+        }
+        .nav-page .dropdown-panel li:not(:last-child){
+            margin-bottom:5px;
+        }
+        
+        .form-field-swatch .form-label-text {
+            padding: 5px;
+            background: #000;
+            color: #fff;
+            top: -110%;
+            left: -120%;
+            width: 120px;
+            height: auto;
+            text-align: center;
+            border-radius: 6px;
+            clip: unset;
+            display: none;
+            font-size: 12px;
+        }
+        
+        .swatch-wrap:hover .form-label-text {
+           
+                display:inline-block;
+        }
+        
+        .swatch-value{
+            display:none;
+        }
+        
+        .form-field-swatch .form-field-title br{
+            display:none;
+        }
+        .form-label-outerblk{
+            
+        }
+        
+}
+
+@include media($min: $breakpoint-m) {
+    .product-tabs .container.container-small{
+            padding:0;
+        }
+}
+
+.product-details-column{
+    .product-brand{
+        display:none;
+    }
+}
+
+.product-description ul{
+    margin-left:10px;
+}
+
+.product-description ul li{
+    margin-bottom:auto;
+}
+
+
+.products-related .product-item-thumbnail .product-image-link{
+    display: table-cell;
+    vertical-align: middle;
+    height: 260px;
+}
+.products-related .product-item-thumbnail{
+    max-height:286px;
+}
+
+.product-quantity-container .form-field .product-quantity{
+   height: 2.4375rem!important;
+}
+
+.form-field-swatch .swatch {
+    width: 30px;
+    height: 30px;
+   border-radius: 6px;
+}
+
+.form-field-swatch .swatch-wrap {
+    margin: 0 2px 2px 0;
+}
+
+                    /**************** newsletter-signup*****************/
+
+.footer-newsletter-signup {
+    .newsletter-signup{
+        display: block;
+        background: transparent;
+        text-align: left;
+        padding: 0;
+        
+        .container{
+           padding:0; 
+        }
+        .subscription-form {
+             @include media($min: $breakpoint-xs) {
+                  display: block;
+                  justify-content: left;
+                  
+                  .form-field{
+                      display:block;
+                      width:100%;
+                  }
+                  
+                .button.button-wide{
+                   margin-top:5px;
+                   width:100%;
+                }  
+                  
+            }
+        }
+        
+    }
+    .footer-title{
+        text-align:left;
+    }
+        
+}
+
+.footer-title{
+    margin-bottom:10px;
+}
+
+.footer-col p{
+    margin-top:0;
+}
+
+                /****************** end-newsletter signup*********************/
+
+                /****************** social media icons **********************/
+
+.site-footer .social-media-link {
+    display: table-cell;
+    margin: 0;
+    background: gray;
+    padding: 10px;
+     transition: background-color 0.4s ease;
+}
+
+.site-footer .footer-social a {
+    color: inherit;
+    display: flex;
+    padding: 8px;
+    border-radius: 50px;
+    background: darkgray;
+     transition: background-color 0.4s ease;
+}
+
+.site-footer .footer-social a svg:not(:root) {
+    width: 20px;
+    height: 20px;
+    color:#fff;
+}
+
+.footer-social-media{
+    .social-twitter{
+        background-color:#04abf0;
+    }
+    .social-facebook{
+        background-color:#3a579a;
+        
+    }
+    .social-youtube{
+        background-color:#a8240f;
+    }
+    .social-instagram{
+        background-color:#517fa4;
+    }
+}
+
+.footer-social-media{
+    .social-twitter a{
+        background-color:#039cdc;
+    }
+    .social-facebook a{
+        background-color:#354e8c;
+        
+    }
+    .social-youtube a{
+        background-color:#9a200c;
+    }
+    .social-instagram a{
+        background-color:#497496;
+    }
+}
+
+.footer-social-media{
+    .social-twitter:hover{
+        background-color:#049ded;
+    }
+    .social-facebook:hover{
+        background-color:#2f488a;
+        
+    }
+    .social-youtube:hover{
+        background-color:#9a1b09;
+    }
+    .social-instagram:hover{
+        background-color:#426f96;
+    }
+}
+
+.footer-social-media{
+    .social-twitter:hover a{
+        background-color:#038dd4;
+    }
+    .social-facebook:hover a{
+        background-color:#29407c;
+        
+    }
+    .social-youtube:hover a{
+        background-color:#8a1707;
+    }
+    .social-instagram:hover a{
+        background-color:#3c6486;
+    }
+}
+
+/******************* testimonial *******************/
+.testimonial{
+	text-align:center;
+	margin-bottom:2rem;
+} 
+
+.testimonial-block{
+	padding:0 70px;
+}
+
+.testimonial .carousel-navigation-item .icon{
+	color:#b6bac2;
+}
+
+.testimonial .carousel-navigation-item.previous{
+	
+}
+
+.testimonial .carousel-navigation-item.next{
+	
+}
+
+.banners-bottom{
+    border:none;    
+}
+
+.product-carousel {
+    margin-bottom: 40px;
+}
+
+.section {
+    padding: 3rem 0;
+}
+
+.testimonial-block .button.button-wide{
+    padding-left:2em;
+    padding-right:2em;
+    text-decoration:none;
+}
+
+.testimonial-block .button.button-wide:hover{
+    color:#fff;
+}
+.page-content table{
+    margin:0 auto;
+}
+/******************* Product-page custome Styles ******************/
+
+/****************** Wheelbuilder Filtering options **************************/
 .wb-step-label {
   font-size: 20px;
   font-weight: bold;

@@ -31,7 +31,7 @@ blog:
             this
             show_rating=../settings.show_product_rating
             image_ratio=../theme_settings.product_grid_image_ratio
-            default_image=../theme_settings.default-product-image
+            default_image=../theme_settings.default_image
             quick_shop=../theme_settings.quick-shop
             as_low_as=../theme_settings.price_as_low_as
           }}
@@ -57,9 +57,10 @@ blog:
                     this
                     show_rating=../settings.show_product_rating
                     image_ratio=../theme_settings.product_grid_image_ratio
-                    default_image=../theme_settings.default-product-image
+                    default_image=../theme_settings.default_image
                     quick_shop=../theme_settings.quick-shop
                     as_low_as=../theme_settings.price_as_low_as
+                    not_lazy=true
                   }}
                 {{/each}}
               </div>
@@ -71,9 +72,10 @@ blog:
                     this
                     show_rating=../settings.show_product_rating
                     image_ratio=../theme_settings.product_grid_image_ratio
-                    default_image=../theme_settings.default-product-image
+                    default_image=../theme_settings.default_image
                     quick_shop=../theme_settings.quick-shop
                     as_low_as=../theme_settings.price_as_low_as
+                    not_lazy=true
                   }}
                 {{/each}}
               </div>
@@ -96,7 +98,7 @@ blog:
                 this
                 show_rating=../settings.show_product_rating
                 image_ratio=../theme_settings.product_grid_image_ratio
-                default_image=../theme_settings.default-product-image
+                default_image=../theme_settings.default_image
                 quick_shop=../theme_settings.quick-shop
                 as_low_as=../theme_settings.price_as_low_as
               }}
@@ -118,7 +120,7 @@ blog:
                 this
                 show_rating=../settings.show_product_rating
                 image_ratio=../theme_settings.product_grid_image_ratio
-                default_image=../theme_settings.default-product-image
+                default_image=../theme_settings.default_image
                 quick_shop=../theme_settings.quick-shop
                 as_low_as=../theme_settings.price_as_low_as
               }}
@@ -159,6 +161,8 @@ blog:
     </section>
   {{/if}}
 
+  <!-- {{> components/common/home-testimonial}} -->
+  
 {{/partial}}
 
 {{> layout/base}}

@@ -20,7 +20,7 @@
     <div class="product-details-column">
       {{> components/products/product-single-images
         images=product.images
-        default_image=theme_settings.default-product-image
+        default_image=theme_settings.default_image
       }}
     </div>
 
@@ -62,31 +62,19 @@
         <p class="message neutral">{{product.release_date}}</p>
       {{/if}}
 
-      {{#if theme_settings.product-single-display-order '===' 'product-description-first'}}
-        {{> components/products/product-description}}
-
-        <hr>
-
-        {{> components/products/add-to-cart-form
-          cart_icon=cart_icon
-        }}
-      {{else}}
+        <!-- Product-Description and <hr> tag remove from here -->
+     
         {{> components/products/add-to-cart-form
           cart_icon=cart_icon
         }}
 
-        <hr>
-
-        {{> components/products/product-description}}
-
-      {{/if}}
+        <!-- Product-Description and <hr> tag remove from here -->
 
       <div class="product-message-area" data-product-alerts></div>
 
       {{#if quick_view}}
         <a class="quick-shop-details-lower link" href="{{this.product.url}}">{{lang 'product.view_full_details'}}</a>
       {{/if}}
-
     </div>
 
     {{{snippet 'product_details'}}}

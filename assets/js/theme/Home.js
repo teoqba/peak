@@ -94,5 +94,36 @@ export default class Home extends PageManager {
         ]
     });
 
+	// Testimonials
+    $('.testimonial').slick({
+        infinite: true,
+		autoplay:true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplaySpeed: 8000,
+        lazyLoad: 'progressive',
+        speed: 1000,
+        prevArrow: '<span class="carousel-navigation-item previous"><svg class="icon icon-arrow-left"><use xlink:href="#icon-arrow-left" /></svg></span>',
+        nextArrow: '<span class="carousel-navigation-item next"><svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-right" /></svg></span>',
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true
+            }
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true
+            }
+          }
+        ]
+    });
+	
   }
 }

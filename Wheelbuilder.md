@@ -56,3 +56,18 @@ Changes in CSS:
   font-size: 20px;
   font-weight: bold;
 }
+
+Added spiner
+
+### Aamir changes
+1. template/pages/home.html (testimonial on home page is added)
+2. template/components/common/home-testimonial.html (testimonial panel is added include this file)
+3. template/components/footer/footer.html (Made changes in this file for social icons)
+4. template/components/common/newsletter-signup.html (made changes in this file)
+5. template/components/common/social-media-links.html (made changes in this file)
+6. template/components/products/product-single-details.html (made changes in this file)
+7. template/components/products/product-single-tabs.html (made changes in this file)
+8. assets/js/theme/Home.js (testimonial script added in this file)
+9. assets/scss/theme.scss (Custom style for product page and other added in this file at the end merge it.)
+10. templates/components/products/additional-info.html
+11. templates/core/geotrust-ssl-seal.html
