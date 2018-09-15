@@ -12779,7 +12779,9 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 }
 .wb-button {
   background-color: #4CAF50;
+  padding:0.6em 2.5em;
 }
+
 .form-rectangle:disabled {
   opacity: 0.6;
 }

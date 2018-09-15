@@ -21,10 +21,11 @@
       {{#each product.options}}
         {{{dynamicComponent 'core/forms/options'}}}
       {{/each}}
-    <button type="button" style="display:none" class="button button-wide wb-button wb-next-button">Forward To Hub Selection</button>
-    <button type="button" style="display:none" class="button button-wide wb-button wb-back-button">Back To Rim Selection</button>
-    <button type="button" class="button button-secondary button-wide wb-start-over-button">Start Over</button>
-
+      <div class="wishlist-form">
+        <button type="button" style="display:none" class="button button-wide wb-button wb-next-button">Forward To Hub Selection</button>
+        <button type="button" style="display:none" class="button button-wide wb-button wb-back-button">Back To Rim Selection</button>
+        <button type="button" class="button button-secondary button-wide wb-button wb-start-over-button">Start Over</button>
+      </div>
     {{/if}}
   </div>
 
