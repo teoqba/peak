@@ -55,6 +55,7 @@ export default class WheelbuilderFiltersStages {
 
         this.stage_one_finished = false;
         this.stage_two_finished = false;
+        this.never_was_in_stage_two = true;
         this.stage_one_first_pass = true; // fires hub query after all selection in Stage 1 is done
         this.stage_two_first_pass = true; // enables that on each option choice, the code does not try to reveal stage3 options
 
@@ -301,7 +302,8 @@ export default class WheelbuilderFiltersStages {
         this.$next_button.hide();
         this.$back_button.show();
         this.scroll_to_top_of_page();
-
+        this.never_was_in_stage_two = false;
+        this.stage_one_first_pass = false;
     }
 
     reset_choices_on_forward_button() {
@@ -374,6 +376,7 @@ export default class WheelbuilderFiltersStages {
             this.show_stage_two_options();
             this.scroll_to_top_of_page();
             this.stage_one_first_pass = false;
+            this.never_was_in_stage_two = false;
         }
 
         // Stage 2:
@@ -567,7 +570,7 @@ export default class WheelbuilderFiltersStages {
             }
             option_object.show();
         }
-        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+        if (this.never_was_in_stage_two === true) { //show/hide this button ONLY if we have never been in stage two before
             this.show_hide_forward_to_stage_two_button();
         }
 
@@ -597,7 +600,7 @@ export default class WheelbuilderFiltersStages {
             }
             option_object.show();
         }
-        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+        if (this.never_was_in_stage_two === true) { //show/hide this button ONLY if we have never been in stage two before
             this.show_hide_forward_to_stage_two_button();
         }
     }
@@ -621,7 +624,7 @@ export default class WheelbuilderFiltersStages {
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
-        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+        if (this.never_was_in_stage_two === true) { //show/hide this button ONLY if we have never been in stage two before
             this.show_hide_forward_to_stage_two_button();
         }
     }
@@ -1028,6 +1031,7 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_first_pass = true;
         this.stage_one_finished = false;
         this.stage_two_finished = false;
+        this.never_was_in_stage_two = true;
         this.page_in_rim_choice_mode = true;
 
         this.step_label.set_to_step_one();
