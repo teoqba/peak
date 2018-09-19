@@ -533,6 +533,16 @@ export default class WheelbuilderFiltersStages {
         // console.log('stage one options on page ', this.stage_one_options_on_page)
     }
 
+    show_hide_forward_to_stage_two_button(){
+        if (this.stage_one_options_on_page.all_options_selected()) {
+            this.stage_one_finished = true;
+            this.$next_button.show();
+        } else {
+            this.stage_one_finished = false;
+            this.$next_button.hide();
+        }
+    }
+
     hide_stage_one_front_wheel_options() {
         for (let i=0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
@@ -547,7 +557,7 @@ export default class WheelbuilderFiltersStages {
         for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
-            if (this.is_previous_option_wheelset === false) {
+            if (this.is_previous_option_wheelset === false) { //transition wheelset -> rear wheel
                 this.stage_one_options_on_page.set(option_name, null);
                 //show all the possible selections in the option box
                 let $option_values_object = $(option_object).find('.wb-option');
@@ -557,6 +567,10 @@ export default class WheelbuilderFiltersStages {
             }
             option_object.show();
         }
+        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+            this.show_hide_forward_to_stage_two_button();
+        }
+
     }
 
     hide_stage_one_rear_wheel_options() {
@@ -573,7 +587,7 @@ export default class WheelbuilderFiltersStages {
         for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
-            if (this.is_previous_option_wheelset === false) {
+            if (this.is_previous_option_wheelset === false) { //transition wheelset -> front wheel
                 this.stage_one_options_on_page.set(option_name, null);
                 //show all the possible selections in the option box
                 let $option_values_object = $(option_object).find('.wb-option');
@@ -583,10 +597,13 @@ export default class WheelbuilderFiltersStages {
             }
             option_object.show();
         }
+        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+            this.show_hide_forward_to_stage_two_button();
+        }
     }
 
     show_stage_one_front_rear_options() {
-        for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
+        for (let i = 0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
             if (this.stage_one_options_on_page.have_member(option_name) === false) {
                 this.stage_one_options_on_page.set(option_name, null);
@@ -604,7 +621,9 @@ export default class WheelbuilderFiltersStages {
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
-
+        if (this.stage_one_finished === false) { //show/hide this button ONLY if we have never been in stage two before
+            this.show_hide_forward_to_stage_two_button();
+        }
     }
 
     scroll_to_top_of_page(){
@@ -617,7 +636,7 @@ export default class WheelbuilderFiltersStages {
         let option_values_array = [];
         let option_name_alias = this.option_aliases.option_alias[option_name];
 
-        if (option_name_alias != undefined) {
+        if (option_name_alias != undefined) { //use '!= undefined' not '!== undefined'
             let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
             let $option_values_object = $option_object.find('.wb-option');
             $option_values_object.each(function () {
@@ -830,7 +849,7 @@ export default class WheelbuilderFiltersStages {
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        console.log("Query", query_object.log());
+        // console.log("Query", query_object.log());
         //TODO here is query is spoke: make duble query and post to diffent url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -867,7 +886,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        console.log('Query result', query_result);
+        // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
