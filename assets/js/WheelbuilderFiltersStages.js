@@ -538,16 +538,23 @@ export default class WheelbuilderFiltersStages {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
             this.stage_one_options_on_page.remove_option(option_name);
             this.resetOptionSelection(option_name);
+            // clear query
+            this.rim_query.remove(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.hide();
         }
 
         for (let i=0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             if (this.is_previous_option_wheelset === false) {
                 this.stage_one_options_on_page.set(option_name, null);
+                //show all the possible selections in the option box
+                let $option_values_object = $(option_object).find('.wb-option');
+                $option_values_object.each(function () {
+                    $(this).show();
+                });
             }
-            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
     }
@@ -557,15 +564,23 @@ export default class WheelbuilderFiltersStages {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
             this.stage_one_options_on_page.remove_option(option_name);
             this.resetOptionSelection(option_name);
+            // clear query
+            this.rim_query.remove(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.hide();
         }
+
         for (let i = 0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
+            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             if (this.is_previous_option_wheelset === false) {
                 this.stage_one_options_on_page.set(option_name, null);
+                //show all the possible selections in the option box
+                let $option_values_object = $(option_object).find('.wb-option');
+                $option_values_object.each(function () {
+                    $(this).show();
+                });
             }
-            let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
             option_object.show();
         }
     }
@@ -815,7 +830,7 @@ export default class WheelbuilderFiltersStages {
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        // console.log("Query", query_object.log());
+        console.log("Query", query_object.log());
         //TODO here is query is spoke: make duble query and post to diffent url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -852,7 +867,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
+        console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
