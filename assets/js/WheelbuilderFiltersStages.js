@@ -40,7 +40,8 @@ export default class WheelbuilderFiltersStages {
         this.wb_config = new WheelbuilderConfig();
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Front_Rim_Choice', 'Rear_Rim_Choice', 'Rim_Size', 'Front_Hole_Count',
-                                            'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model'];
+                                            'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model',
+                                            'Intended_Application'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
