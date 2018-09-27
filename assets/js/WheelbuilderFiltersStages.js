@@ -871,6 +871,9 @@ export default class WheelbuilderFiltersStages {
                 this.analyze_disc_brake_options();
             }
         }
+
+        let wheel_build_type = this.wb_front_rear_selection.get_wheel_build_type();
+        console.log("Wheelbuild type", wheel_build_type);
         // If option that was reset is Intended_Application, and option was reset (selected_index=0)
         // or 'All' was selected (selected_index=1), reset all Stage One options on page
         if ((option_name === 'Intended_Application') && (selected_index <1)) {
@@ -884,6 +887,10 @@ export default class WheelbuilderFiltersStages {
             }
             this.reset_to_options_default_selection();
         } else if ((option_name === 'Intended_Application') && (selected_index > 1)) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            query_object.remove('Front_Rim_Model');
+            query_object.remove('Rear_Rim_Model');
+        } else if ((option_name === 'Rim_Size') && (selected_index > 1) && (wheel_build_type === 'Wheelset')) {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
