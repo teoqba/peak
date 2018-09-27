@@ -876,14 +876,19 @@ export default class WheelbuilderFiltersStages {
         if ((option_name === 'Intended_Application') && (selected_index <1)) {
             console.log('Reseting stage 1');
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
+                // TODO: this can be solved by unselect option
                 console.log("Stage one option name", stage_one_option_name);
                 query_object.remove(stage_one_option_name);
                 this.stage_one_options_on_page.set(stage_one_option_name, null);
                 this.reset_option_selection(stage_one_option_name);
             }
-            this.reset_to_options_default_selection()
-
+            this.reset_to_options_default_selection();
+        } else if ((option_name === 'Intended_Application') && (selected_index > 1)) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            query_object.remove('Front_Rim_Model');
+            query_object.remove('Rear_Rim_Model');
         }
+
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         // console.log("Query", query_object.log());
         //TODO here is query is spoke: make double query and post to different url
@@ -920,9 +925,29 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
+    unselect_query_result_empty_option(option_name) {
+        // reset current options to Pick One... and removes its from query and stage options
+        this.reset_option_selection(option_name);
+        if (this.stage_one_options_on_page.options.hasOwnProperty(option_name)) {
+            this.stage_one_options_on_page.set(option_name, null);
+            this.rim_query.remove(option_name);
+        } else if (this.stage_two_options_on_page.options.hasOwnProperty(option_name)) {
+            this.stage_two_options_on_page.set(option_name, null);
+            this.hub_query.remove(option_name);
+        }
+    }
+
+    find_currently_selected_text_in_option($option_object) {
+        // finds label of currently selected value in given option
+        const $option_values_object = $option_object.find('.form-select');
+        const $selected_item = $option_values_object.find(':selected');
+        let value = $selected_item.text();
+        return value;
+    }
+
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        console.log('Query result', query_result);
+        // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
@@ -952,19 +977,23 @@ export default class WheelbuilderFiltersStages {
                     let $empty_option = $(option).find('.wb-empty-option');
                     // $empty_option.hide();
                     let result = query_result[option_name_alias];
-                    if (result.length === 0) {
+
+                    let selected_name = parent.find_currently_selected_text_in_option($(option));
+                    if (result.indexOf(selected_name) < 0) {
+                        parent.unselect_query_result_empty_option(option_name_alias);
                         // parent.reset_option_selection(option_name_alias);
-                    }else {
-                        $option_values_object.each(function () {
-                            let name = $(this).text();
-                            // if (name === 'Pick one...') $(this).hide();
-                            if (result.indexOf(name) < 0) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
-                            }
-                        });
                     }
+                    $option_values_object.each(function () {
+                        let name = $(this).text();
+                        // console.log('Name', option_name_alias, name, result.indexOf(name));
+                        // if (name === 'Pick one...') $(this).hide();
+                        if (result.indexOf(name) < 0) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+
                     // if only one option is available, autoselect it
                     // parent.autoselect(option, query_result[option_name_alias])
                 }
