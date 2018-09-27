@@ -7,6 +7,8 @@ export default class WheelbuilderConfig {
         this.zeroth_option_default_name = 'Pick one...';
         this.zeroth_option_alternative_name = 'Reset selection...';
 
+        this.option_default_selection = {'Intended_Application': 'All'};
+
         // Step names:
         this.step_one_name = 'Step 1: Select Rim';
         this.step_two_name = 'Step 2: Select Hub';
@@ -36,5 +38,6 @@ export default class WheelbuilderConfig {
 
         // Spokes options
         this.spokes_default_style = ["J-Bend", "Straight Pull"];
+
     }
 }

@@ -160,7 +160,7 @@ export default class WheelbuilderFiltersStages {
 
             this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
         }
-
+        this.reset_to_options_default_selection();
         this.loader.hide();
     }
 
@@ -551,7 +551,7 @@ export default class WheelbuilderFiltersStages {
         for (let i=0; i < this.stage_one_front_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_front_wheel_options_on_page[i];
             this.stage_one_options_on_page.remove_option(option_name);
-            this.resetOptionSelection(option_name);
+            this.reset_option_selection(option_name);
             // clear query
             this.rim_query.remove(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -581,7 +581,7 @@ export default class WheelbuilderFiltersStages {
         for (let i = 0; i < this.stage_one_rear_wheel_options_on_page.length; i++) {
             let option_name = this.stage_one_rear_wheel_options_on_page[i];
             this.stage_one_options_on_page.remove_option(option_name);
-            this.resetOptionSelection(option_name);
+            this.reset_option_selection(option_name);
             // clear query
             this.rim_query.remove(option_name);
             let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
@@ -814,6 +814,26 @@ export default class WheelbuilderFiltersStages {
         return promise_obj;
     }
 
+    reset_to_options_default_selection() {
+        for (let option_name in this.wb_config.option_default_selection) {
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+            let value_to_select = this.wb_config.option_default_selection[option_name];
+            let data_label = 'data-wb-label="' + value_to_select +'"';
+            // let data_label = 'data-wb-label="All"';
+            let $one_option = $option_object.find('.form-select option['+ data_label + ']');
+            $one_option.prop('selected', true);
+
+            this.zeroth_option_to_alternative_name($option_object);
+
+            if (this.stage_one_options_on_page.options.hasOwnProperty(option_name)) {
+                this.rim_query.set(option_name, value_to_select);
+                this.stage_one_options_on_page.set(option_name, value_to_select);
+            } //TODO set for RIM
+
+        }
+    }
+
     zeroth_option_to_alternative_name($option_values_object) {
         // changes Pick one... options to Reset selections ...
         let empty_option = $option_values_object.find(".wb-empty-option");
@@ -850,11 +870,23 @@ export default class WheelbuilderFiltersStages {
                 (option_name_alias === 'Rear_Disc_Brake_Interface')) {
                 this.analyze_disc_brake_options();
             }
+        }
+        // If option that was reset is Intended_Application, and option was reset (selected_index=0)
+        // or 'All' was selected (selected_index=1), reset all Stage One options on page
+        if ((option_name === 'Intended_Application') && (selected_index <1)) {
+            console.log('Reseting stage 1');
+            for (let stage_one_option_name in this.stage_one_options_on_page.options) {
+                console.log("Stage one option name", stage_one_option_name);
+                query_object.remove(stage_one_option_name);
+                this.stage_one_options_on_page.set(stage_one_option_name, null);
+                this.reset_option_selection(stage_one_option_name);
+            }
+            this.reset_to_options_default_selection()
 
         }
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         // console.log("Query", query_object.log());
-        //TODO here is query is spoke: make duble query and post to diffent url
+        //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
 
@@ -890,7 +922,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
+        console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
@@ -919,21 +951,26 @@ export default class WheelbuilderFiltersStages {
                     let $option_values_object = $(option).find('.wb-option');
                     let $empty_option = $(option).find('.wb-empty-option');
                     // $empty_option.hide();
-                    $option_values_object.each(function () {
-                        let result = query_result[option_name_alias];
-                        let name = $(this).text();
-                        // if (name === 'Pick one...') $(this).hide();
-                        if (result.indexOf(name) < 0) {
-                            $(this).hide();
-                        } else {
-                            $(this).show();
-                        }
-                    });
+                    let result = query_result[option_name_alias];
+                    if (result.length === 0) {
+                        // parent.reset_option_selection(option_name_alias);
+                    }else {
+                        $option_values_object.each(function () {
+                            let name = $(this).text();
+                            // if (name === 'Pick one...') $(this).hide();
+                            if (result.indexOf(name) < 0) {
+                                $(this).hide();
+                            } else {
+                                $(this).show();
+                            }
+                        });
+                    }
                     // if only one option is available, autoselect it
                     // parent.autoselect(option, query_result[option_name_alias])
                 }
             }
         }
+        // see of one need to show special options such as POE etc
         special_options.show_hide(query_result);
 
         let run_spoke_query = false;
@@ -1001,7 +1038,7 @@ export default class WheelbuilderFiltersStages {
         parent.stage_one_front_rear_options_control();
     }
 
-    resetOptionSelection(option_name) {
+    reset_option_selection(option_name) {
         // resets current selection in given option
         let option = this.option_aliases.all_options_on_page_aliased[option_name];
         this.zeroth_option_alternative_to_default_name($(option));
@@ -1013,7 +1050,7 @@ export default class WheelbuilderFiltersStages {
     startOver() {
         // Implementation for Start Over button
         for (let option_name in this.all_options_on_page) {
-            this.resetOptionSelection(option_name);
+            this.reset_option_selection(option_name);
         }
         // show all options values that were hidden before by the filters
         for (let option_name in this.all_options_on_page) {

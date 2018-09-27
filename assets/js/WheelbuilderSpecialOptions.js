@@ -1,6 +1,7 @@
 import WheelbuilderConfig from './WheelbuilderConfig.js';
-
+//
 // controls special options such as Points Of Engagements or Bearing Upgrades
+//
 export default class WheelbuilderSpecialOptions {
     constructor(option_aliases) {
         this.config = new WheelbuilderConfig();
