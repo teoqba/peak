@@ -27,6 +27,9 @@ export default class WheelbuilderFiltersStages {
         this.$start_over_button = this.$parent_page.find('.wb-start-over-button');
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
+        // handle buttons events
+        this.buttons_event_handler();
+
         this.add_to_cart_button = $('.add-to-cart');
         // Step label
         this.step_label = new WheelbuilderStepLabel(this.$parent_page);
@@ -155,8 +158,6 @@ export default class WheelbuilderFiltersStages {
 
             this.$start_over_button.show();
             this.step_label.show();
-            // handle buttons events
-            this.buttons_event_handler();
 
             this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
         }
