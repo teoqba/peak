@@ -853,6 +853,59 @@ export default class WheelbuilderFiltersStages {
         $(empty_option).text(this.wb_config.zeroth_option_default_name);
     }
 
+
+    reset_query_on_common_to_front_rear_change($changed_option){
+        //reset query when the option affecting both front and rear changes
+        // Intended_Application
+        // Rim_Size
+        // Brake_Type
+
+        let wheel_build_type = this.wb_front_rear_selection.get_wheel_build_type();
+        // If option that was reset is Intended_Application, and option was reset (selected_index=0)
+        // or 'All' was selected (selected_index=1), reset all Stage One options on page
+
+        let option_name = this.get_name_of_changed_option($changed_option);
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+        const $option_values_object = $option_object.find('.form-select');
+        const $selected_item = $option_values_object.find(':selected');
+        let selected_index = $selected_item.index();
+
+        if ((option_name_alias === 'Intended_Application') && (selected_index <1)) {
+            console.log('Reseting stage 1');
+            for (let stage_one_option_name in this.stage_one_options_on_page.options) {
+                // TODO: this can be solved by unselect option
+                this.rim_query.remove(stage_one_option_name);
+                this.stage_one_options_on_page.set(stage_one_option_name, null);
+                this.reset_option_selection(stage_one_option_name);
+            }
+            this.reset_to_options_default_selection();
+        } else if ((option_name_alias === 'Intended_Application') && (selected_index > 1)) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            this.rim_query.remove('Front_Rim_Model');
+            this.rim_query.remove('Rear_Rim_Model');
+            this.rim_query.remove('Front_Hole_Count');
+            this.rim_query.remove('Rear_Hole_Count');
+            // this.stage_one_finished = false;
+            // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            this.rim_query.remove('Front_Rim_Model');
+            this.rim_query.remove('Rear_Rim_Model');
+            this.rim_query.remove('Front_Hole_Count');
+            this.rim_query.remove('Rear_Hole_Count');
+            // this.stage_one_finished = false;
+            // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            this.rim_query.remove('Front_Rim_Model');
+            this.rim_query.remove('Rear_Rim_Model');
+            this.rim_query.remove('Front_Hole_Count');
+            this.rim_query.remove('Rear_Hole_Count');
+            // this.stage_one_finished = false;
+        }
+    }
+
     prepare_query($changed_option, query_object) {
         let option_name = this.get_name_of_changed_option($changed_option);
         let option_name_alias = this.option_aliases.option_alias[option_name];
@@ -879,39 +932,7 @@ export default class WheelbuilderFiltersStages {
             }
         }
 
-        let wheel_build_type = this.wb_front_rear_selection.get_wheel_build_type();
-        // If option that was reset is Intended_Application, and option was reset (selected_index=0)
-        // or 'All' was selected (selected_index=1), reset all Stage One options on page
-        if ((option_name === 'Intended_Application') && (selected_index <1)) {
-            console.log('Reseting stage 1');
-            for (let stage_one_option_name in this.stage_one_options_on_page.options) {
-                // TODO: this can be solved by unselect option
-                query_object.remove(stage_one_option_name);
-                this.stage_one_options_on_page.set(stage_one_option_name, null);
-                this.reset_option_selection(stage_one_option_name);
-            }
-            this.reset_to_options_default_selection();
-        } else if ((option_name === 'Intended_Application') && (selected_index > 1)) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
-            query_object.remove('Front_Rim_Model');
-            query_object.remove('Rear_Rim_Model');
-            query_object.remove('Front_Hole_Count');
-            query_object.remove('Rear_Hole_Count');
-        // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
-        } else if ((option_name === 'Rim_Size') && (selected_index > 0)) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
-            query_object.remove('Front_Rim_Model');
-            query_object.remove('Rear_Rim_Model');
-            query_object.remove('Front_Hole_Count');
-            query_object.remove('Rear_Hole_Count');
-        // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
-        } else if ((option_name === 'Brake_Type') && (selected_index > 0) ) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
-            query_object.remove('Front_Rim_Model');
-            query_object.remove('Rear_Rim_Model');
-            query_object.remove('Front_Hole_Count');
-            query_object.remove('Rear_Hole_Count');
-        }
+        this.reset_query_on_common_to_front_rear_change($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         // console.log("Query", query_object.log());
@@ -955,6 +976,7 @@ export default class WheelbuilderFiltersStages {
         if (this.stage_one_options_on_page.options.hasOwnProperty(option_name)) {
             this.stage_one_options_on_page.set(option_name, null);
             this.rim_query.remove(option_name);
+            // back to stage one? if stage one is true -> back to stage one
         } else if (this.stage_two_options_on_page.options.hasOwnProperty(option_name)) {
             this.stage_two_options_on_page.set(option_name, null);
             this.hub_query.remove(option_name);
@@ -1005,7 +1027,11 @@ export default class WheelbuilderFiltersStages {
                     let selected_name = parent.find_currently_selected_text_in_option($(option));
                     if (result.indexOf(selected_name) < 0) {
                         parent.unselect_query_result_empty_option(option_name_alias);
-                        // parent.reset_option_selection(option_name_alias);
+                        // if empty option ooccured on transtion from stage 1 to stage 2, move back to stage 1
+                        if ((parent.stage_one_finished === true) &&
+                            (parent.stage_one_options_on_page.options.hasOwnProperty(option_name_alias))) {
+                            parent.back_to_stage_one();
+                        }
                     }
                     $option_values_object.each(function () {
                         let name = $(this).text();
