@@ -905,7 +905,7 @@ export default class WheelbuilderFiltersStages {
         }
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        console.log("Query", query_object.log());
+        // console.log("Query", query_object.log());
         //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -962,7 +962,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        console.log('Query result', query_result);
+        // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
