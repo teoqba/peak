@@ -894,14 +894,18 @@ export default class WheelbuilderFiltersStages {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
-        } else if ((option_name === 'Rim_Size') && (selected_index > 1) && (wheel_build_type === 'Wheelset')) {
+        } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            query_object.remove('Front_Rim_Model');
+            query_object.remove('Rear_Rim_Model');
+        } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
         }
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        // console.log("Query", query_object.log());
+        console.log("Query", query_object.log());
         //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -958,7 +962,7 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
+        console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
 
