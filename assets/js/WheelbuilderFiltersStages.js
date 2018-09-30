@@ -64,8 +64,8 @@ export default class WheelbuilderFiltersStages {
         this.saved_wheelbuild_type = null;
         // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
         //                       "query": "http://localhost:8000/wbdb_query"};
-        this.query_api_url = {"option_names_roots": "http://13.56.207.152:8000/options_names_roots",
-            "query": "http://13.56.207.152:8000/wbdb_query"};
+        this.query_api_url = {"option_names_roots": "http://13.56.207.152:8080/options_names_roots",
+            "query": "http://13.56.207.152:8080/wbdb_query"};
         // handle the loading spinner
         this.loader = $('#wb-load-spinner');
 
@@ -172,8 +172,14 @@ export default class WheelbuilderFiltersStages {
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
 
             this.rim_query.set('Brake_Type', 'Disc Brake');
-            this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
-            this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+
+            //only set $ne: Rim Brake if no selection has been made or selection has been reset
+            if (this.hub_query.get('Front_Disc_Brake_Interface'== undefined)) {
+                this.hub_query.set('Front_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
+            }
+            if (this.hub_query.get('Rear_Disc_Brake_Interface'== undefined)) {
+                this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
+            }
         // if Brake Type is not given and Front/Rear Disc Brake  are _NOT_ given, assume Brake_Type: Disc
         } else if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
                   ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
@@ -873,14 +879,12 @@ export default class WheelbuilderFiltersStages {
         }
 
         let wheel_build_type = this.wb_front_rear_selection.get_wheel_build_type();
-        console.log("Wheelbuild type", wheel_build_type);
         // If option that was reset is Intended_Application, and option was reset (selected_index=0)
         // or 'All' was selected (selected_index=1), reset all Stage One options on page
         if ((option_name === 'Intended_Application') && (selected_index <1)) {
             console.log('Reseting stage 1');
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
                 // TODO: this can be solved by unselect option
-                console.log("Stage one option name", stage_one_option_name);
                 query_object.remove(stage_one_option_name);
                 this.stage_one_options_on_page.set(stage_one_option_name, null);
                 this.reset_option_selection(stage_one_option_name);
