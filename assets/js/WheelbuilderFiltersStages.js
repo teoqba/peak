@@ -172,12 +172,12 @@ export default class WheelbuilderFiltersStages {
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
 
             this.rim_query.set('Brake_Type', 'Disc Brake');
-
+            console.log("Front disc in analyze", this.hub_query.get('Front_Disc_Brake_Interface'));
             //only set $ne: Rim Brake if no selection has been made or selection has been reset
-            if (this.hub_query.get('Front_Disc_Brake_Interface'== undefined)) {
+            if (this.hub_query.get('Front_Disc_Brake_Interface') == undefined) {
                 this.hub_query.set('Front_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
             }
-            if (this.hub_query.get('Rear_Disc_Brake_Interface'== undefined)) {
+            if (this.hub_query.get('Rear_Disc_Brake_Interface') == undefined) {
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
             }
         // if Brake Type is not given and Front/Rear Disc Brake  are _NOT_ given, assume Brake_Type: Disc
@@ -894,14 +894,22 @@ export default class WheelbuilderFiltersStages {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
-        } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+            query_object.remove('Front_Hole_Count');
+            query_object.remove('Rear_Hole_Count');
+        // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        } else if ((option_name === 'Rim_Size') && (selected_index > 0)) {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
-        } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+            query_object.remove('Front_Hole_Count');
+            query_object.remove('Rear_Hole_Count');
+        // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        } else if ((option_name === 'Brake_Type') && (selected_index > 0) ) {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             query_object.remove('Front_Rim_Model');
             query_object.remove('Rear_Rim_Model');
+            query_object.remove('Front_Hole_Count');
+            query_object.remove('Rear_Hole_Count');
         }
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
