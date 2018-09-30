@@ -173,7 +173,6 @@ export default class WheelbuilderFiltersStages {
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
 
             this.rim_query.set('Brake_Type', 'Disc Brake');
-            console.log("Front disc in analyze", this.hub_query.get('Front_Disc_Brake_Interface'));
             //only set $ne: Rim Brake if no selection has been made or selection has been reset
             if (this.hub_query.get('Front_Disc_Brake_Interface') == undefined) {
                 this.hub_query.set('Front_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
@@ -1030,6 +1029,7 @@ export default class WheelbuilderFiltersStages {
                         // if empty option ooccured on transtion from stage 1 to stage 2, move back to stage 1
                         if ((parent.stage_one_finished === true) &&
                             (parent.stage_one_options_on_page.options.hasOwnProperty(option_name_alias))) {
+                            parent.stage_one_finished = false;
                             parent.back_to_stage_one();
                         }
                     }
