@@ -109,7 +109,7 @@
     "global-crop-cover-images": false,
     "global-main-nav-spacing": 20,
     "global-header-logo-alignment": "left",
-    "cart_icon": "bag",
+    "cart_icon": "cart",
     "shop-menu-meganav": true,
     "wrap-meganav": false,
     "shop-menu-meganav-display-type": "default",
