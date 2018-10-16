@@ -4,6 +4,7 @@ import FormValidator from '../utils/FormValidator';
 
 import ProgressButton from '../utils/ProgressButton';
 import WheelbuilderFiltersStages from "../../WheelbuilderFiltersStages";
+import WheelbuilderNoFilters from "../../WheelbuilderNoFilters";
 
 export default class ProductUtils {
   constructor(el, options) {
@@ -28,6 +29,9 @@ export default class ProductUtils {
     if (this.$el.hasClass('product-single')) {
       this._updateAttributes(window.BCData.product_attributes);
     }
+
+    // Toggle to enable/disable wheelbuilder filtering
+    this.wheelbuilderFilteringEnabled = true;
   }
 
   _bindEvents() {
@@ -42,8 +46,13 @@ export default class ProductUtils {
 
   init(context) {
     this.context = context;
-    this.wheelbuilderFilters = new WheelbuilderFiltersStages(this.$el);
-    this.wheelbuilderFilters.init();
+    if (this.wheelbuilderFilteringEnabled) {
+        this.wheelbuilderFilters = new WheelbuilderFiltersStages(this.$el);
+        this.wheelbuilderFilters.init();
+    } else { // when filtering is disabled, use dummy class that will remove placeholders from options listß
+        this.wheelbuilderFilters = new WheelbuilderNoFilters(this.$el);
+        this.wheelbuilderFilters.init();
+    }
     this._bindProductOptionChange();
     this._bindAddWishlist();
 
