@@ -71,3 +71,17 @@ Added spiner
 9. assets/scss/theme.scss (Custom style for product page and other added in this file at the end merge it.)
 10. templates/components/products/additional-info.html
 11. templates/core/geotrust-ssl-seal.html
+
+### Added Enable/Disable option in Theme Configurator
+* Modified files:
+    * config.json
+    * schema.json
+    * video: https://www.youtube.com/watch?v=mdhSLKpTOBY  (around 11: discussion how to add checkbox)
+    * templates/layout/base.html
+        ```
+            {{inject 'enableWheelbuilderFilters' theme_settings.wheelbuilder-filters}}
+        ```
+    * assets/js/theme/product/productUtils.js::init()
+        ```
+            this.wheelbuilderFilteringEnabled = this.context.enableWheelbuilderFilters;
+        ```

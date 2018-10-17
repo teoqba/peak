@@ -1,10 +1,14 @@
 import utils from "@bigcommerce/stencil-utils/src/main";
+import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
 
 export default class WheelbuilderNoFilters {
     constructor($parent_page) {
         console.log('WB init without filters');
         this.$parent_page = $parent_page;
         this.all_options_on_page = null;
+        // this.step_label = new WheelbuilderStepLabel(this.$parent_page);
+        // this.step_label.init();
+        // this.step_label.hide();
         this.loader = $('#wb-load-spinner');
 
     }

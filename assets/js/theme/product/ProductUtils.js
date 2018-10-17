@@ -5,6 +5,7 @@ import FormValidator from '../utils/FormValidator';
 import ProgressButton from '../utils/ProgressButton';
 import WheelbuilderFiltersStages from "../../WheelbuilderFiltersStages";
 import WheelbuilderNoFilters from "../../WheelbuilderNoFilters";
+import WheelbuilderStepLabel from "../../WheelbuilderStepLabel";
 
 export default class ProductUtils {
   constructor(el, options) {
@@ -30,8 +31,6 @@ export default class ProductUtils {
       this._updateAttributes(window.BCData.product_attributes);
     }
 
-    // Toggle to enable/disable wheelbuilder filtering
-    this.wheelbuilderFilteringEnabled = true;
   }
 
   _bindEvents() {
@@ -46,10 +45,17 @@ export default class ProductUtils {
 
   init(context) {
     this.context = context;
+    // Toggle wheelbuilder-filters variable in config.json to enable/disable wheelbuilder filtering
+    this.wheelbuilderFilteringEnabled = this.context.enableWheelbuilderFilters;
+
     if (this.wheelbuilderFilteringEnabled) {
         this.wheelbuilderFilters = new WheelbuilderFiltersStages(this.$el);
         this.wheelbuilderFilters.init();
     } else { // when filtering is disabled, use dummy class that will remove placeholders from options listß
+        // hide step label here before going through filters- it is faster
+        this.step_label = new WheelbuilderStepLabel(this.$el);
+        this.step_label.init();
+        this.step_label.hide();
         this.wheelbuilderFilters = new WheelbuilderNoFilters(this.$el);
         this.wheelbuilderFilters.init();
     }
