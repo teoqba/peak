@@ -9,6 +9,9 @@ export default class WheelbuilderConfig {
 
         this.option_default_selection = {'Intended_Application': 'All'};
 
+        // Filtering control
+        this.minumum_no_of_options_for_filtering = 3;
+
         // Step names:
         this.step_one_name = 'Step 1: Select Rim';
         this.step_two_name = 'Step 2: Select Hub';
