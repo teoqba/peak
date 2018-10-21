@@ -179,7 +179,6 @@ export default class WheelbuilderFiltersStages {
         if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
             ((this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
             (this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))){
-
             this.rim_query.set('Brake_Type', 'Disc Brake');
             //only set $ne: Rim Brake if no selection has been made or selection has been reset
             if (this.hub_query.get('Front_Disc_Brake_Interface') == undefined) {
@@ -713,6 +712,7 @@ export default class WheelbuilderFiltersStages {
         if (this.rim_query.has_option('Rear_Hole_Count')) {
             this.hub_query.set('Rear_Hole_Count', this.rim_query.get('Rear_Hole_Count'));
         }
+        this.hub_query.log('HUb query in after stage 1 filters');
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
 
@@ -989,6 +989,11 @@ export default class WheelbuilderFiltersStages {
         } else if (this.stage_two_options_on_page.options.hasOwnProperty(option_name)) {
             this.stage_two_options_on_page.set(option_name, null);
             this.hub_query.remove(option_name);
+            // If Brake Type options were reset, set defaults again
+            if ((option_name === 'Front_Disc_Brake_Interface') ||
+                (option_name === 'Rear_Disc_Brake_Interface')) {
+                this.analyze_disc_brake_options();
+            }
         }
     }
 
@@ -1077,7 +1082,6 @@ export default class WheelbuilderFiltersStages {
 
             if (run_spoke_query) {
                 parent.spoke_query.set('Spoke_Style', parent.hub_spoke_connector.last_spoke_style);
-                parent.spoke_query.log('SPOKE QUERY');
                 parent.ajax_post(parent.spoke_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
         }
@@ -1090,7 +1094,7 @@ export default class WheelbuilderFiltersStages {
                 parent.hub_spoke_connector.set_spoke_style(spoke_style);
                 parent.hub_query.set('Rear_Hub_Style', parent.hub_spoke_connector.last_rear_hub_style);
                 parent.hub_query.set('Front_Hub_Style', parent.hub_spoke_connector.last_front_hub_style);
-                parent.hub_query.log('HUB QUERY IN SPOKES QUERY');
+                parent.hub_query.log('Hub query in spokes');
                 parent.ajax_post(parent.hub_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
         }
