@@ -48,6 +48,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
+        this.minumum_no_of_options_for_filtering = this.wb_config.minumum_no_of_options_for_filtering;
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
         // If all the null values are changed to option_values, given stage is considered done
@@ -107,10 +108,15 @@ export default class WheelbuilderFiltersStages {
 
         // check if there is at least on option on the page that belongs
         // to all_known_options. If not, dont event start filtering
+        let option_counter = 0;
         for (let i=0; i< this.all_known_options.length; i++ ) {
             let option_name = this.all_known_options[i];
             if (Object.keys(this.all_options_on_page).includes(option_name)) {
-                this.enable_filtering = true;
+                option_counter += 1;
+                if (option_counter > this.minumum_no_of_options_for_filtering) {
+
+                    this.enable_filtering = true;
+                }
             }
         }
 
@@ -160,8 +166,10 @@ export default class WheelbuilderFiltersStages {
             this.step_label.show();
 
             this.initial_filter_done = true; //this is not completely right, should be called in results_parser for initial query
+            this.reset_to_options_default_selection();
+        } else { // when filtering is disabled
+            this.add_to_cart_button.show();
         }
-        this.reset_to_options_default_selection();
         this.loader.hide();
     }
 
@@ -821,6 +829,8 @@ export default class WheelbuilderFiltersStages {
     }
 
     reset_to_options_default_selection() {
+        // on startup of the page or on Reset sets options to their default selections.
+        // For instance Intended Application::All
         for (let option_name in this.wb_config.option_default_selection) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
             let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
@@ -995,7 +1005,6 @@ export default class WheelbuilderFiltersStages {
         // console.log('Query result', query_result);
 
         let inventory_type = query_result['inventory_type'];
-
         // Filter appropriate options based on inventory type
         let all_known_options = null; //aliases
         if (inventory_type === 'Hubs') {
@@ -1067,7 +1076,7 @@ export default class WheelbuilderFiltersStages {
             }
 
             if (run_spoke_query) {
-                parent.spoke_query.set('Spokes_Style', parent.hub_spoke_connector.last_spoke_style);
+                parent.spoke_query.set('Spoke_Style', parent.hub_spoke_connector.last_spoke_style);
                 parent.spoke_query.log('SPOKE QUERY');
                 parent.ajax_post(parent.spoke_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
@@ -1075,7 +1084,7 @@ export default class WheelbuilderFiltersStages {
 
          if (inventory_type === 'Spokes') {
             if (parent.hub_spoke_connector.spoke_style_changed(query_result)) {
-                let spoke_style = query_result['Spokes_Style'];
+                let spoke_style = query_result['Spoke_Style'];
                 parent.hub_spoke_connector.set_front_hub_style(spoke_style);
                 parent.hub_spoke_connector.set_rear_hub_style(spoke_style);
                 parent.hub_spoke_connector.set_spoke_style(spoke_style);
