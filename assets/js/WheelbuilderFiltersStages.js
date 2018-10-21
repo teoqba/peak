@@ -719,7 +719,8 @@ export default class WheelbuilderFiltersStages {
     remove_option_from_page(option_name) {
         let option = this.option_aliases.all_options_on_page_aliased[option_name];
         let $option_values_object = $(option).find('.wb-option');
-        // $option_values_object.remove(); // TODO: remove it or set it to Pick One...?
+        // $option_values_object.remove();
+        // TODO: remove it or set it to Pick One...?
         delete this.option_aliases.all_options_on_page_aliased[option_name];
     }
 
@@ -994,6 +995,21 @@ export default class WheelbuilderFiltersStages {
                 (option_name === 'Rear_Disc_Brake_Interface')) {
                 this.analyze_disc_brake_options();
             }
+            if (this.stage_one_options_on_page.have_member('Brake_Type')) {
+                let brake_type = this.stage_one_options_on_page.get('Brake_Type');
+                if (brake_type === 'Rim Brake') {
+                    this.hub_query.set('Front_Disc_Brake_Interface', 'Rim Brake');
+                    this.hub_query.set('Rear_Disc_Brake_Interface', 'Rim Brake');
+                    this.remove_option_from_page('Front_Disc_Brake_Interface');
+                    this.remove_option_from_page('Rear_Disc_Brake_Interface');
+                    this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Interface');
+                    this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Interface');
+                }else {
+                    this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+                    this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
+                }
+            }
+
         }
     }
 
@@ -1094,7 +1110,7 @@ export default class WheelbuilderFiltersStages {
                 parent.hub_spoke_connector.set_spoke_style(spoke_style);
                 parent.hub_query.set('Rear_Hub_Style', parent.hub_spoke_connector.last_rear_hub_style);
                 parent.hub_query.set('Front_Hub_Style', parent.hub_spoke_connector.last_front_hub_style);
-                parent.hub_query.log('Hub query in spokes');
+                // parent.hub_query.log('Hub query in spokes');
                 parent.ajax_post(parent.hub_query.get_query(), parent.query_api_url.query, parent.result_parser);
             }
         }
