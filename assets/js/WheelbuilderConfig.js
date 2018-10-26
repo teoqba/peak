@@ -2,7 +2,7 @@ export default class WheelbuilderConfig {
     constructor() {
 
         // Option names
-        this.build_type_option_name = 'You_want_to_build:';
+        this.build_type_option_name = 'I_want_to_build:';
 
         this.zeroth_option_default_name = 'Pick one...';
         this.zeroth_option_alternative_name = 'Reset selection...';
@@ -34,8 +34,8 @@ export default class WheelbuilderConfig {
 
         // special attributes that will be optionally shown
         this.poe_option_name = 'Points_of_Engagement';
-        this.front_bearing_upgrade = 'Front_Hub_Ceramic_Bearing_Upgrade';
-        this.rear_bearing_upgrade = 'Rear_Hub_Ceramic_Bearing_Upgrade';
+        this.front_bearing_upgrade = 'Front_Hub_Bearings';
+        this.rear_bearing_upgrade = 'Rear_Hub_Bearings';
 
         this.special_options = [this.poe_option_name, this.rear_bearing_upgrade, this.front_bearing_upgrade];
 
