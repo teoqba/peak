@@ -1,10 +1,13 @@
+import WheelbuilderConfig from './WheelbuilderConfig.js';
 export default class WheelbuilderQuery {
     constructor(inventory_type, product_attributes_on_page, common_options_roots) {
         this.product_attributes_on_page = product_attributes_on_page;
         this.common_options = common_options_roots;
         this.initial_option_values = {}; // format {option_name: [], option_name1: []}
         this.query = {};
+        this.wb_config = new WheelbuilderConfig();
         this.set('inventory_type', inventory_type);
+        this.set('use_sandbox_db', this.wb_config.use_sandbox_db); //use test database environment if True
         this.add_special_attributes(inventory_type);
 
     }
@@ -85,7 +88,9 @@ export default class WheelbuilderQuery {
                 mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'Spokes_Style') {
                 mongo_query[option_name] = this.query[option_name];
-            } else if (option_name === 'inventory_type'){
+            } else if (option_name === 'inventory_type') {
+                mongo_query[option_name] = this.query[option_name];
+            } else if (option_name === 'use_sandbox_db') {
                 mongo_query[option_name] = this.query[option_name];
             } else {
                 let or_1 = {};

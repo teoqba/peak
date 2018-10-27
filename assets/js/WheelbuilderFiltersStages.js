@@ -66,10 +66,7 @@ export default class WheelbuilderFiltersStages {
 
         this.saved_stage_one_choice = {};
         this.saved_wheelbuild_type = null;
-        // this.query_api_url = {"option_names_roots": "http://localhost:8000/options_names_roots",
-        //                       "query": "http://localhost:8000/wbdb_query"};
-        this.query_api_url = {"option_names_roots": "http://52.53.51.220:8080/options_names_roots",
-            "query": "http://52.53.51.220:8080/wbdb_query"};
+        this.query_api_url = this.wb_config.database_urls;
         // handle the loading spinner
         this.loader = $('#wb-load-spinner');
 
