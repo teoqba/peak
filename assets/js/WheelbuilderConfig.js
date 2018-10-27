@@ -1,5 +1,25 @@
 export default class WheelbuilderConfig {
     constructor() {
+        // If true use test database
+        this.use_sandbox_db = false;
+
+        // Adresses of backend
+        this.database_address = "http://52.53.51.220";
+        this.database_port = 8080;
+
+
+        // set urls depending if we use test environment or not. For "query" this.usesandbox is included in message body (query)
+        if (this.use_sandbox_db) {
+            this.database_urls = {
+                "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots?testdb=True",
+                "query": this.database_address + ":" + this.database_port + "/wbdb_query"
+            };
+        } else {
+            this.database_urls = {
+                "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots",
+                "query": this.database_address + ":" + this.database_port + "/wbdb_query"
+            };
+        }
 
         // Option names
         this.build_type_option_name = 'I_want_to_build:';
