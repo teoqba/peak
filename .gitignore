@@ -1,5 +1,6 @@
 node_modules/
 .stencil
+.stencil-*
 .DS_Store
 assets/css-artifacts
 assets/js/bundle.js
