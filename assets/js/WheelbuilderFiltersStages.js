@@ -120,7 +120,7 @@ export default class WheelbuilderFiltersStages {
         this.show_all_options_on_page();
 
         if (this.enable_filtering) {
-            console.log("FINISHING INIT");
+            // console.log("FINISHING INIT");
 
             this.common_options_roots = query_result['common_roots'];
             // Find aliases of the option names on page
@@ -879,7 +879,6 @@ export default class WheelbuilderFiltersStages {
         let selected_index = $selected_item.index();
 
         if ((option_name_alias === 'Intended_Application') && (selected_index <1)) {
-            console.log('Reseting stage 1');
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
                 // TODO: this can be solved by unselect option
                 this.rim_query.remove(stage_one_option_name);
