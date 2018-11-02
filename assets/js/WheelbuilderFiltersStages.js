@@ -1179,7 +1179,8 @@ export default class WheelbuilderFiltersStages {
             let option = this.option_aliases.all_options_on_page_aliased[option_name];
             let $option_values_object = $(option).find('.wb-option');
             $option_values_object.each(function(){
-                $(this).show();
+                // $(this).show(); // for option values does not work in IE and Safari
+                $(this).showDropdownOption(true);
             });
         }
         this.wb_front_rear_selection.reset_selection();
