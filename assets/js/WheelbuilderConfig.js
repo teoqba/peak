@@ -1,7 +1,7 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = false;
+        this.use_sandbox_db = true;
 
         // Adresses of backend
         this.database_address = "http://52.53.51.220";
