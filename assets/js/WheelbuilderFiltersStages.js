@@ -73,6 +73,22 @@ export default class WheelbuilderFiltersStages {
     }
 
     init() {
+
+        // Attach function fixing showing and hiding of Option elements in Safari and IE
+        $.fn.showDropdownOption = function(canShowOption) {
+            // Adopted from
+            // https://stackoverflow.com/questions/8373735/jquery-hide-option-doesnt-work-in-ie-and-safari
+
+            $(this).map(function () {
+                return $(this).parent('span').length === 0 ? this : null;
+            }).wrap('<span>').hide();
+
+            if (canShowOption)
+                $(this).unwrap().show();
+            else
+                $(this).hide();
+        };
+
         this.add_to_cart_button.hide();
         this.loader.show();
         this.all_options_on_page = this.get_all_options_on_page();
@@ -781,7 +797,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     is_option_hub($changedOption) {
-        let option_name = this.get_name_of_changed_option($changedOption)
+        let option_name = this.get_name_of_changed_option($changedOption);
         if (this.all_known_hub_options.indexOf(option_name) > -1) {
             return true;
         }
@@ -1064,9 +1080,11 @@ export default class WheelbuilderFiltersStages {
                         // console.log('Name', option_name_alias, name, result.indexOf(name));
                         // if (name === 'Pick one...') $(this).hide();
                         if (result.indexOf(name) < 0) {
-                            $(this).hide();
+                            // $(this).hide(); // hiding options does not work in Safari in IE
+                            $(this).showDropdownOption(false);
                         } else {
-                            $(this).show();
+                            // $(this).show(); // showing options does not work in Safari and IE
+                            $(this).showDropdownOption(true);
                         }
                     });
 
