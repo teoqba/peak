@@ -1,12 +1,13 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = true;
+        this.use_sandbox_db = false; // remeber  to also swap stencil file when toggling this variable
+        // if true shows query and query result
+        this.debug_query = true;
 
         // Adresses of backend
         this.database_address = "http://52.53.51.220";
         this.database_port = 8080;
-
 
         // set urls depending if we use test environment or not. For "query" this.usesandbox is included in message body (query)
         if (this.use_sandbox_db) {

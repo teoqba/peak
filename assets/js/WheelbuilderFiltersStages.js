@@ -41,6 +41,7 @@ export default class WheelbuilderFiltersStages {
         this.enable_filtering = false; // is set to false filtering will not start
 
         this.wb_config = new WheelbuilderConfig();
+        this.debug_query = this.wb_config.debug_query;
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Front_Rim_Choice', 'Rear_Rim_Choice', 'Rim_Size', 'Front_Hole_Count',
                                             'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model',
@@ -957,7 +958,9 @@ export default class WheelbuilderFiltersStages {
         this.reset_query_on_common_to_front_rear_change($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
-        // console.log("Query", query_object.log());
+        if (this.debug_query) {
+            console.log("Query", query_object.log());
+        }
         //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -1035,7 +1038,9 @@ export default class WheelbuilderFiltersStages {
 
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
-        // console.log('Query result', query_result);
+        if (parent.debug_query) {
+            console.log('Query result', query_result);
+        }
 
         let inventory_type = query_result['inventory_type'];
         // Filter appropriate options based on inventory type
@@ -1094,7 +1099,9 @@ export default class WheelbuilderFiltersStages {
             }
         }
         // see of one need to show special options such as POE etc
-        special_options.show_hide(query_result);
+        if (parent.stage_two_finished) {
+            special_options.show_hide(query_result);
+        }
 
         let run_spoke_query = false;
         if (inventory_type === 'Hubs') {
