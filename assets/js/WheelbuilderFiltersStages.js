@@ -93,7 +93,7 @@ export default class WheelbuilderFiltersStages {
         this.add_to_cart_button.hide();
         this.loader.show();
         this.all_options_on_page = this.get_all_options_on_page();
-        this.all_other_options_on_page = this.get_all_other_options_on_page();
+        // this.all_other_options_on_page = this.get_all_other_options_on_page();
         this.hide_all_options_on_page();
         this.ajax_get(this.query_api_url.option_names_roots).then(this.finish_init.bind(this), this.errorHandler)
     }
@@ -118,7 +118,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_spokes_options = query_result['spokes_roots'];
         this.all_known_options = query_result['rims_hubs_spokes_roots'];
         this.all_options_on_page = this.get_all_options_on_page(); // keep it here despite they are in init()
-        this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
+        // this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
 
         // check if there is at least on option on the page that belongs
         // to all_known_options. If not, dont event start filtering
@@ -144,6 +144,8 @@ export default class WheelbuilderFiltersStages {
             this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
             this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
             this.special_options.init();
+
+            this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
 
             this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
             this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
@@ -479,8 +481,8 @@ export default class WheelbuilderFiltersStages {
                     option_object.show();
             }
         // show all the options that might be included in options set but does not belong to any filtering
-        this.show_non_filter_options();
         }
+        this.show_non_filter_options();
     }
 
     hide_remaining_options() {
@@ -773,8 +775,8 @@ export default class WheelbuilderFiltersStages {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
             option_name = option_name.split(' ').join('_');
-            if (parent.all_known_options.indexOf(option_name) < 0) {
-            // if (!parent.option_aliases.all_options_on_page_aliased.hasOwnProperty(option_name)) {
+            // if (parent.all_known_options.indexOf(option_name) < 0) {
+            if (!parent.option_aliases.option_alias.hasOwnProperty(option_name)) {
                 all_options[option_name] = $(this);
             }
         });
