@@ -475,8 +475,8 @@ export default class WheelbuilderFiltersStages {
                 (this.wb_config.front_wheel_options_stage_one.indexOf(option_name) < 0 ) && // checks if option does not belong to hiddable stage 1 options
                 (this.wb_config.rear_wheel_options_stage_one.indexOf(option_name) < 0 ) && // checks if option does not belong to hiddable stage 1 options
                 (!is_special_option_hidden)) {
-                let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
-                option_object.show();
+                    let option_object = this.option_aliases.all_options_on_page_aliased[option_name];
+                    option_object.show();
             }
         // show all the options that might be included in options set but does not belong to any filtering
         this.show_non_filter_options();
@@ -757,7 +757,6 @@ export default class WheelbuilderFiltersStages {
         // - rectangle (used Wheelset/Front/Rear choice)
         // - set select
         // - swatch
-
         //look for set-rectangle options
         let all_options = {};
         let $all_field_rectangle_options = this.$parent_page.find('.form-field-rectangle');
@@ -775,6 +774,7 @@ export default class WheelbuilderFiltersStages {
             let option_name = $(this).find('.wb-option-display-name').text();
             option_name = option_name.split(' ').join('_');
             if (parent.all_known_options.indexOf(option_name) < 0) {
+            // if (!parent.option_aliases.all_options_on_page_aliased.hasOwnProperty(option_name)) {
                 all_options[option_name] = $(this);
             }
         });

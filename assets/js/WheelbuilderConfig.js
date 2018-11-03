@@ -1,9 +1,9 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = false; // remeber  to also swap stencil file when toggling this variable
+        this.use_sandbox_db = true; // remeber  to also swap stencil file when toggling this variable
         // if true shows query and query result
-        this.debug_query = true;
+        this.debug_query = false;
 
         // Adresses of backend
         this.database_address = "http://52.53.51.220";

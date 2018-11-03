@@ -10,7 +10,15 @@ export default class WheelbuilderOptionAliases {
         this.option_alias = {}; //  {"old_option_name":"new_option_name" }
         this.revert_alias_to_original = {};  //{"new_option_name":"old_option_name" }
         this.all_options_on_page_aliased = {}; // same format as all_options_on_page: {"new_option_name": option_object}
-        this.find_option_aliases();
+
+        this.renamed_options = {
+            'Front_Disc_Type': 'Front_Disc_Brake_Interface',
+            'Rear_Disc_Type': 'Rear_Disc_Brake_Interface',
+            'Front_Spoke_Count': 'Front_Hole_Count',
+            'Rear_Spoke_Count': 'Rear_Hole_Count'
+        };
+
+        this.find_option_aliases_2();
     }
 
     find_option_aliases() {
@@ -38,6 +46,31 @@ export default class WheelbuilderOptionAliases {
             }
         }
     }
+
+    find_option_aliases_2() {
+        // generates two Objects:
+        // -> this.option_alias
+        // -> this.all_options_on_page_aliased
+        for (let option_name in this.all_options_on_page) {
+            // Check if option_name in the keys:
+            if (this.renamed_options.hasOwnProperty(option_name)) {
+                let real_name = this.renamed_options[option_name];
+                if (this.option_name_roots.indexOf(real_name) > -1) {
+                    this.option_alias[option_name] = real_name;
+                    // this.revert_alias_to_original[option_name] = option_name;
+                    this.all_options_on_page_aliased[real_name] = this.all_options_on_page[option_name];
+                }
+
+            } else {
+                if (this.option_name_roots.indexOf(option_name) > -1) {
+                    this.option_alias[option_name] = option_name;
+                    this.all_options_on_page_aliased[option_name] = this.all_options_on_page[option_name];
+                }
+            }
+        }
+        console.log('Option name alias', this.option_alias);
+    }
+
 }
 
 
