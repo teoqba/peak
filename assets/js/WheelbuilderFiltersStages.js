@@ -1171,7 +1171,8 @@ export default class WheelbuilderFiltersStages {
 
     reset_option_selection(option_name) {
         // resets current selection in given option
-        let option = this.option_aliases.all_options_on_page_aliased[option_name];
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
         this.zeroth_option_alternative_to_default_name($(option));
         let $option_values_object = $(option).find('.wb-empty-option');
         $option_values_object.prop('selected', true)
