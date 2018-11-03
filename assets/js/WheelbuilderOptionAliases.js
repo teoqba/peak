@@ -11,17 +11,20 @@ export default class WheelbuilderOptionAliases {
         this.revert_alias_to_original = {};  //{"new_option_name":"old_option_name" }
         this.all_options_on_page_aliased = {}; // same format as all_options_on_page: {"new_option_name": option_object}
 
+        // new option_name (alias): recognized_option_name
         this.renamed_options = {
             'Front_Disc_Type': 'Front_Disc_Brake_Interface',
             'Rear_Disc_Type': 'Rear_Disc_Brake_Interface',
             'Front_Spoke_Count': 'Front_Hole_Count',
-            'Rear_Spoke_Count': 'Rear_Hole_Count'
+            'Rear_Spoke_Count': 'Rear_Hole_Count',
+            'Wheel_Size': 'Rim_Size'
         };
 
-        this.find_option_aliases_2();
+        this.find_option_aliases_v2();
     }
 
     find_option_aliases() {
+        // this version uses regexp to find aliases of the options *known_option_name*
         // generates two Objects:
         // -> this.option_alias
         // -> this.all_options_on_page_aliased
@@ -47,7 +50,8 @@ export default class WheelbuilderOptionAliases {
         }
     }
 
-    find_option_aliases_2() {
+    find_option_aliases_v2() {
+        // this version uses renamed_options object map renamed options in OptionSets to known option names used in filtering
         // generates two Objects:
         // -> this.option_alias
         // -> this.all_options_on_page_aliased
