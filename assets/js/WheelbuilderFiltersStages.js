@@ -801,7 +801,8 @@ export default class WheelbuilderFiltersStages {
 
     is_option_hub($changedOption) {
         let option_name = this.get_name_of_changed_option($changedOption);
-        if (this.all_known_hub_options.indexOf(option_name) > -1) {
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        if (this.all_known_hub_options.indexOf(option_name_alias) > -1) {
             return true;
         }
         return false;
@@ -1186,7 +1187,8 @@ export default class WheelbuilderFiltersStages {
         }
         // show all options values that were hidden before by the filters
         for (let option_name in this.all_options_on_page) {
-            let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
             let $option_values_object = $(option).find('.wb-option');
             $option_values_object.each(function(){
                 // $(this).show(); // for option values does not work in IE and Safari

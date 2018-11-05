@@ -7,17 +7,20 @@ export default class WheelbuilderOptionAliases {
 
         this.option_name_roots = option_name_roots;
 
-        this.option_alias = {}; //  {"old_option_name":"new_option_name" }
-        this.revert_alias_to_original = {};  //{"new_option_name":"old_option_name" }
-        this.all_options_on_page_aliased = {}; // same format as all_options_on_page: {"new_option_name": option_object}
+        this.option_alias = {}; //  {"known_option_name":"changed_option_name" }
+        this.revert_alias_to_original = {};  //{"changed_option_name":"old_option_name" }
+        this.all_options_on_page_aliased = {}; // same format as all_options_on_page: {"old_option_name": option_object}
 
+        // FORMAT:
         // new option_name (alias): recognized_option_name
+        //
         this.renamed_options = {
             'Front_Disc_Type': 'Front_Disc_Brake_Interface',
             'Rear_Disc_Type': 'Rear_Disc_Brake_Interface',
             'Front_Spoke_Count': 'Front_Hole_Count',
             'Rear_Spoke_Count': 'Rear_Hole_Count',
-            'Wheel_Size': 'Rim_Size'
+            'Wheel_Size': 'Rim_Size',
+            'Model_Of_Front_Rim': 'Front_Rim_Model'
         };
 
         this.find_option_aliases_v2();
