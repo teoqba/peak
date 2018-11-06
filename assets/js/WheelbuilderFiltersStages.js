@@ -344,8 +344,9 @@ export default class WheelbuilderFiltersStages {
 
         // reset option sets
         for (let option_name in this.all_options_on_page) {
-            if (!this.stage_one_options_on_page.have_member(option_name)) {
-                let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            if (!this.stage_one_options_on_page.have_member(option_name_alias)) {
+                let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
                 this.zeroth_option_alternative_to_default_name($(option));
                 let $option_values_object = $(option).find('.wb-empty-option');
                 $option_values_object.prop('selected', true)
@@ -353,8 +354,9 @@ export default class WheelbuilderFiltersStages {
         }
         // show all options values that were hidden before by the filters
         for (let option_name in this.all_options_on_page) {
-            if (!this.stage_one_options_on_page.have_member(option_name)) {
-                let option = this.option_aliases.all_options_on_page_aliased[option_name];
+            let option_name_alias = this.option_aliases.option_alias[option_name];
+            if (!this.stage_one_options_on_page.have_member(option_name_alias)) {
+                let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
                 let $option_values_object = $(option).find('.wb-option');
                 $option_values_object.each(function () {
                     $(this).show();
