@@ -75,7 +75,6 @@ export default class WheelbuilderOptionAliases {
                 }
             }
         }
-        console.log('Option name alias', this.option_alias);
     }
 
 }
