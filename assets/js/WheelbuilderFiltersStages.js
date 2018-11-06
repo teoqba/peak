@@ -914,8 +914,10 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
-            this.reset_option_selection('Front_Hole_Count');
-            this.reset_option_selection('Rear_Hole_Count');
+            if (!this.stage_one_options_on_page.all_options_selected()) {
+                this.reset_option_selection('Front_Hole_Count');
+                this.reset_option_selection('Rear_Hole_Count');
+            }
             // this.stage_one_finished = false;
             // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
         } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
@@ -924,8 +926,10 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
-            this.reset_option_selection('Front_Hole_Count');
-            this.reset_option_selection('Rear_Hole_Count');
+            if (!this.stage_one_options_on_page.all_options_selected()) {
+                this.reset_option_selection('Front_Hole_Count');
+                this.reset_option_selection('Rear_Hole_Count');
+            }
             // this.stage_one_finished = false;
             // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
         } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
@@ -934,8 +938,10 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
-            this.reset_option_selection('Front_Hole_Count');
-            this.reset_option_selection('Rear_Hole_Count');
+            if (!this.stage_one_options_on_page.all_options_selected()) {
+                this.reset_option_selection('Front_Hole_Count');
+                this.reset_option_selection('Rear_Hole_Count');
+            }
             // this.stage_one_finished = false;
         }
     }
