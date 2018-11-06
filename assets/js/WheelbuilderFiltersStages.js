@@ -914,6 +914,8 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
+            this.reset_option_selection('Front_Hole_Count');
+            this.reset_option_selection('Rear_Hole_Count');
             // this.stage_one_finished = false;
             // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
         } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
@@ -922,6 +924,8 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
+            this.reset_option_selection('Front_Hole_Count');
+            this.reset_option_selection('Rear_Hole_Count');
             // this.stage_one_finished = false;
             // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
         } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
@@ -930,6 +934,8 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
+            this.reset_option_selection('Front_Hole_Count');
+            this.reset_option_selection('Rear_Hole_Count');
             // this.stage_one_finished = false;
         }
     }
@@ -1175,6 +1181,9 @@ export default class WheelbuilderFiltersStages {
     reset_option_selection(option_name) {
         // resets current selection in given option
         let option_name_alias = this.option_aliases.option_alias[option_name];
+        if (option_name_alias == undefined) {
+            option_name_alias = option_name;
+        }
         let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
         this.zeroth_option_alternative_to_default_name($(option));
         let $option_values_object = $(option).find('.wb-empty-option');
