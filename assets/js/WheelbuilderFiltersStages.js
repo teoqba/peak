@@ -883,6 +883,29 @@ export default class WheelbuilderFiltersStages {
     }
 
 
+    on_option_change_additional_action($changed_option) {
+        // called in prepare_query. Additionaly modifies querey depending on what option is changed
+        // for instance resets PEO every time Rear Hub selection is changed
+        let option_name = this.get_name_of_changed_option($changed_option);
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+
+        if ((option_name_alias === 'Front_Hub') &&
+            (!this.special_options.is_special_option_hidden(this.wb_config.front_bearing_upgrade))) {
+            this.hub_query.remove(this.wb_config.front_bearing_upgrade);
+        }
+
+        if ((option_name_alias === 'Rear_Hub') &&
+                   (!this.special_options.is_special_option_hidden(this.wb_config.poe_option_name))) {
+            this.hub_query.remove(this.wb_config.poe_option_name);
+        }
+
+        if ((option_name_alias === 'Rear_Hub') &&
+            (!this.special_options.is_special_option_hidden(this.wb_config.rear_bearing_upgrade))) {
+            this.hub_query.remove(this.wb_config.rear_bearing_upgrade);
+        }
+
+    }
+
     reset_query_on_common_to_front_rear_change($changed_option){
         //reset query when the option affecting both front and rear changes
         // Intended_Application
@@ -973,6 +996,7 @@ export default class WheelbuilderFiltersStages {
         }
 
         this.reset_query_on_common_to_front_rear_change($changed_option);
+        this.on_option_change_additional_action($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         if (this.debug_query) {
