@@ -1,12 +1,12 @@
 {{#partial "page"}}
 
-  <header class="page-header">
+  <header class="page-header page-headerall">
     {{> components/common/breadcrumbs breadcrumbs}}
     <h1 class="page-title">{{page.title}}</h1>
   </header>
 
-  <section class="section">
-    <div class="container container-small">
+  <section class="section page-section">
+    <div class="container">
       <article class="page-content cms-page">
         {{#replace '%%Syndicate%%' page.content}}
           {{> components/page/rss}}

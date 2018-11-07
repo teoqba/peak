@@ -148,7 +148,8 @@ blog:
   {{#if theme_settings.home-show-blog}}
     <section class="blog-latest-posts section">
       <div class="container">
-        <h3 class="section-title">{{lang 'home.latest_blog_posts_title'}}</h3>
+       <!-- <h3 class="section-title">{{lang 'home.latest_blog_posts_title'}}</h3> -->
+       <h3 class="section-title">Tech Bites</h3> 
         <div>
           {{#each blog.recent_posts}}
             {{> components/blog/blog-post-summary

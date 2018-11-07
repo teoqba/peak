@@ -8226,7 +8226,8 @@ table.geotrust-ssl-seal-table {
 }
 
 .facet-list {
-  margin-bottom: 3em;
+  margin-bottom: 1em;
+  line-height:1em;
 }
 
 .facet-list-items {
@@ -8304,6 +8305,7 @@ table.geotrust-ssl-seal-table {
 
   @include media($min: $breakpoint-s) {
     font-size: rem-calc(14px);
+    margin:0 0 8px 0;
 
     &::before {
       display: none;
@@ -10789,7 +10791,7 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 
 .footer-nav-wrap {
   @extend %clearfix;
-  padding-bottom: 57px;
+  padding-bottom: 20px;
 }
 
 .button-top {
@@ -10836,12 +10838,12 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 }
 
 .footer-payment-icons-list {
-  margin-top: 30px;
+  margin-top: 0px;
 
   li {
     display: inline-block;
     width: 50px;
-    margin: 42px 5px;
+    margin: 20px 5px;
 
     .show-credits & {
       margin: 12px 5px 0;
@@ -10868,11 +10870,12 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 }
 
 .footer-site-copyright {
-  margin-top: 42px;
+  margin-top: 15px;
+  margin-bottom:15px;
 }
 
 .footer-theme-credits {
-  margin-bottom: 42px;
+  margin-bottom: 20px;
 }
 
 
@@ -12496,7 +12499,7 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
             text-align:right;
         }
         .main-nav-bar .navigation>ul>li {
-            margin-right: 0.7rem !important;
+            margin-right: 0.6rem !important;
         }
         .wishlist-form .button.button-secondary, .add-to-cart-form .product-quantity-submit .add-to-cart {
             padding:0.6em 2.5em;
@@ -12565,13 +12568,18 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 }
 
 
-.products-related .product-item-thumbnail .product-image-link{
+.products-related .product-item-thumbnail a{
     display: table-cell;
     vertical-align: middle;
     height: 260px;
 }
+
 .products-related .product-item-thumbnail{
     max-height:286px;
+}
+
+.products-related .product-item-actions a{
+    height:auto;
 }
 
 .product-quantity-container .form-field .product-quantity{
@@ -12912,3 +12920,150 @@ input[type=radio]:disabled {
   }
 }
 
+/*************************** other changes after deoplyment of theme ******************/
+
+.category-banner-image{
+    padding-bottom: 25%;
+}
+
+.form-contact-us{
+    padding:15px;
+}
+
+.testMonialReadAll{
+    text-decoration:none;
+    color:#b01309;
+}
+
+.carousel-item-info .carousel-item-link {
+    color:#fff;
+
+    &:hover{
+        color:#b01309;
+    }
+}
+
+.slick-dots li.slick-active, .slick-dots li:hover {
+    border-color: #fff;
+    background-color:#fff;
+}
+
+.slick-dots li{
+     background-color:#b01309;
+}
+
+.mega-nav-child-header{
+    color:#fff;
+}
+
+.mega-nav-child-list-back svg, .mega-nav-child-list-back a{
+    color:#6b6e79;
+}
+
+.facet-item,
+.facet-toggle-more {
+    margin-bottom:0.325em;
+}
+
+.site-footer .container{
+    padding-top:0px;
+    line-height:1.333em;
+}
+
+.product-grid-item .product-item-brand{
+    display:none;
+    
+}
+
+.blog-latest-posts .post{
+    text-align:center;
+}
+
+.button-add-testimonial{
+    margin-right:15px;
+}
+
+.section.page-section{
+    padding: 1rem 0 2rem;
+}
+.page-header.page-headerall, .search-header.page-header{
+    padding: 0.5rem 3.875rem;
+}
+.dropdown-open .dropdown-panel ul li.parent-all{
+    display:none;
+}
+
+@media screen  and (min-width: 1024px) {
+   
+   .main-nav-bar .navigation>ul>li.dropdown>a {
+        padding: 1rem .5rem;
+    }
+
+   .main-nav-bar .site-branding{
+       width: 22%;
+   }
+   
+   .main-nav-bar .navigation {
+        margin-left: 1%;
+        width: 70%;
+    }
+    
+    .facet-price .form-input:not(textarea):not([type=radio]):not([type=checkbox]){
+        height: 2.4375rem;
+    } 
+    
+    .facet-price .button{
+        line-height: 0.3125;
+    }
+    
+    .facet-list.range .facet-list-title{
+        margin-bottom:15px;
+    }
+    .tabs-content {
+        padding: 5px 10px;
+    }
+    
+   
+}
+
+/****************** FAQ Accordion *********************/
+    .faq-title{
+        margin: 5px 0;
+        text-transform: capitalize;
+    }
+.accordion {
+   margin: 10px 0;   
+   }
+.accordion.active{
+    border: 1px solid #f4f4f4;
+    }
+    
+.accordion dt{
+    background-color: #f4f4f4;
+    padding: 10px;
+  }
+.accordion dt span{
+    display: block;
+    font-size: 16px;
+    cursor:pointer;
+    position:relative;
+    }
+ .accordion dt span::after{
+    content: "+";
+    position: absolute;
+    right: 15px;
+    font-weight: bold;
+    }
+  .accordion dt.active span::after{
+    content: "-";
+    }
+.accordion dt.active{
+    background: none;
+    }
+.accordion dd.active{
+    }
+.accordion dd{
+    margin:0;
+    padding:10px;
+    font-family:"Roboto Condensed";
+    }
