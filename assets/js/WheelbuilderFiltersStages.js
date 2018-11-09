@@ -27,6 +27,7 @@ export default class WheelbuilderFiltersStages {
         this.$start_over_button = this.$parent_page.find('.wb-start-over-button');
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
+        this.$reset_button = this.$parent_page.find('.wb-reset-button');
         // handle buttons events
         this.buttons_event_handler();
 
@@ -90,6 +91,13 @@ export default class WheelbuilderFiltersStages {
                 $(this).hide();
         };
 
+        // Very nice functional implementation from
+        // https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
+        String.prototype.replaceAll = function(search, replacement) {
+            var target = this;
+            return target.split(search).join(replacement);
+        };
+
         this.add_to_cart_button.hide();
         this.loader.show();
         this.all_options_on_page = this.get_all_options_on_page();
@@ -103,6 +111,7 @@ export default class WheelbuilderFiltersStages {
         this.$start_over_button.on("click", function() {self.startOver()});
         this.$back_button.on("click", function() {self.back_to_stage_one()});
         this.$next_button.on("click", function() {self.forward_to_stage_two_three()});
+        this.$reset_button.on("click", function() {self.reset_button_clicked(this.id)});
 
     }
 
@@ -238,6 +247,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     filter_options($changedOption) {
+        console.log('CHANGED OPTIION', $changedOption);
         // Main call. This is called from ProductUtils page.
         if (this.enable_filtering) {
             if (this.initial_filter_done) {
@@ -268,8 +278,10 @@ export default class WheelbuilderFiltersStages {
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
         if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
             if (this.is_option_hub($changedOption)) {
+                console.log('Divide HUBS');
                 this.prepare_query($changedOption, this.hub_query);
             } else {
+                console.log('DIVIDNE SPOKES');
                 this.prepare_query($changedOption, this.spoke_query);
             }
         }
@@ -804,6 +816,7 @@ export default class WheelbuilderFiltersStages {
     is_option_hub($changedOption) {
         let option_name = this.get_name_of_changed_option($changedOption);
         let option_name_alias = this.option_aliases.option_alias[option_name];
+        console.log('ALIAS OF THE CHANGED OPTIONS', option_name_alias);
         if (this.all_known_hub_options.indexOf(option_name_alias) > -1) {
             return true;
         }
@@ -1256,6 +1269,34 @@ export default class WheelbuilderFiltersStages {
         utils.hooks.emit('product-option-change');
         // Start from scratch
         this.init();
+    }
+
+    reset_button_clicked(button_id) {
+        console.log("RESET BUTTON CLICKED withj id", button_id);
+        // start spinner
+        let button_prefix = 'wb-reset-button-';
+        let option_name = button_id.substring(button_prefix.length, button_id.length);
+        option_name = option_name.replaceAll(' ', '_');
+        let option_name_alias = this.option_aliases.option_alias[option_name];
+        let $changed_option = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+        this.reset_option_selection(option_name);
+        if (this.stage_one_options_on_page.have_member(option_name_alias)) {
+            this.stage_one_options_on_page.set(option_name_alias, null);
+            this.rim_query.remove(option_name_alias)
+        } else if (this.stage_two_options_on_page.have_member(option_name_alias)) {
+            this.stage_two_options_on_page.set(option_name_alias, null);
+            if (this.hub_query.has_option(option_name_alias)) {
+                this.hub_query.remove(option_name_alias);
+            } else if (this.spoke_query.has_option(option_name_alias)) {
+                this.spoke_query.remove(option_name_alias);
+            }
+        }
+
+        // option objectsd stored in option_aliases are top-level to $changedOption object that comes from
+        // BigCommerce engine when option is changed. Find the proper child option object, to we can
+        // use the regular filtering engine.
+        let $changedOption = $changed_option.find('.form-select');
+        this.divide_into_stages_and_query($changedOption);
     }
 
 }
