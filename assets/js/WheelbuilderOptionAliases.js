@@ -8,7 +8,7 @@ export default class WheelbuilderOptionAliases {
         this.option_name_roots = option_name_roots;
 
         this.option_alias = {}; //  {"known_option_name":"changed_option_name" }
-        this.revert_alias_to_original = {};  //{"changed_option_name":"old_option_name" }
+        this.alias_to_real_name = {};  //{"changed_option_name":"real_option_name" }
         this.all_options_on_page_aliased = {}; // same format as all_options_on_page: {"old_option_name": option_object}
 
         // FORMAT:
@@ -35,7 +35,7 @@ export default class WheelbuilderOptionAliases {
             // Check if option_name in the keys:
             if (this.option_name_roots.indexOf(option_name) > -1) {
                 this.option_alias[option_name] = option_name;
-                this.revert_alias_to_original[option_name] = option_name;
+                this.alias_to_real_name[option_name] = option_name;
                 this.all_options_on_page_aliased[option_name] = this.all_options_on_page[option_name];
 
             } else {
@@ -45,7 +45,7 @@ export default class WheelbuilderOptionAliases {
                     let test = reg_exp.test(option_name);
                     if (test) {
                         this.option_alias[option_name] = root;
-                        this.revert_alias_to_original[root] = option_name;
+                        this.alias_to_real_name[root] = option_name;
                         this.all_options_on_page_aliased[root] = this.all_options_on_page[option_name];
                     }
                 }
@@ -64,13 +64,14 @@ export default class WheelbuilderOptionAliases {
                 let real_name = this.renamed_options[option_name];
                 if (this.option_name_roots.indexOf(real_name) > -1) {
                     this.option_alias[option_name] = real_name;
-                    // this.revert_alias_to_original[option_name] = option_name;
+                    this.alias_to_real_name[real_name] = option_name;
                     this.all_options_on_page_aliased[real_name] = this.all_options_on_page[option_name];
                 }
 
             } else {
                 if (this.option_name_roots.indexOf(option_name) > -1) {
                     this.option_alias[option_name] = option_name;
+                    this.alias_to_real_name[option_name] = option_name;
                     this.all_options_on_page_aliased[option_name] = this.all_options_on_page[option_name];
                 }
             }

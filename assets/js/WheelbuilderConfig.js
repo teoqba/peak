@@ -1,9 +1,9 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = false; // remember  to also swap stencil file when toggling this variable
+        this.use_sandbox_db = true; // remember  to also swap stencil file when toggling this variable
         // if true shows query and query result
-        this.debug_query = true;
+        this.debug_query = false;
 
         // Adresses of backend
         this.database_address = "http://52.53.51.220";
@@ -62,6 +62,9 @@ export default class WheelbuilderConfig {
 
         // Spokes options
         this.spokes_default_style = ["J-Bend", "Straight Pull"];
+
+        //
+        this.option_reset_button_prefix = 'wb-reset-button-';
 
     }
 }

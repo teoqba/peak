@@ -6,6 +6,7 @@ import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSel
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
 import WheelbuilderSpecialOptions from "./WheelbuilderSpecialOptions";
 import WheelbuilderHubSpokeConnector from "./WheelbuilderHubSpokeConnector";
+import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons"
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -27,7 +28,8 @@ export default class WheelbuilderFiltersStages {
         this.$start_over_button = this.$parent_page.find('.wb-start-over-button');
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
-        this.$reset_button = this.$parent_page.find('.wb-reset-button');
+        this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
+
         // handle buttons events
         this.buttons_event_handler();
 
@@ -111,7 +113,7 @@ export default class WheelbuilderFiltersStages {
         this.$start_over_button.on("click", function() {self.startOver()});
         this.$back_button.on("click", function() {self.back_to_stage_one()});
         this.$next_button.on("click", function() {self.forward_to_stage_two_three()});
-        this.$reset_button.on("click", function() {self.reset_button_clicked(this.id)});
+        this.$reset_buttons.on("click", function() {self.option_reset_button_clicked(this.id)});
 
     }
 
@@ -195,6 +197,8 @@ export default class WheelbuilderFiltersStages {
         } else { // when filtering is disabled
             this.add_to_cart_button.show();
         }
+        this.option_reset_buttons = new WheelbuilderOptionResetButtons(this);
+        this.option_reset_buttons.init();
         this.loader.hide();
     }
 
@@ -278,15 +282,16 @@ export default class WheelbuilderFiltersStages {
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
         if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
             if (this.is_option_hub($changedOption)) {
-                console.log('Divide HUBS');
+                console.log('RUNNNING PREPARE QUERY IN HUBS');
                 this.prepare_query($changedOption, this.hub_query);
             } else {
-                console.log('DIVIDNE SPOKES');
+                console.log('RUNNNING PREPARE QUERY IN SPOKES');
                 this.prepare_query($changedOption, this.spoke_query);
             }
         }
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
+            console.log('RUNNNING PREPARE QUERY IN RIMS');
             this.prepare_query($changedOption, this.rim_query);
         }
         // decide if its time to show new stage
@@ -995,11 +1000,13 @@ export default class WheelbuilderFiltersStages {
             //set name Pick One -> Reset
             this.zeroth_option_to_alternative_name($option_values_object);
             query_object.set(option_name_alias, value);
+            this.option_reset_buttons.show(option_name);
         } else { //user chosen Pick One ...
             //revert name to Pick One...
             this.zeroth_option_alternative_to_default_name($option_values_object);
             // Remove selection from query
             query_object.remove(option_name_alias);
+            this.option_reset_buttons.hide(option_name);
             // If the option that was reset was Disc Brake interface, make sure its not
             // pointing to Rim Brake as one of the alternatives
             if((option_name_alias === 'Front_Disc_Brake_Interface') ||
@@ -1007,13 +1014,12 @@ export default class WheelbuilderFiltersStages {
                 this.analyze_disc_brake_options();
             }
         }
-
         this.reset_query_on_common_to_front_rear_change($changed_option);
         this.on_option_change_additional_action($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
         if (this.debug_query) {
-            console.log("Query", query_object.log());
+            query_object.log('Query');
         }
         //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
@@ -1271,9 +1277,10 @@ export default class WheelbuilderFiltersStages {
         this.init();
     }
 
-    reset_button_clicked(button_id) {
-        console.log("RESET BUTTON CLICKED withj id", button_id);
-        // start spinner
+    option_reset_button_clicked(button_id) {
+        // resets currently selected option,
+        // removes it from query and stages control
+        // calls new query
         let button_prefix = 'wb-reset-button-';
         let option_name = button_id.substring(button_prefix.length, button_id.length);
         option_name = option_name.replaceAll(' ', '_');
