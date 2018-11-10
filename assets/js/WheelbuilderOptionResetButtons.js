@@ -33,8 +33,15 @@ export default class WheelbuilderOptionResetButtons {
         return $button_object
     }
 
+    find_real_option_name(option_name) {
+        let real_option_name =  this.option_aliases.alias_to_real_name[option_name];
+        if (real_option_name == undefined) real_option_name = option_name;
+        return real_option_name;
+    }
+
     show(option_name) {
-        // input is option name, not alias
+        // if option is aliases finds its real name
+        option_name = this.find_real_option_name(option_name);
         let $button_object = this.all_buttons[option_name];
         try {
             $button_object.show();
@@ -43,7 +50,8 @@ export default class WheelbuilderOptionResetButtons {
 
 
     hide(option_name) {
-        // input is option name, not alias
+        // if option is aliases finds its real name
+        option_name = this.find_real_option_name(option_name);
         let $button_object = this.all_buttons[option_name];
         try {
             $button_object.hide();

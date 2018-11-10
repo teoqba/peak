@@ -251,7 +251,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     filter_options($changedOption) {
-        console.log('CHANGED OPTIION', $changedOption);
         // Main call. This is called from ProductUtils page.
         if (this.enable_filtering) {
             if (this.initial_filter_done) {
@@ -282,16 +281,13 @@ export default class WheelbuilderFiltersStages {
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
         if (this.stage_one_finished && !this.stage_one_first_pass && !this.page_in_rim_choice_mode) {
             if (this.is_option_hub($changedOption)) {
-                console.log('RUNNNING PREPARE QUERY IN HUBS');
                 this.prepare_query($changedOption, this.hub_query);
             } else {
-                console.log('RUNNNING PREPARE QUERY IN SPOKES');
                 this.prepare_query($changedOption, this.spoke_query);
             }
         }
 
         if ((!this.stage_one_finished) || (this.stage_one_finished && this.page_in_rim_choice_mode)) {
-            console.log('RUNNNING PREPARE QUERY IN RIMS');
             this.prepare_query($changedOption, this.rim_query);
         }
         // decide if its time to show new stage
@@ -821,7 +817,6 @@ export default class WheelbuilderFiltersStages {
     is_option_hub($changedOption) {
         let option_name = this.get_name_of_changed_option($changedOption);
         let option_name_alias = this.option_aliases.option_alias[option_name];
-        console.log('ALIAS OF THE CHANGED OPTIONS', option_name_alias);
         if (this.all_known_hub_options.indexOf(option_name_alias) > -1) {
             return true;
         }
@@ -947,6 +942,8 @@ export default class WheelbuilderFiltersStages {
                 this.rim_query.remove(stage_one_option_name);
                 this.stage_one_options_on_page.set(stage_one_option_name, null);
                 this.reset_option_selection(stage_one_option_name);
+                // let real_option_name = this.option_aliases.alias_to_real_name(stage_one_option_name);
+                // this.option_reset_buttons.hide(real_option_name);
             }
             this.reset_to_options_default_selection();
         } else if ((option_name_alias === 'Intended_Application') && (selected_index > 1)) {
@@ -1236,7 +1233,8 @@ export default class WheelbuilderFiltersStages {
         let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
         this.zeroth_option_alternative_to_default_name($(option));
         let $option_values_object = $(option).find('.wb-empty-option');
-        $option_values_object.prop('selected', true)
+        $option_values_object.prop('selected', true);
+        this.option_reset_buttons.hide(option_name);
     }
 
 
