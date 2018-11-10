@@ -12798,6 +12798,20 @@ input[type=radio]:disabled {
 
 }
 
+.wb-reset-button {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.wb-reset-button.focus, .wb-reset-button:focus {
+  outline: 0;
+  //box-shadow: none!important;
+}
+
+.icon-wb {
+  width: 10px;
+  height: 10px;
+};
+
 /* https://codepen.io/MattIn4D/pen/LiKFC */
 /* Absolute Center Spinner */
 #wb-load-spinner {
