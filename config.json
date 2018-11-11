@@ -115,7 +115,7 @@
     "wrap-meganav": false,
     "shop-menu-meganav-display-type": "default",
     "store-copyright": true,
-    "theme-credits": true,
+    "theme-credits": false,
     "sitemap": false,
     "footer-show-address": true,
     "footer-show-categories": true,
