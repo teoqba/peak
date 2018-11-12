@@ -5,6 +5,9 @@ export default class WheelbuilderConfig {
         // if true shows query and query result
         this.debug_query = false;
 
+        // hardcode common_option_roots TODO: to be removed later when other is fixed
+        this.hardcoded_common_option_roots = ['Front_Hole_Count', 'Rear_Hole_Count'];
+
         // Adresses of backend
         this.database_address = "http://52.53.51.220";
         this.database_port = 8080;

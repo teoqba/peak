@@ -84,9 +84,11 @@ export default class WheelbuilderQuery {
         // if Option is inventory or common options (eg. Hole Count) don't set it as mongo experssion, but make it direct
         for (let option_name in this.query){
             // TODO to implement spokes, put spokes options here
-            if (this.is_option_common(option_name)) {
+            if (this.is_option_common(option_name)) { //Set Front_Rear_Spoke Count so it is found and will be removed by server
                 mongo_query[option_name] = this.query[option_name];
-            } else if (option_name === 'Spokes_Style') {
+            }
+
+            if (option_name === 'Spokes_Style') {
                 mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'inventory_type') {
                 mongo_query[option_name] = this.query[option_name];

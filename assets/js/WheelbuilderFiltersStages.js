@@ -149,8 +149,8 @@ export default class WheelbuilderFiltersStages {
 
         if (this.enable_filtering) {
             // console.log("FINISHING INIT");
-
             this.common_options_roots = query_result['common_roots'];
+            this.common_options_roots = this.common_options_roots.concat(this.wb_config.hardcoded_common_option_roots);
             // Find aliases of the option names on page
             this.option_aliases = new WheelbuilderOptionAliases(this.all_options_on_page, this.all_known_options);
             this.special_options = new WheelbuilderSpecialOptions(this.option_aliases);
