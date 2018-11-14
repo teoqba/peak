@@ -8,7 +8,7 @@
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
     
-    class=wb-empty-option  //for Pick one... first optioon
+    class=wb-empty-option  //for Pick one... first option
     <option value="" class="wb-empty-option" {{#any values selected=true}}{{else}}selected{{/any}}>{{lang 'product.pick_one'}}</option>
 
     class=wb-option
@@ -42,7 +42,10 @@
 
     <div class="wb-step-label"> Step 1: Select Rim </div>
 
-* templates/core/froms/options/set-rectangle.html
+* templates/core/forms/options/set-rectangle.html
+        {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
+
+* templates/core/forms/options/input-text.html
         {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
 
 

@@ -803,6 +803,16 @@ export default class WheelbuilderFiltersStages {
             option_name = option_name.split(' ').join('_');
             all_options[option_name] = $(this);
         });
+        // textfield
+        let $all_text_options = this.$parent_page.find('.form-field-text');
+        $all_text_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            console.log('DISPLAU NAME FOR TEXT', option_name);
+            option_name = option_name.split(' ').join('_');
+            all_options[option_name] = $(this);
+        });
+
 
         return all_options;
     }
