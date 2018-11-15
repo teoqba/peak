@@ -618,6 +618,7 @@ export default class WheelbuilderFiltersStages {
         if (this.never_was_in_stage_two === true) { //show/hide this button ONLY if we have never been in stage two before
             this.show_hide_forward_to_stage_two_button();
         }
+        this.ajax_post(this.rim_query.get_query(), this.query_api_url.query, this.result_parser);
 
     }
 
@@ -648,6 +649,7 @@ export default class WheelbuilderFiltersStages {
         if (this.never_was_in_stage_two === true) { //show/hide this button ONLY if we have never been in stage two before
             this.show_hide_forward_to_stage_two_button();
         }
+        this.ajax_post(this.rim_query.get_query(), this.query_api_url.query, this.result_parser);
     }
 
     show_stage_one_front_rear_options() {
