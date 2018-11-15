@@ -1311,6 +1311,7 @@ export default class WheelbuilderFiltersStages {
         // BigCommerce engine when option is changed. Find the proper child option object, to we can
         // use the regular filtering engine.
         let $changedOption = $changed_option.find('.form-select');
+        utils.hooks.emit('product-option-change', event, $changedOption);
         this.divide_into_stages_and_query($changedOption);
     }
 
