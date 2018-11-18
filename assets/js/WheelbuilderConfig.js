@@ -60,8 +60,11 @@ export default class WheelbuilderConfig {
         this.poe_option_name = 'Points_of_Engagement';
         this.front_bearing_upgrade = 'Front_Hub_Bearings';
         this.rear_bearing_upgrade = 'Rear_Hub_Bearings';
+        this.front_rim_decal_color = 'Front_Rim_Decal';
+        this.rear_rim_decal_color = 'Rear_Rim_Decal';
 
-        this.special_options = [this.poe_option_name, this.rear_bearing_upgrade, this.front_bearing_upgrade];
+        this.special_options = [this.poe_option_name, this.rear_bearing_upgrade, this.front_bearing_upgrade,
+                                this.front_rim_decal_color, this.rear_rim_decal_color];
 
         // Spokes options
         this.spokes_default_style = ["J-Bend", "Straight Pull"];

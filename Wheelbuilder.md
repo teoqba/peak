@@ -31,6 +31,9 @@
 * templates/core/forms/options/swatch.html
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
+
+    add data-wb-swatch-color="{{data.[0]}}" to label:
+    <label class="swatch-wrap" data-swatch-value="{{label}}" data-wb-swatch-color="{{data.[0]}}" data-product-attribute-value="{{id}}">
     ```
 
 

@@ -768,6 +768,15 @@ export default class WheelbuilderFiltersStages {
             option_name = option_name.split(' ').join('_');
             all_options[option_name] = $(this);
         });
+
+        let $all_swatch_options = this.$parent_page.find('.form-field-swatch');
+        $all_swatch_options.each(function () {
+            // find name of option
+            let option_name = $(this).find('.wb-option-display-name').text();
+            option_name = option_name.split(' ').join('_');
+            all_options[option_name] = $(this);
+        });
+
         return all_options;
     }
 
@@ -803,14 +812,16 @@ export default class WheelbuilderFiltersStages {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
             option_name = option_name.split(' ').join('_');
-            all_options[option_name] = $(this);
+            if (!parent.option_aliases.option_alias.hasOwnProperty(option_name)) {
+                all_options[option_name] = $(this);
+            }
+
         });
         // textfield
         let $all_text_options = this.$parent_page.find('.form-field-text');
         $all_text_options.each(function () {
             // find name of option
             let option_name = $(this).find('.wb-option-display-name').text();
-            console.log('DISPLAU NAME FOR TEXT', option_name);
             option_name = option_name.split(' ').join('_');
             all_options[option_name] = $(this);
         });
@@ -1066,6 +1077,7 @@ export default class WheelbuilderFiltersStages {
 
     unselect_query_result_empty_option(option_name) {
         // reset current options to Pick One... and removes its from query and stage options
+        // this is called to perform reset of an option when other one is selected ?
         this.reset_option_selection(option_name);
         if (this.stage_one_options_on_page.options.hasOwnProperty(option_name)) {
             this.stage_one_options_on_page.set(option_name, null);
@@ -1132,13 +1144,21 @@ export default class WheelbuilderFiltersStages {
                 let option_name_alias = all_known_options[i];
 
                 //show hide options
-                if (((all_options_on_page_aliased.hasOwnProperty(option_name_alias))) && (query_result.hasOwnProperty(option_name_alias))) {
+                if (((all_options_on_page_aliased.hasOwnProperty(option_name_alias)))
+                    && (query_result.hasOwnProperty(option_name_alias))) {
                     let option = all_options_on_page_aliased[option_name_alias];
-                    let $option_values_object = $(option).find('.wb-option');
+
+                    let option_selector = '.wb-option';
+                    let color_swatch_option = false;
+                    if ((option_name_alias === 'Front_Rim_Decal' ) || (option_name_alias === 'Rear_Rim_Decal')) {
+                        option_selector = '.swatch-wrap';
+                        color_swatch_option = true;
+                    }
+
+                    let $option_values_object = $(option).find(option_selector);
                     let $empty_option = $(option).find('.wb-empty-option');
                     // $empty_option.hide();
                     let result = query_result[option_name_alias];
-
                     let selected_name = parent.find_currently_selected_text_in_option($(option));
                     if (result.indexOf(selected_name) < 0) {
                         parent.unselect_query_result_empty_option(option_name_alias);
@@ -1151,14 +1171,25 @@ export default class WheelbuilderFiltersStages {
                     }
                     $option_values_object.each(function () {
                         let name = $(this).text();
-                        // console.log('Name', option_name_alias, name, result.indexOf(name));
-                        // if (name === 'Pick one...') $(this).hide();
+                        if (color_swatch_option) {
+                            name = $(this).attr('data-swatch-value'); // for string colors eg. Enve Black, Enve Green...
+                            // name = $(this).attr('data-wb-swatch-color'); // for hex colors
+                        }
+
                         if (result.indexOf(name) < 0) {
                             // $(this).hide(); // hiding options does not work in Safari in IE
-                            $(this).showDropdownOption(false);
+                            if (color_swatch_option) {
+                                $(this).hide();
+                            } else {
+                                $(this).showDropdownOption(false);
+                            }
                         } else {
                             // $(this).show(); // showing options does not work in Safari and IE
-                            $(this).showDropdownOption(true);
+                            if (color_swatch_option) {
+                                $(this).show();
+                            } else {
+                                $(this).showDropdownOption(true);
+                            }
                         }
                     });
 
@@ -1167,8 +1198,13 @@ export default class WheelbuilderFiltersStages {
                 }
             }
         }
+        if (query_result['inventory_type'] === 'Rims') {
+            let build_type = parent.wb_front_rear_selection.get_wheel_build_type();
+            special_options.delegate_rim_options_show_hide_to_stage_two(query_result, build_type);
+        }
         // see of one need to show special options such as POE etc
-        if (parent.stage_two_finished) {
+        if (parent.stage_two_finished && parent.stage_one_finished) {
+            console.log('Stage two finished', parent.stage_two_finished);
             special_options.show_hide(query_result);
         }
 

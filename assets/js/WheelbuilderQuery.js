@@ -24,6 +24,11 @@ export default class WheelbuilderQuery {
             this.product_attributes_on_page.push('Front_Hub_Style');
             this.product_attributes_on_page.push('Rear_Hub_Style');
         }
+
+        if (inventory_type === 'Rims') {
+            this.product_attributes_on_page.push('Front_Rim_Decal');
+            this.product_attributes_on_page.push('Rear_Rim_Decal');
+        }
     }
 
     log(message) {
