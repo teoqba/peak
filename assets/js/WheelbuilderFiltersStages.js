@@ -1204,7 +1204,6 @@ export default class WheelbuilderFiltersStages {
         }
         // see of one need to show special options such as POE etc
         if (parent.stage_two_finished && parent.stage_one_finished) {
-            console.log('Stage two finished', parent.stage_two_finished);
             special_options.show_hide(query_result);
         }
 
@@ -1278,11 +1277,29 @@ export default class WheelbuilderFiltersStages {
         if (option_name_alias == undefined) {
             option_name_alias = option_name;
         }
-        let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
-        this.zeroth_option_alternative_to_default_name($(option));
-        let $option_values_object = $(option).find('.wb-empty-option');
-        $option_values_object.prop('selected', true);
-        this.option_reset_buttons.hide(option_name);
+        if (this.wb_config.swatch_options.indexOf(option_name_alias) > -1) {
+            this.reset_swatch_selection(option_name_alias);
+        } else {
+            let option = this.option_aliases.all_options_on_page_aliased[option_name_alias];
+            this.zeroth_option_alternative_to_default_name($(option));
+            let $option_values_object = $(option).find('.wb-empty-option');
+            $option_values_object.prop('selected', true);
+            this.option_reset_buttons.hide(option_name);
+        }
+    }
+
+    reset_swatch_selection(option_name) {
+        let option = this.option_aliases.all_options_on_page_aliased[option_name];
+        let $swatch_object = $(option).find('.swatch-wrap');
+        let swatch_values = $swatch_object.find('.swatch-radio');
+        $(swatch_values).each(function () {
+            // iterate over every swatch input at see if it is checked. If yes, make a reset
+            let is_checked = $(this).prop('checked');
+            if (is_checked) {
+                $(this).prop('checked', false);
+            }
+        })
+
     }
 
 
@@ -1354,5 +1371,6 @@ export default class WheelbuilderFiltersStages {
     }
 
 }
+
 
 

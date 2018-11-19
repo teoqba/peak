@@ -72,5 +72,7 @@ export default class WheelbuilderConfig {
         //
         this.option_reset_button_prefix = 'wb-reset-button-';
 
+        // Swatch options
+        this.swatch_options = [this.front_rim_decal_color, this.rear_rim_decal_color];
     }
 }
