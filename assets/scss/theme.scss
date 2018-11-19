@@ -7754,7 +7754,7 @@ table.geotrust-ssl-seal-table {
   left: 10px;
   height: 28px;
 
-  @include media($min: $breakpoint-s) { display: none; }
+  @include media($min: $breakpoint-m) { display: none; }
 
   &:focus { outline: none; }
 
@@ -7800,7 +7800,7 @@ table.geotrust-ssl-seal-table {
     transform: translateY(0);
   }
 
-  @include media($min: $breakpoint-s) { display: none; }
+  @include media($min: $breakpoint-m) { display: none; }
 
   a {
     display: block;
@@ -7826,7 +7826,7 @@ table.geotrust-ssl-seal-table {
   border-top: 1px solid rgba(#fff, 0.1);
   -webkit-overflow-scrolling: touch;
 
-  @include media($min: $breakpoint-s) {
+  @include media($min: $breakpoint-m) {
     display: none !important;
   }
 
@@ -9954,7 +9954,7 @@ table.geotrust-ssl-seal-table {
     padding-left: 30px - $gutter;
   }
 
-  @include media($max: $breakpoint-s) {
+  @include media($max: $breakpoint-m) {
     display: none;
   }
 }
@@ -10014,6 +10014,7 @@ table.geotrust-ssl-seal-table {
 
   @include media($max: $breakpoint-m) {
     padding-right: 30px - $gutter;
+    display:none;
   }
 }
 
@@ -10188,7 +10189,7 @@ table.geotrust-ssl-seal-table {
   background-color: $color-nav-background;
   position: relative;
 
-  @include media($max: $breakpoint-s) {
+  @include media($max: $breakpoint-m) {
     display: none;
   }
 
@@ -12527,6 +12528,7 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
             clip: unset;
             display: none;
             font-size: 12px;
+            z-index:999;
         }
         
         .swatch-wrap:hover .form-label-text {
@@ -12801,6 +12803,7 @@ input[type=radio]:disabled {
 .wb-reset-button {
   padding-left: 5px;
   padding-right: 5px;
+  background:none;
 }
 .wb-reset-button.focus, .wb-reset-button:focus {
   outline: 0;
@@ -13081,3 +13084,124 @@ input[type=radio]:disabled {
     padding:10px;
     font-family:"Roboto Condensed";
     }
+
+/************************* changes **************/
+
+@media screen  and (max-width: 450px) {
+    .site-branding.has-logo{
+        max-width: 78%;
+        margin: 0 auto;
+    }
+    .button-mobile-nav-cart a svg {
+        fill: #000;
+        margin-top: 4px;
+    }
+}
+
+@media screen  and (max-width: 620px) {
+    td, th {
+        padding: 5px;
+        word-break: break-word;
+        word-wrap: break-word;
+    }
+}
+
+@media screen  and (min-width: 768px) and (max-width: 830px) {
+    .main-nav-bar .navigation {
+        width: 94.52542%;
+    }
+    
+    .main-nav-bar .navigation>ul>li {
+        margin-right: .2rem!important;
+    }
+    
+    .icon-arrow-down {
+        margin-left: .2em;
+    }
+}
+
+@media screen  and (max-width: 767px) {
+    .product-options-container .form-field{
+        margin-bottom:10px;
+    }
+    
+    .product-options-container .form-field-title {
+        margin-bottom: 4px;
+        line-height:1.3;
+    }
+    
+    .product-description table{
+        max-width:100%!important;
+        width:100%!important;
+    }
+    
+    .product-options-container{
+        margin-top:10px;
+    }
+    
+    .button.wb-button.wb-back-button{
+        padding: 0.6em 1.5em;
+        margin: 5px 0;
+    }
+    
+    .button.button-wide.wb-button.wb-start-over-button{
+        margin:5px;
+    }
+    
+     .product-options-container .wishlist-form{
+       width:100%;
+       text-align:left;
+    }
+    
+    .form-field.form-field-options .form-input.form-select{
+        height:2.3em;
+    }
+    
+}
+
+@media screen  and (max-width: 1023px) {
+	.top-bar-center{
+		height:80px;
+	}
+}
+
+.button.wb-button.wb-back-button{
+        padding: 0.6em 1.5em;
+        margin: 5px 0;
+    }
+    
+.button.button-wide.wb-button.wb-start-over-button{
+        margin:5px;
+    }
+    
+.product-options-container .wishlist-form{
+       width:100%;
+       text-align:left;
+    }
+
+
+
+.product-options-container .form-select-wrapper{
+    max-width:90%;
+    
+}
+
+.navigation-mobile .button-util, 
+.navigation-mobile .children a, 
+.navigation-mobile .currency-selector .dropdown-toggle, 
+.navigation-mobile .nav-mobile-item, 
+.navigation-mobile .nav-mobile-item a {
+    color: #2e3036;
+}
+
+.navigation-mobile .nav-mobile-panel-child .nav-mobile-item a{
+    color:#636363;
+}
+
+.nav-mobile-item.nav-mobile-item-all{
+    display:none!important;
+}
+
+td, th {
+    padding: 15px;
+}

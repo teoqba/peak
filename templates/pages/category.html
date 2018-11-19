@@ -8,15 +8,17 @@ category:
 {{#partial "page"}}
   {{#if category.image.data}}
     <figure class="category-banner banner-ratio-{{../theme_settings.product-banner-aspect-ratio}}">
-      <div class="category-banner-image" style="background-image: url({{getImage category.image 'zoom'}});"></div>
-      <img class="sr-only" src="{{getImage category.image 'zoom'}}" alt="{{{alt_text}}}" />
-      {{#if category.description}}
         <div class="container">
-          <figcaption class="category-banner-description">
-            {{{category.description}}}
-          </figcaption>
-        </div>
-      {{/if}}
+          <div class="category-banner-image" style="background-image: url({{getImage category.image 'zoom'}});"></div>
+          <img class="sr-only" src="{{getImage category.image 'zoom'}}" alt="{{{alt_text}}}" />
+          {{#if category.description}}
+            <div class="container">
+              <figcaption class="category-banner-description">
+                {{{category.description}}}
+              </figcaption>
+            </div>
+          {{/if}}
+        </div>  
     </figure>
   {{/if}}
 
