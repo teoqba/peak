@@ -270,6 +270,7 @@ export default class WheelbuilderFiltersStages {
     }
 
     divide_into_stages_and_query($changedOption) {
+        console.log('Running divice');
         // Stage 1: asking about Rim attributes
         // Stage 2: asking about basic Hub attributes
         // Stage 3: choosing the hub
@@ -1388,6 +1389,7 @@ export default class WheelbuilderFiltersStages {
         // BigCommerce engine when option is changed. Find the proper child option object, to we can
         // use the regular filtering engine.
         let $changedOption = $changed_option.find('.form-select');
+        let event = null;
         utils.hooks.emit('product-option-change', event, $changedOption);
         this.divide_into_stages_and_query($changedOption);
     }
