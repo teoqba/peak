@@ -6,7 +6,8 @@ import WheelbuilderFrontRearBuildSelection from "./WheelbuilderFrontRearBuildSel
 import WheelbuilderStepLabel from "./WheelbuilderStepLabel";
 import WheelbuilderSpecialOptions from "./WheelbuilderSpecialOptions";
 import WheelbuilderHubSpokeConnector from "./WheelbuilderHubSpokeConnector";
-import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons"
+import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons";
+import WheelbuilderRimSizeChangeLogic from "./WheelbuilderRimSizeChangeLogic";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -72,6 +73,7 @@ export default class WheelbuilderFiltersStages {
         this.saved_wheelbuild_type = null;
         this.query_api_url = this.wb_config.database_urls;
         // handle the loading spinner
+        this.last_changed_option_name = null;
         this.loader = $('#wb-load-spinner');
 
     }
@@ -199,6 +201,9 @@ export default class WheelbuilderFiltersStages {
         }
         this.option_reset_buttons = new WheelbuilderOptionResetButtons(this);
         this.option_reset_buttons.init();
+
+        this.rim_size_change_logic = new WheelbuilderRimSizeChangeLogic(this);
+
         this.loader.hide();
     }
 
@@ -920,7 +925,7 @@ export default class WheelbuilderFiltersStages {
 
 
     on_option_change_additional_action($changed_option) {
-        // called in prepare_query. Additionaly modifies querey depending on what option is changed
+        // called in prepare_query. Additionally modifies quert depending on what option is changed
         // for instance resets PEO every time Rear Hub selection is changed
         let option_name = this.get_name_of_changed_option($changed_option);
         let option_name_alias = this.option_aliases.option_alias[option_name];
@@ -979,23 +984,24 @@ export default class WheelbuilderFiltersStages {
                 this.reset_option_selection('Front_Hole_Count');
                 this.reset_option_selection('Rear_Hole_Count');
             }
-            // this.stage_one_finished = false;
-            // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
-        } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
-            this.rim_query.remove('Front_Rim_Model');
-            this.rim_query.remove('Rear_Rim_Model');
-            this.rim_query.remove('Front_Hole_Count');
-            this.rim_query.remove('Rear_Hole_Count');
-            alert('One of selected Rims is not compatible with selected Wheel Size. Resetting your selections, please choose again');
-            // if (!this.stage_one_options_on_page.all_options_selected()) {
-                this.reset_option_selection('Front_Hole_Count');
-                this.reset_option_selection('Rear_Hole_Count');
-                this.reset_option_selection('Front_Rim_Model');
-                this.reset_option_selection('Rear_Rim_Model');
-            // }
-            // this.stage_one_finished = false;
-            // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        // COMMENT: bellow is take car of in RimSizeChangeLogic
+        // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+        // // } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
+        //     // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+        //     console.log("HERE");
+        //     this.rim_query.remove('Front_Rim_Model');
+        //     this.rim_query.remove('Rear_Rim_Model');
+        //     this.rim_query.remove('Front_Hole_Count');
+        //     this.rim_query.remove('Rear_Hole_Count');
+        //     alert('One of selected Rims is not compatible with selected Wheel Size. Resetting your selections, please choose again');
+        //     // if (!this.stage_one_options_on_page.all_options_selected()) {
+        //         this.reset_option_selection('Front_Hole_Count');
+        //         this.reset_option_selection('Rear_Hole_Count');
+        //         this.reset_option_selection('Front_Rim_Model');
+        //         this.reset_option_selection('Rear_Rim_Model');
+        //     // }
+        //     // this.stage_one_finished = false;
+        //     // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
         } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
             // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
             this.rim_query.remove('Front_Rim_Model');
@@ -1037,6 +1043,9 @@ export default class WheelbuilderFiltersStages {
                 this.analyze_disc_brake_options();
             }
         }
+        if (option_name_alias === 'Rim_Size') {
+            // TODO put here rim size logic
+        }
         this.reset_query_on_common_to_front_rear_change($changed_option);
         this.on_option_change_additional_action($changed_option);
 
@@ -1044,6 +1053,7 @@ export default class WheelbuilderFiltersStages {
         if (this.debug_query) {
             query_object.log('Query');
         }
+        this.last_changed_option_name = option_name_alias;
         //TODO here is query is spoke: make double query and post to different url
         this.ajax_post(query_object.get_query(), this.query_api_url.query, this.result_parser);
     }
@@ -1078,7 +1088,7 @@ export default class WheelbuilderFiltersStages {
         }
     }
 
-    unselect_query_result_empty_option(option_name) {
+    unselect_option_and_remove_from_stage_control(option_name) {
         // reset current options to Pick One... and removes its from query and stage options
         // this is called to perform reset of an option when other one is selected ?
         this.reset_option_selection(option_name);
@@ -1164,7 +1174,7 @@ export default class WheelbuilderFiltersStages {
                     let result = query_result[option_name_alias];
                     let selected_name = parent.find_currently_selected_text_in_option($(option));
                     if (result.indexOf(selected_name) < 0) {
-                        parent.unselect_query_result_empty_option(option_name_alias);
+                        parent.unselect_option_and_remove_from_stage_control(option_name_alias);
                         // if empty option ooccured on transtion from stage 1 to stage 2, move back to stage 1
                         if ((parent.stage_one_finished === true) &&
                             (parent.stage_one_options_on_page.options.hasOwnProperty(option_name_alias))) {
@@ -1201,6 +1211,15 @@ export default class WheelbuilderFiltersStages {
                 }
             }
         }
+
+        if ((parent.last_changed_option_name === 'Rim_Size') && (query_result['inventory_type'] === 'Rims')) {
+            // chaeck if chosen rims are compatybile with wheel size if it was selected after rim selection was done
+            let test = parent.rim_size_change_logic.need_to_rerun_rim_query(query_result);
+            if (test) {
+                parent.ajax_post(parent.rim_query.get_query(), parent.query_api_url.query, parent.result_parser);
+            }
+        }
+
         if (query_result['inventory_type'] === 'Rims') {
             let build_type = parent.wb_front_rear_selection.get_wheel_build_type();
             special_options.delegate_rim_options_show_hide_to_stage_two(query_result, build_type);
