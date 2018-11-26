@@ -9298,13 +9298,13 @@ table.geotrust-ssl-seal-table {
     position: relative;
     display: inline-block;
     float: left;
-    margin: 0 10px 10px 0;
+    margin: 0 8px 8px 0;
   }
 
   .rectangle-text {
     display: block;
     min-width: 45px;
-    padding: 14px;
+    padding: 10px;
     font-size: 13px;
     font-family: $font-secondary;
     line-height: 1;
@@ -9313,6 +9313,7 @@ table.geotrust-ssl-seal-table {
     border: 2px solid $color-border;
     border-radius: 23px;
     transition: all 0.3s ease;
+    margin:0 0.2rem 0.2rem 0;
   }
 
   input[type="radio"] {
@@ -12431,7 +12432,7 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
                    float: left;
                     margin-left: 0;
                     margin-right: 0;
-                    width: 69%;
+                    width: auto;
                 }
                 
                 
@@ -13125,6 +13126,14 @@ input[type=radio]:disabled {
         margin-bottom:10px;
     }
     
+    .product-options-container .form-field .form-label{
+       display:contents;
+    }
+    
+    .product-options-container .form-field .form-label.rectangle{
+        display:block;
+    }
+    
     .product-options-container .form-field-title {
         margin-bottom: 4px;
         line-height:1.3;
@@ -13157,6 +13166,8 @@ input[type=radio]:disabled {
         height:2.3em;
     }
     
+    
+    
 }
 
 @media screen  and (max-width: 1023px) {
@@ -13182,8 +13193,12 @@ input[type=radio]:disabled {
 
 
 .product-options-container .form-select-wrapper{
-    max-width:90%;
+    //max-width:90%;
     
+}
+
+.product-options-container .form-field-control{
+    max-width:62%;
 }
 
 .navigation-mobile .button-util, 
