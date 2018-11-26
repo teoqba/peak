@@ -1385,13 +1385,13 @@ export default class WheelbuilderFiltersStages {
             }
         }
 
-        // option objectsd stored in option_aliases are top-level to $changedOption object that comes from
+        // option objects stored in option_aliases are top-level to $changedOption objects that comes from
         // BigCommerce engine when option is changed. Find the proper child option object, to we can
         // use the regular filtering engine.
         let $changedOption = $changed_option.find('.form-select');
-        let event = null;
-        utils.hooks.emit('product-option-change', event, $changedOption);
-        this.divide_into_stages_and_query($changedOption);
+        //fire option change to rerun query and update the pricing
+        $changedOption.change();
+
     }
 
 }
