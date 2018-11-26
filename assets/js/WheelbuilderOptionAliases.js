@@ -20,7 +20,7 @@ export default class WheelbuilderOptionAliases {
             'Front_Spoke_Count': 'Front_Hole_Count',
             'Rear_Spoke_Count': 'Rear_Hole_Count',
             'Wheel_Size': 'Rim_Size',
-            'Model_Of_Front_Rim': 'Front_Rim_Model'
+            'Brand': 'Rim_Brand'
         };
 
         this.find_option_aliases_v2();

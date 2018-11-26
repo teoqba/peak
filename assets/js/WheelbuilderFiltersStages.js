@@ -49,7 +49,7 @@ export default class WheelbuilderFiltersStages {
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Front_Rim_Choice', 'Rear_Rim_Choice', 'Rim_Size', 'Front_Hole_Count',
                                             'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model',
-                                            'Intended_Application'];
+                                            'Intended_Application', 'Rim_Brand'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
@@ -270,7 +270,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     divide_into_stages_and_query($changedOption) {
-        console.log('Running divice');
         // Stage 1: asking about Rim attributes
         // Stage 2: asking about basic Hub attributes
         // Stage 3: choosing the hub
@@ -894,8 +893,8 @@ export default class WheelbuilderFiltersStages {
         // on startup of the page or on Reset sets options to their default selections.
         // For instance Intended Application::All
         for (let option_name in this.wb_config.option_default_selection) {
-            let option_name_alias = this.option_aliases.option_alias[option_name];
-            let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name_alias]);
+            // let option_name_alias = this.option_aliases.option_alias[option_name];
+            let $option_object = $(this.option_aliases.all_options_on_page_aliased[option_name]);
             let value_to_select = this.wb_config.option_default_selection[option_name];
             let data_label = 'data-wb-label="' + value_to_select +'"';
             // let data_label = 'data-wb-label="All"';
@@ -965,7 +964,8 @@ export default class WheelbuilderFiltersStages {
         const $selected_item = $option_values_object.find(':selected');
         let selected_index = $selected_item.index();
 
-        if ((option_name_alias === 'Intended_Application') && (selected_index <1)) {
+        if (((option_name_alias === 'Intended_Application') && (selected_index <1)) ||
+            ((option_name_alias === 'Rim_Brand') && (selected_index < 1))) {
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
                 // TODO: this can be solved by unselect option
                 this.rim_query.remove(stage_one_option_name);
@@ -975,8 +975,9 @@ export default class WheelbuilderFiltersStages {
                 // this.option_reset_buttons.hide(real_option_name);
             }
             this.reset_to_options_default_selection();
-        } else if ((option_name_alias === 'Intended_Application') && (selected_index > 1)) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+        } else if (((option_name_alias === 'Intended_Application') && (selected_index > 1)) ||
+            ((option_name_alias === 'Rim_Brand') && (selected_index > 1))) {
+            // to avoid incompatible builds, when changing discipline, make sure we have clean rim query
             this.rim_query.remove('Front_Rim_Model');
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
@@ -985,26 +986,9 @@ export default class WheelbuilderFiltersStages {
                 this.reset_option_selection('Front_Hole_Count');
                 this.reset_option_selection('Rear_Hole_Count');
             }
-        // COMMENT: bellow is take car of in RimSizeChangeLogic
-        // } else if ((option_name === 'Rim_Size') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
-        // // } else if ((option_name_alias === 'Rim_Size') && (selected_index > 0)) {
-        //     // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
-        //     console.log("HERE");
-        //     this.rim_query.remove('Front_Rim_Model');
-        //     this.rim_query.remove('Rear_Rim_Model');
-        //     this.rim_query.remove('Front_Hole_Count');
-        //     this.rim_query.remove('Rear_Hole_Count');
-        //     alert('One of selected Rims is not compatible with selected Wheel Size. Resetting your selections, please choose again');
-        //     // if (!this.stage_one_options_on_page.all_options_selected()) {
-        //         this.reset_option_selection('Front_Hole_Count');
-        //         this.reset_option_selection('Rear_Hole_Count');
-        //         this.reset_option_selection('Front_Rim_Model');
-        //         this.reset_option_selection('Rear_Rim_Model');
-        //     // }
-        //     // this.stage_one_finished = false;
-        //     // } else if ((option_name === 'Brake_Type') && (selected_index > 0) && (wheel_build_type === 'Wheelset')) {
+
         } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
-            // to avoid incompatybile builds, when changing discipline, make sure we have clean rim query
+            // to avoid incompatible builds, when changing discipline, make sure we have clean rim query
             this.rim_query.remove('Front_Rim_Model');
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');

@@ -31,7 +31,7 @@ export default class WheelbuilderConfig {
         this.zeroth_option_default_name = 'Pick one...';
         this.zeroth_option_alternative_name = 'Reset selection...';
 
-        this.option_default_selection = {'Intended_Application': 'All'};
+        this.option_default_selection = {'Intended_Application': 'All', 'Rim_Brand': 'All'};
 
         // Filtering control
         this.minumum_no_of_options_for_filtering = 8;
