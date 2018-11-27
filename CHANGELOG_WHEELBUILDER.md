@@ -1,7 +1,16 @@
-# 10.11.2018 - version 1.0.2
+# 2018.11.27 - version 1.0.3
+    * fixed option reset button on Safari iOS
+    * fixed pricing updates on option reset
+    * re-implemented resetting of Wheel Size to assure compatybile builds
+    * implemented filtering by Brand
+    * implemented filtering by Material
+    * swatch options added to filtering
+    * swatch filtering supports 1, 2, 3 color versions 
+
+# 2018.11.10 - version 1.0.2
     * added Option Reset Button
 
-# 07.11.2018 - version 1.0.1
+# 2018.11.07 - version 1.0.1
     * improved compatibility with Safari and IE
     * fixed bug when Special Options were appearing to quickly
     * fixed bug when Rim_Choice was selected as last element in Stage 1, it was blocking transition to stage 2
@@ -12,5 +21,5 @@
     * Increased threshold when filtering is starting to 8 options
     * added this CHANGELOG_WHEELBUILDER.md file
 
-# 28.10.2018 - version 1.0
+# 2018.10.28 - version 1.0
     * first release - yay
