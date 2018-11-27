@@ -49,7 +49,7 @@ export default class WheelbuilderFiltersStages {
         //TODO: put those to WB_DB too
         this.all_known_stage_one_options = ['Front_Rim_Choice', 'Rear_Rim_Choice', 'Rim_Size', 'Front_Hole_Count',
                                             'Rear_Hole_Count', 'Brake_Type', 'Front_Rim_Model', 'Rear_Rim_Model',
-                                            'Intended_Application', 'Rim_Brand'];
+                                            'Intended_Application', 'Rim_Brand', 'Rim_Material'];
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
@@ -947,7 +947,7 @@ export default class WheelbuilderFiltersStages {
 
     }
 
-    reset_query_on_common_to_front_rear_change($changed_option){
+    reset_front_rear_common_option($changed_option){
         //reset query when the option affecting both front and rear changes
         // Intended_Application
         // Rim_Size
@@ -964,8 +964,8 @@ export default class WheelbuilderFiltersStages {
         const $selected_item = $option_values_object.find(':selected');
         let selected_index = $selected_item.index();
 
-        if (((option_name_alias === 'Intended_Application') && (selected_index <1)) ||
-            ((option_name_alias === 'Rim_Brand') && (selected_index < 1))) {
+        if ((this.wb_config.front_rear_common_options.indexOf(option_name_alias) > -1) && selected_index < 1) {
+            console.log('Reseting 1');
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
                 // TODO: this can be solved by unselect option
                 this.rim_query.remove(stage_one_option_name);
@@ -975,8 +975,7 @@ export default class WheelbuilderFiltersStages {
                 // this.option_reset_buttons.hide(real_option_name);
             }
             this.reset_to_options_default_selection();
-        } else if (((option_name_alias === 'Intended_Application') && (selected_index > 1)) ||
-            ((option_name_alias === 'Rim_Brand') && (selected_index > 1))) {
+        } else if ((this.wb_config.front_rear_common_options.indexOf(option_name_alias) > -1) && selected_index > 1)  {
             // to avoid incompatible builds, when changing discipline, make sure we have clean rim query
             this.rim_query.remove('Front_Rim_Model');
             this.rim_query.remove('Rear_Rim_Model');
@@ -1031,7 +1030,7 @@ export default class WheelbuilderFiltersStages {
         if (option_name_alias === 'Rim_Size') {
             // TODO put here rim size logic
         }
-        this.reset_query_on_common_to_front_rear_change($changed_option);
+        this.reset_front_rear_common_option($changed_option);
         this.on_option_change_additional_action($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);

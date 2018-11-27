@@ -31,7 +31,7 @@ export default class WheelbuilderConfig {
         this.zeroth_option_default_name = 'Pick one...';
         this.zeroth_option_alternative_name = 'Reset selection...';
 
-        this.option_default_selection = {'Intended_Application': 'All', 'Rim_Brand': 'All'};
+        this.option_default_selection = {'Intended_Application': 'All', 'Rim_Brand': 'All', 'Rim_Material': 'All'};
 
         // Filtering control
         this.minumum_no_of_options_for_filtering = 8;
@@ -50,6 +50,8 @@ export default class WheelbuilderConfig {
 
         this.front_wheel_options_stage_one = ['Front_Hole_Count', 'Front_Rim_Choice', 'Front_Rim_Model'];
         this.rear_wheel_options_stage_one =['Rear_Hole_Count', 'Rear_Rim_Choice', 'Rear_Rim_Model'];
+
+        this.front_rear_common_options = ['Intended_Application', 'Rim_Brand', 'Rim_Material'];
 
         // List of options for which subset of the values will be included in query
         this.find_initial_subset_of_rim_options = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Rim_Choice', 'Rear_Rim_Choice'];
