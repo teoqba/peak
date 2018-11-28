@@ -21,12 +21,12 @@ export default class WheelbuilderResetRelatedOptions {
         let selected_index = $selected_item.index();
 
         if ((option_name_alias === 'Front_Hub') && selected_index < 1) {
-            // hub special options are reset everytime option change in WheelbuilderFilterStages.on_option_chage_additial_action
+            // hub special options are reset everytime option change in WheelbuilderFilterStages.on_option_change_addition_action
             let related_options = ['Front_Hub_Color'];
             this.do_reset(related_options, this.parent.hub_query);
             this.parent.hub_query.remove('Front_Hub_Style');
         } else if ((option_name_alias === 'Rear_Hub') && selected_index < 1) {
-            // hub special options are reset everytime option change in WheelbuilderFilterStages.on_option_chage_additial_action
+            // hub special options are reset everytime option change in WheelbuilderFilterStages.on_option_change_addition_action
             let related_options = ['Rear_Hub_Color', 'Drivetrain_Type'];
             this.do_reset(related_options, this.parent.hub_query);
             this.parent.hub_query.remove('Rear_Hub_Style');
