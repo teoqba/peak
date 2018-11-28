@@ -8,6 +8,7 @@ import WheelbuilderSpecialOptions from "./WheelbuilderSpecialOptions";
 import WheelbuilderHubSpokeConnector from "./WheelbuilderHubSpokeConnector";
 import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons";
 import WheelbuilderRimSizeChangeLogic from "./WheelbuilderRimSizeChangeLogic";
+import WheelbuilderResetRelatedOptions from "./WheelbuilderResetRelatedOptions";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -203,7 +204,7 @@ export default class WheelbuilderFiltersStages {
         this.option_reset_buttons.init();
 
         this.rim_size_change_logic = new WheelbuilderRimSizeChangeLogic(this);
-
+        this.reset_related_options = new WheelbuilderResetRelatedOptions(this);
         this.loader.hide();
     }
 
@@ -965,7 +966,6 @@ export default class WheelbuilderFiltersStages {
         let selected_index = $selected_item.index();
 
         if ((this.wb_config.front_rear_common_options.indexOf(option_name_alias) > -1) && selected_index < 1) {
-            console.log('Reseting 1');
             for (let stage_one_option_name in this.stage_one_options_on_page.options) {
                 // TODO: this can be solved by unselect option
                 this.rim_query.remove(stage_one_option_name);
@@ -1031,6 +1031,7 @@ export default class WheelbuilderFiltersStages {
             // TODO put here rim size logic
         }
         this.reset_front_rear_common_option($changed_option);
+        this.reset_related_options.related_option_reset($changed_option);
         this.on_option_change_additional_action($changed_option);
 
         // this.ajax_post(this.hub_query.get_query(), this.query_api_url.query, this.result_parser);
