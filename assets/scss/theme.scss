@@ -12793,6 +12793,10 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
   padding:0.6em 2.5em;
 }
 
+.wb-back-button {
+  background-color: #929498;
+}
+
 .form-rectangle:disabled {
   opacity: 0.6;
 }

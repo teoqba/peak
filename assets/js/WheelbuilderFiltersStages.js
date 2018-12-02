@@ -9,6 +9,7 @@ import WheelbuilderHubSpokeConnector from "./WheelbuilderHubSpokeConnector";
 import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons";
 import WheelbuilderRimSizeChangeLogic from "./WheelbuilderRimSizeChangeLogic";
 import WheelbuilderResetRelatedOptions from "./WheelbuilderResetRelatedOptions";
+import WheelbuilderQueryPerformance from "./WheelbuilderQueryPerformance";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -76,6 +77,10 @@ export default class WheelbuilderFiltersStages {
         // handle the loading spinner
         this.last_changed_option_name = null;
         this.loader = $('#wb-load-spinner');
+
+        if (this.wb_config.enable_query_timings) {
+            this.query_performance = new WheelbuilderQueryPerformance();
+        }
 
     }
 
@@ -854,12 +859,18 @@ export default class WheelbuilderFiltersStages {
 
     ajax_post(query, url, parser) {
         let _this = this;
+        if (_this.wb_config.enable_query_timings) {
+            _this.query_performance.start();
+        }
         this.loader.show();
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
                 // console.log('Response', this.responseText);
                 let result =  JSON.parse(this.responseText);
+                if (_this.wb_config.enable_query_timings) {
+                    _this.query_performance.stop();
+                }
                 parser(result, _this);
 
             }
@@ -1340,6 +1351,10 @@ export default class WheelbuilderFiltersStages {
         this.step_label.set_to_step_one();
         this.$next_button.hide();
         this.$back_button.hide();
+
+        if (this.wb_config.enable_query_timings) {
+            this.query_performance.reset();
+        }
 
         // Emit product-change so prices get updated back to start value
         utils.hooks.emit('product-option-change');

@@ -4,6 +4,7 @@ export default class WheelbuilderConfig {
         this.use_sandbox_db = true; // remember  to also swap stencil file when toggling this variable
         // if true shows query and query result
         this.debug_query = false;
+        this.enable_query_timings = true;
 
         // hardcode common_option_roots TODO: to be removed later when other is fixed
         this.hardcoded_common_option_roots = ['Front_Hole_Count', 'Rear_Hole_Count'];
