@@ -1,3 +1,8 @@
+# 2018.12.1- version 1.0.4
+    * go back to stage one button grey
+    * down stream resetting options implemented 
+    * moved to new backend
+
 # 2018.11.27 - version 1.0.3
     * fixed option reset button on Safari iOS
     * fixed pricing updates on option reset

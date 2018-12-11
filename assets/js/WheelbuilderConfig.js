@@ -1,17 +1,20 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = true; // remember  to also swap stencil file when toggling this variable
+        this.use_sandbox_db = false; // remember  to also swap stencil file when toggling this variable
         // if true shows query and query result
         this.debug_query = false;
-        this.enable_query_timings = true;
+        this.enable_query_timings = false;
 
         // hardcode common_option_roots TODO: to be removed later when other is fixed
         this.hardcoded_common_option_roots = ['Front_Hole_Count', 'Rear_Hole_Count'];
 
         // Adresses of backend
-        this.database_address = "http://52.53.51.220";
-        this.database_port = 8080;
+        // this.database_address = "http://52.53.51.220";
+        // this.database_port = 8080;
+
+        this.database_address = "https://filters.wheelbuilderfilters.com";
+        this.database_port = 443;
 
         // set urls depending if we use test environment or not. For "query" this.usesandbox is included in message body (query)
         if (this.use_sandbox_db) {
