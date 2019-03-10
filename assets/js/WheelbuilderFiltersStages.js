@@ -34,6 +34,7 @@ export default class WheelbuilderFiltersStages {
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
 
+        // Name of the product for current page
         this.product_title = this.$parent_page.find('.product-title').text();
 
         // handle buttons events
@@ -215,7 +216,9 @@ export default class WheelbuilderFiltersStages {
         this.rim_size_change_logic = new WheelbuilderRimSizeChangeLogic(this);
         this.reset_related_options = new WheelbuilderResetRelatedOptions(this);
         this.loader.hide();
-        this.ajax_get(this.query_api_url.tooltips).then(this.add_tooltips.bind(this), this.errorHandler)
+
+        let product_title_2_url = this.product_title.split('&').join('%26');
+        this.ajax_get(this.query_api_url.tooltips+'?name='+product_title_2_url.split(' ').join('_').toUpperCase()).then(this.add_tooltips.bind(this), this.errorHandler)
     }
 
     add_tooltips(query_result) {

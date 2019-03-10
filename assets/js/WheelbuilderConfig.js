@@ -21,13 +21,13 @@ export default class WheelbuilderConfig {
             this.database_urls = {
                 "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots?testdb=True",
                 "query": this.database_address + ":" + this.database_port + "/wbdb_query",
-                "tooltips":  this.database_address + ":" + this.database_port + "/tooltips"
+                "tooltips":  this.database_address + ":" + this.database_port + "/tooltips",
             };
         } else {
             this.database_urls = {
                 "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots",
                 "query": this.database_address + ":" + this.database_port + "/wbdb_query",
-                "tooltips": this.database_address + ":" + this.database_port + "/tooltips"
+                "tooltips": this.database_address + ":" + this.database_port + "/tooltips",
             };
         }
 
