@@ -29,7 +29,7 @@ export default class WheelbuilderTooltips {
             } else {
                 $icon_obj.hide();
             }
-            $bubble_obj.text(t_text);
+            $bubble_obj.html(t_text);
         }
     }
 
