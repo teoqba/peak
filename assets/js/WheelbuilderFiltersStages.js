@@ -10,6 +10,7 @@ import WheelbuilderOptionResetButtons from "./WheelbuilderOptionResetButtons";
 import WheelbuilderRimSizeChangeLogic from "./WheelbuilderRimSizeChangeLogic";
 import WheelbuilderResetRelatedOptions from "./WheelbuilderResetRelatedOptions";
 import WheelbuilderQueryPerformance from "./WheelbuilderQueryPerformance";
+import WheelbuilderTooltips from "./WheelbuilderTooltips";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -32,6 +33,8 @@ export default class WheelbuilderFiltersStages {
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
+
+        this.product_title = this.$parent_page.find('.product-title').text();
 
         // handle buttons events
         this.buttons_event_handler();
@@ -208,9 +211,18 @@ export default class WheelbuilderFiltersStages {
         this.option_reset_buttons = new WheelbuilderOptionResetButtons(this);
         this.option_reset_buttons.init();
 
+
         this.rim_size_change_logic = new WheelbuilderRimSizeChangeLogic(this);
         this.reset_related_options = new WheelbuilderResetRelatedOptions(this);
         this.loader.hide();
+        this.ajax_get(this.query_api_url.chef).then(this.chefbuild.bind(this), this.errorHandler)
+    }
+
+    chefbuild(query_result) {
+        console.log('Chef build got: ', query_result);
+        this.tooltips = new WheelbuilderTooltips(this, query_result);
+        this.tooltips.init();
+
     }
 
     analyze_disc_brake_options(){

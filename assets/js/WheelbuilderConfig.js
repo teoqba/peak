@@ -1,7 +1,7 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = false; // remember  to also swap stencil file when toggling this variable
+        this.use_sandbox_db = true; // remember  to also swap stencil file when toggling this variable
         // if true shows query and query result
         this.debug_query = false;
         this.enable_query_timings = false;
@@ -20,12 +20,14 @@ export default class WheelbuilderConfig {
         if (this.use_sandbox_db) {
             this.database_urls = {
                 "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots?testdb=True",
-                "query": this.database_address + ":" + this.database_port + "/wbdb_query"
+                "query": this.database_address + ":" + this.database_port + "/wbdb_query",
+                "chef": "http://cheftest-env.3bicf2kgmk.us-west-1.elasticbeanstalk.com/chefbuild?name=tooltips"
             };
         } else {
             this.database_urls = {
                 "option_names_roots": this.database_address + ":" + this.database_port + "/options_names_roots",
-                "query": this.database_address + ":" + this.database_port + "/wbdb_query"
+                "query": this.database_address + ":" + this.database_port + "/wbdb_query",
+                "chef": "http://cheftest-env.3bicf2kgmk.us-west-1.elasticbeanstalk.com/chefbuild?name=tooltips"
             };
         }
 
@@ -75,8 +77,12 @@ export default class WheelbuilderConfig {
         // Spokes options
         this.spokes_default_style = ["J-Bend", "Straight Pull"];
 
-        //
+        // Reset buttons
         this.option_reset_button_prefix = 'wb-reset-button-';
+
+        // Tooltips
+        this.option_tooltip_bubble_prefix = 'wb-tooltip-';
+        this.option_tooltip_icon_prefix = 'wb-tooltip-icon-';
 
         // Swatch options
         this.swatch_options = [this.front_rim_decal_color, this.rear_rim_decal_color];
