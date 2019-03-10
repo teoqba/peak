@@ -219,7 +219,6 @@ export default class WheelbuilderFiltersStages {
     }
 
     add_tooltips(query_result) {
-        console.log('Chef build got: ', query_result);
         this.tooltips = new WheelbuilderTooltips(this, query_result);
         this.tooltips.init();
 
