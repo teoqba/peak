@@ -215,10 +215,10 @@ export default class WheelbuilderFiltersStages {
         this.rim_size_change_logic = new WheelbuilderRimSizeChangeLogic(this);
         this.reset_related_options = new WheelbuilderResetRelatedOptions(this);
         this.loader.hide();
-        this.ajax_get(this.query_api_url.chef).then(this.chefbuild.bind(this), this.errorHandler)
+        this.ajax_get(this.query_api_url.tooltips).then(this.add_tooltips.bind(this), this.errorHandler)
     }
 
-    chefbuild(query_result) {
+    add_tooltips(query_result) {
         console.log('Chef build got: ', query_result);
         this.tooltips = new WheelbuilderTooltips(this, query_result);
         this.tooltips.init();
