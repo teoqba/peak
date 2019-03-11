@@ -6318,7 +6318,8 @@ $auth-font-size: $account-font-size !default;
   opacity: 0;
   transform: translate(0, 100%);
   transition: all 0.2s ease-out;
-  background-color: rgba($color-carousel-background, 0.8);
+  //background-color: rgba($color-carousel-background, 0.8);
+  background-color: rgba(15,15,15,.95);
 
   @include media($min: $breakpoint-s) {
     position: absolute;
@@ -6330,7 +6331,7 @@ $auth-font-size: $account-font-size !default;
   }
 
   &.show {
-    opacity: 1;
+    opacity: 0.90;
     transform: translate(0, 0);
   }
 
@@ -6338,7 +6339,7 @@ $auth-font-size: $account-font-size !default;
     margin: 0;
     font-family: $font-secondary;
     font-weight: 400;
-    font-size: 40px;
+    font-size: 35px;
     color: $color-carousel-title;
   }
 
@@ -7751,7 +7752,7 @@ table.geotrust-ssl-seal-table {
 }
 
 .button-mobile-nav-toggle {
-  left: 10px;
+  left: 8px;
   height: 28px;
 
   @include media($min: $breakpoint-m) { display: none; }
@@ -7790,7 +7791,7 @@ table.geotrust-ssl-seal-table {
 .button-mobile-nav-cart {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 12px;
   height: 28px;
   transform: translateY(-38%);
 
@@ -12571,10 +12572,9 @@ $color-footer-background-contrast: contrast($color-footer-background, 90%);
 }
 
 
-.products-related .product-item-thumbnail a{
-    display: table-cell;
-    vertical-align: middle;
+.products-related .product-item-thumbnail a div{
     height: 260px;
+    max-height:100%;
 }
 
 .products-related .product-item-thumbnail{
@@ -13094,7 +13094,7 @@ input[type=radio]:disabled {
 
 @media screen  and (max-width: 450px) {
     .site-branding.has-logo{
-        max-width: 78%;
+        max-width: 70%;
         margin: 0 auto;
     }
     .button-mobile-nav-cart a svg {
@@ -13103,9 +13103,20 @@ input[type=radio]:disabled {
     }
 }
 
+@media screen  and (max-width: 530px) {
+   .tablecontrol{
+       overflow-x:scroll;
+       display:block;
+   }
+      .product-description table {
+       width: 480px;
+       display: table;
+    }
+}
+
 @media screen  and (max-width: 620px) {
     td, th {
-        padding: 5px;
+        padding: 4px!important;
         word-break: break-word;
         word-wrap: break-word;
     }
@@ -13144,8 +13155,14 @@ input[type=radio]:disabled {
     }
     
     .product-description table{
-        max-width:100%!important;
-        width:100%!important;
+        margin: auto;
+        border-collapse: collapse;
+        overflow-x: auto;
+    }
+    
+    .product-description table  tbody{
+  overflow: auto;
+  height: 100px;
     }
     
     .product-options-container{
@@ -13170,8 +13187,7 @@ input[type=radio]:disabled {
         height:2.3em;
     }
     
-    
-    
+        
 }
 
 @media screen  and (max-width: 1023px) {
@@ -13223,6 +13239,50 @@ input[type=radio]:disabled {
 
 td, th {
     padding: 15px;
+}
+
+.newsletter-signup.section{
+    display:none!important;
+}
+
+.row{
+    display: inline-block;
+    width: 100%;
+    margin: 15px 0;
+    box-sizing: border-box;
+    position: relative;
+    clear:both;
+}
+.content-img{
+    display: inline-block;
+    float: left;
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.content-img img{
+    margin-top:30px;
+}
+.content-details{
+    display: inline-block;
+    float: left;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 75%;
+}
+
+@media (max-width: 767px){
+    .content-img{
+        width: 100%;
+        text-align:center;
+    }
+    .content-img img{
+        margin-top:15px;
+        margin-bottom:15px;
+    }
+    .content-details{
+        width: 100%;
+    }
 }
 
 /*********** Wheelbuilder Option Tooltip  ***************/

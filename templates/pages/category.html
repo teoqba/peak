@@ -11,13 +11,14 @@ category:
         <div class="container">
           <div class="category-banner-image" style="background-image: url({{getImage category.image 'zoom'}});"></div>
           <img class="sr-only" src="{{getImage category.image 'zoom'}}" alt="{{{alt_text}}}" />
-          {{#if category.description}}
+        <!--{{#if category.description}}
             <div class="container">
               <figcaption class="category-banner-description">
                 {{{category.description}}}
               </figcaption>
             </div>
           {{/if}}
+          -->
         </div>  
     </figure>
   {{/if}}
@@ -35,9 +36,7 @@ category:
 
       <header class="listing-header">
         <h1 class="listing-title">{{category.name}}</h1>
-        {{#if category.image.data '===' null}}
           {{#if category.description}}<div class="listing-description">{{{category.description}}}</div>{{/if}}
-        {{/if}}
         {{> components/products/listing-utils}}
       </header>
 
