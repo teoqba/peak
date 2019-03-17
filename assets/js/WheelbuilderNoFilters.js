@@ -16,6 +16,7 @@ export default class WheelbuilderNoFilters {
     init() {
         this.all_options_on_page = this.get_all_options_on_page();
         this.remove_placeholder_options();
+        // don't even start adding tooltips. Purpose of NoFilters is the keep the website running when wbserver is down
         this.loader.hide();
     }
 

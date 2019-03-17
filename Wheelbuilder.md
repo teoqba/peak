@@ -1,3 +1,7 @@
+## Icon generator
+https://icomoon.io/app/#/select
+https://codepen.io/kenngsimply/pen/BWrrZy
+
 ## Implemented new Javascript
 * assests/js/WheelbuilderFilters.js
     ** initialized in assests/js/theme/product/ProductUtils.js
