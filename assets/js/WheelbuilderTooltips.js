@@ -15,12 +15,14 @@ export default class WheelbuilderTooltips {
     find_all_tooltips() {
         // iterate over all the options on the website and and see if in tooltip file there is a tooltip for this option
         for (let option_name in this.all_options_on_page) {
-            let $bubble_obj = this.find_tooltip_object(option_name)['bubble'];
-            let $icon_obj = this.find_tooltip_object(option_name)['icon'];
+            let tooltip_object = this.find_tooltip_object(option_name);
+            let $bubble_obj = tooltip_object['bubble'];
+            let $icon_obj = tooltip_object['icon'];
 
             let t_text="No tool tip available";
-            if (this.tooltips_text.hasOwnProperty(option_name)) {
-                t_text = this.tooltips_text[option_name];
+            let option_name_with_space = option_name.split('_').join(' ');
+            if (this.tooltips_text.hasOwnProperty(option_name_with_space)) {
+                t_text = this.tooltips_text[option_name_with_space];
             } else {
                 // if tooltip text for option does not exist in the file, hide the tooltip icon
                 $icon_obj.hide();

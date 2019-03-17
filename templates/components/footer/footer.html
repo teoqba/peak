@@ -16,8 +16,8 @@
       {{#if theme_settings.footer-show-address}}
         <div class="footer-col footer-info">
           <h4 class="footer-title">{{lang 'footer.address'}}</h4>
-          <p>{{nl2br settings.address}}</p>
-          <p>{{settings.phone_number}}</p>
+          <p><a href="https://goo.gl/maps/GWkCZa5Lc7G2" target="_blank">{{nl2br settings.address}}</a></p>
+          <p><a href="tel:626-442-4444">{{settings.phone_number}}</a></p>
         </div>
       {{/if}}
       {{#any social_media.length theme_settings.geotrust-ssl-common-name}}
