@@ -19,15 +19,21 @@ export default class WheelbuilderTooltips {
             let $bubble_obj = tooltip_object['bubble'];
             let $icon_obj = tooltip_object['icon'];
 
-            let t_text="No tool tip available";
+            let t_text = "No tool tip available";
             let option_name_with_space = option_name.split('_').join(' ');
-            if (this.tooltips_text.hasOwnProperty(option_name_with_space)) {
-                t_text = this.tooltips_text[option_name_with_space];
-            } else {
-                // if tooltip text for option does not exist in the file, hide the tooltip icon
+            try {
+                if (this.tooltips_text.hasOwnProperty(option_name_with_space)) {
+                    t_text = this.tooltips_text[option_name_with_space];
+                } else {
+                    // if tooltip text for option does not exist in the file, hide the tooltip icon
+                    $icon_obj.hide();
+                }
+                $bubble_obj.html(t_text);
+            } catch (err) {
+                // hide option in the case there is some problem with parsing of the json file
+                console.log('Error in tooltip parse');
                 $icon_obj.hide();
             }
-            $bubble_obj.html(t_text);
         }
     }
 
