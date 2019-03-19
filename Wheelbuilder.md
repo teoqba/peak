@@ -12,6 +12,10 @@ https://codepen.io/kenngsimply/pen/BWrrZy
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
     
+      <span class="wb-tooltip-icon" id="wb-tooltip-icon-{{display_name}}"> <svg class="icon icon-close icon-wb"><use xlink:href="#icon-tooltip"></use></svg></span>
+      <span class="wb-tooltip" id="wb-tooltip-{{display_name}}"></span>
+    
+    
     class=wb-empty-option  //for Pick one... first option
     <option value="" class="wb-empty-option" {{#any values selected=true}}{{else}}selected{{/any}}>{{lang 'product.pick_one'}}</option>
 
@@ -36,6 +40,9 @@ https://codepen.io/kenngsimply/pen/BWrrZy
     ```
     {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
 
+      <span class="wb-tooltip-icon" id="wb-tooltip-icon-{{display_name}}"> <svg class="icon icon-close icon-wb"><use xlink:href="#icon-tooltip"></use></svg></span>
+      <span class="wb-tooltip" id="wb-tooltip-{{display_name}}"></span>
+
     add data-wb-swatch-color="{{data.[0]}}" to label:
     <label class="swatch-wrap" data-swatch-value="{{label}}" data-wb-swatch-color="{{data.[0]}}" data-product-attribute-value="{{id}}">
     ```
@@ -55,6 +62,10 @@ https://codepen.io/kenngsimply/pen/BWrrZy
 * templates/core/forms/options/input-text.html
         {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
 
+* templates/core/forms/options/textarea.html
+        {{display_name}} -> <span class="wb-option-display-name">{{display_name}}</span>
+              <span class="wb-tooltip-icon" id="wb-tooltip-icon-{{display_name}}"> <svg class="icon icon-close icon-wb"><use xlink:href="#icon-tooltip"></use></svg></span>
+              <span class="wb-tooltip" id="wb-tooltip-{{display_name}}"></span>
 
 * templates/components/products/product-single-details.html
     <div id="wb-load-spinner"></div>

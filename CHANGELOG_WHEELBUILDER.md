@@ -1,3 +1,6 @@
+# 2019.03.19 - version 1.0.6 
+    * added tooltips to textarea and swatch
+
 # 2019.03.19 - version 1.0.5 
     * added tooltips 
 
