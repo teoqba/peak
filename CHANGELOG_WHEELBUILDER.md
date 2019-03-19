@@ -1,3 +1,6 @@
+# 2019.03.19 - version 1.0.5 
+    * added tooltips 
+
 # 2018.12.1- version 1.0.4
     * go back to stage one button grey
     * down stream resetting options implemented 
