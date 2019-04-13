@@ -2,6 +2,11 @@
 https://icomoon.io/app/#/select
 https://codepen.io/kenngsimply/pen/BWrrZy
 
+# To add icons:
+edit templates/components/common/icons/icons-defs.html and add icon from icomoon.io
+
+
+
 ## Implemented new Javascript
 * assests/js/WheelbuilderFilters.js
     ** initialized in assests/js/theme/product/ProductUtils.js
