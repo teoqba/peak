@@ -24,6 +24,7 @@ export default class WheelbuilderTooltips {
             try {
                 if (this.tooltips_text.hasOwnProperty(option_name_with_space)) {
                     t_text = this.tooltips_text[option_name_with_space];
+                    $icon_obj.show();
                 } else {
                     // if tooltip text for option does not exist in the file, hide the tooltip icon
                     $icon_obj.hide();

@@ -1,7 +1,7 @@
 export default class WheelbuilderConfig {
     constructor() {
         // If true use test database
-        this.use_sandbox_db = true; // remember  to also swap stencil file when toggling this variable
+        this.use_sandbox_db = false; // remember  to also swap stencil file when toggling this variable
         // if true shows query and query result
         this.debug_query = false;
         this.enable_query_timings = false;
