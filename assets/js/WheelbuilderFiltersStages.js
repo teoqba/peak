@@ -218,6 +218,7 @@ export default class WheelbuilderFiltersStages {
         this.loader.hide();
 
         let product_title_2_url = this.product_title.split('&').join('%26');
+        product_title_2_url = product_title_2_url.split(',').join('%2C');
         // substitute ' ' by + (code %2B)
         this.ajax_get(this.query_api_url.tooltips+'?name='+product_title_2_url.split(' ').join('%2B')).then(this.add_tooltips.bind(this), this.errorHandler)
     }
