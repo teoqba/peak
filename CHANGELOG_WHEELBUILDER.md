@@ -1,3 +1,6 @@
+# 2019.04.25 - version 1.0.8 
+    * new reset icon, tooltips icon are hidden on page load
+
 # 2019.03.20 - version 1.0.7 
     * bigger tooltip icons 
 
