@@ -11,6 +11,7 @@ import WheelbuilderRimSizeChangeLogic from "./WheelbuilderRimSizeChangeLogic";
 import WheelbuilderResetRelatedOptions from "./WheelbuilderResetRelatedOptions";
 import WheelbuilderQueryPerformance from "./WheelbuilderQueryPerformance";
 import WheelbuilderTooltips from "./WheelbuilderTooltips";
+import WheelbuilderWeightQuery from "./WheelbuilderWeightQuery";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -181,6 +182,8 @@ export default class WheelbuilderFiltersStages {
             this.rim_query = new WheelbuilderQuery('Rims', this.stage_one_options_on_page.get_attributes(), this.common_options_roots);
             this.spoke_query = new WheelbuilderQuery('Spokes', this.all_known_spokes_options, this.common_options_roots);
 
+            this.weight_query = new WheelbuilderWeightQuery();
+
             //Set initial values of selected options
             for (let i in this.wb_config.find_initial_subset_of_rim_options) {
                 let option_name = this.wb_config.find_initial_subset_of_rim_options[i];
@@ -303,6 +306,14 @@ export default class WheelbuilderFiltersStages {
         let value = $selected_item.text();
         // set variables controlling stages visibility: this.stage_*_finished
         this.stages_control(option_name_alias, value);
+
+        // Get weight of chosen component
+        this.weight_query.set(option_name_alias, value);
+        if (this.weight_query.is_query_ready()) {
+            console.log('Weight query', this.weight_query.get_query());
+            this.ajax_post(this.weight_query.get_query()[0], this.query_api_url.weight, this.weight_result_parser);
+
+        }
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
         // if ((this.stage_one_finished && !this.stage_one_first_pass) || (this.stage_two_finished && !this.page_in_rim_choice_mode)) {
@@ -1311,6 +1322,10 @@ export default class WheelbuilderFiltersStages {
             }
         }
         parent.stage_one_front_rear_options_control();
+    }
+
+    weight_result_parser(query_result, parent) {
+        console.log("Resulty of weight query" ,query_result);
     }
 
     reset_option_selection(option_name) {
