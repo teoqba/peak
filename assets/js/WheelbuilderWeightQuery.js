@@ -19,13 +19,12 @@ export default class WheelbuilderWeightQuery {
 
     set(option_name, value) {
 
-
         if (option_name === 'Front_Rim_Model') {
             this.front_rim_query[option_name] = value;
             this.enable_last_query([this.front_rim_query, this.rear_rim_query]);
         } else if (option_name === 'Rear_Rim_Model') {
             this.rear_rim_query[option_name] = value;
-            this.enable_last_query([this.front_rim_query,this.rear_rim_query]);
+            this.enable_last_query([this.rear_rim_query,this.rear_rim_query]);
         } else if (option_name === 'Front_Hub') {
             this.front_hub_query[option_name] = value;
             this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
@@ -55,6 +54,15 @@ export default class WheelbuilderWeightQuery {
             this.rear_hub_query[option_name] = value;
         }
     }
+
+    reset_query(type) {
+        if (type === 'front_rim') {
+            this.front_rim_query['Front_Rim_Model'] = null;
+        } else if (type == 'rear_rim') {
+            this.rear_rim_query['Rear_Rim_Model'] = null;
+        }
+    }
+
 
     make_optional_query(option_name, value) {
         let or1 = {};

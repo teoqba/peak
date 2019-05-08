@@ -12,6 +12,7 @@ import WheelbuilderResetRelatedOptions from "./WheelbuilderResetRelatedOptions";
 import WheelbuilderQueryPerformance from "./WheelbuilderQueryPerformance";
 import WheelbuilderTooltips from "./WheelbuilderTooltips";
 import WheelbuilderWeightQuery from "./WheelbuilderWeightQuery";
+import WheelbuilderWeightCalculator from "./WheelbuilderWeightCalculator";
 
 import utils from "@bigcommerce/stencil-utils/src/main";
 
@@ -183,6 +184,7 @@ export default class WheelbuilderFiltersStages {
             this.spoke_query = new WheelbuilderQuery('Spokes', this.all_known_spokes_options, this.common_options_roots);
 
             this.weight_query = new WheelbuilderWeightQuery();
+            this.weight_calculator = new WheelbuilderWeightCalculator();
 
             //Set initial values of selected options
             for (let i in this.wb_config.find_initial_subset_of_rim_options) {
@@ -310,9 +312,10 @@ export default class WheelbuilderFiltersStages {
         // Get weight of chosen component
         this.weight_query.set(option_name_alias, value);
         if (this.weight_query.is_query_ready()) {
-            console.log('Weight query', this.weight_query.get_query());
-            this.ajax_post(this.weight_query.get_query()[0], this.query_api_url.weight, this.weight_result_parser);
-
+            let w_query = this.weight_query.get_query();
+            for (let i = 0; i< w_query.length; i++) {
+                this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
+            }
         }
 
         // If Stage 1 is finished we choose only Hub options, so work with general query each time new option changes
@@ -609,9 +612,13 @@ export default class WheelbuilderFiltersStages {
         if (to_hide === 'rear') {
             this.hide_stage_one_rear_wheel_options(this.is_previous_option_wheelset);
             this.is_previous_option_wheelset = false;
+            this.weight_query.reset_query('rear_rim');
+            this.weight_calculator.set_component_weight('rear_rim', '0');
         } else if (to_hide === 'front'){
             this.hide_stage_one_front_wheel_options(this.is_previous_option_wheelset);
             this.is_previous_option_wheelset = false;
+            this.weight_query.reset_query('front_rim');
+            this.weight_calculator.set_component_weight('front_rim', '0');
         } else { //wheelset
             this.show_stage_one_front_rear_options();
             this.is_previous_option_wheelset = true;
@@ -1325,7 +1332,22 @@ export default class WheelbuilderFiltersStages {
     }
 
     weight_result_parser(query_result, parent) {
-        console.log("Resulty of weight query" ,query_result);
+        if ((query_result.length > 1) || (query_result.length == 0)) {
+            return
+        }
+
+        let result = query_result[0];
+        console.log("Resulty of weight query", query_result[0]);
+        if (result.hasOwnProperty('Front_Rim_Model')) {
+            parent.weight_calculator.set_component_weight('front_rim', result.Weight);
+        } else if (result.hasOwnProperty('Rear_Rim_Model')) {
+            parent.weight_calculator.set_component_weight('rear_rim', result.Weight);
+        } else if (result.hasOwnProperty('Front_Hub')) {
+            parent.weight_calculator.set_component_weight('front_hub', result.Weight);
+        } else if (result.hasOwnProperty('Rear_Hub')) {
+            parent.weight_calculator.set_component_weight('rear_hub', result.Weight);
+        }
+        console.log('Total weight', parent.weight_calculator.total_build_weight);
     }
 
     reset_option_selection(option_name) {
