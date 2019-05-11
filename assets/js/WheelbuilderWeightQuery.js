@@ -1,8 +1,8 @@
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 export default class WheelbuilderWeightQuery {
     constructor() {
-        this.front_rim_query = {};
-        this.rear_rim_query = {};
+        this.front_rim_query = {'Front_Rim_Model': {"$exists": true}};
+        this.rear_rim_query = {'Rear_Rim_Model': {"$exists": true}};
         this.front_hub_query = {};
         this.rear_hub_query = {};
         this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub'];
@@ -19,18 +19,30 @@ export default class WheelbuilderWeightQuery {
 
     set(option_name, value) {
 
+        if (option_name === 'use_sandbox_db') {
+            this.front_rim_query[option_name] = value;
+            this.rear_rim_query[option_name] = value;
+            this.front_hub_query[option_name] = value;
+            this.rear_hub_query[option_name] = value;
+        }
+        // check if Pick One.../ Reset selection/Option Reset button were pressed
+
+        if ((value === this.wb_config.zeroth_option_alternative_name) || (value === this.wb_config.zeroth_option_default_name)) {
+            value = {"$exists": true}
+        }
+
         if (option_name === 'Front_Rim_Model') {
             this.front_rim_query[option_name] = value;
             this.enable_last_query([this.front_rim_query, this.rear_rim_query]);
         } else if (option_name === 'Rear_Rim_Model') {
             this.rear_rim_query[option_name] = value;
-            this.enable_last_query([this.rear_rim_query,this.rear_rim_query]);
+            this.enable_last_query([this.front_rim_query,this.rear_rim_query]);
         } else if (option_name === 'Front_Hub') {
             this.front_hub_query[option_name] = value;
             this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
         } else if (option_name === 'Rear_Hub') {
             this.rear_hub_query[option_name] = value;
-            this.enable_last_query([this.rear_hub_query, this.rear_hub_query]);
+            this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
         }
 
         if (this.rim_optional.indexOf(option_name) > -1) {
@@ -44,25 +56,41 @@ export default class WheelbuilderWeightQuery {
             let optional_query = this.make_optional_query(option_name, value);
             this.front_hub_query['$or'] = optional_query;
             this.rear_hub_query['$or'] = optional_query;
-            this.enable_last_query([this.rear_hub_query, this.rear_hub_query]);
-        }
-
-        if (option_name === 'use_sandbox_db') {
-            this.front_rim_query[option_name] = value;
-            this.rear_rim_query[option_name] = value;
-            this.front_hub_query[option_name] = value;
-            this.rear_hub_query[option_name] = value;
+            this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
         }
     }
 
-    reset_query(type) {
-        if (type === 'front_rim') {
-            this.front_rim_query['Front_Rim_Model'] = null;
-        } else if (type == 'rear_rim') {
-            this.rear_rim_query['Rear_Rim_Model'] = null;
+    reset_query_on_build_change(type) {
+        // Called when the build type change between Front Rim/ Rear Rim/ Wheelset
+        if ((type === 'front_rim') && (this.front_rim_query.hasOwnProperty('Front_Rim_Model'))){
+            console.log('Reseting query on build change for ', type);
+            this.front_rim_query['Front_Rim_Model'] =  {"$exists": true};
+        } else if ((type == 'rear_rim') && (this.rear_rim_query.hasOwnProperty('Rear_Rim_Model'))) {
+            console.log('Reseting query on build change for ', type);
+            this.rear_rim_query['Rear_Rim_Model'] =  {"$exists": true};
         }
     }
 
+    reset(option_name) {
+        console.log('Reseting weight option');
+        if (this.front_rim_query.hasOwnProperty(option_name)) {
+            this.front_rim_query[option_name] = null;
+        }
+
+        if (this.rear_rim_query.hasOwnProperty(option_name)) {
+            this.rear_rim_query[option_name] = null;
+        }
+
+        if (this.front_hub_query.hasOwnProperty(option_name)) {
+            this.front_hub_query[option_name] = null;
+        }
+
+        if (this.rear_hub_query.hasOwnProperty(option_name)) {
+            this.rear_hub_query[option_name] = null;
+        }
+
+        this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query]);
+    }
 
     make_optional_query(option_name, value) {
         let or1 = {};

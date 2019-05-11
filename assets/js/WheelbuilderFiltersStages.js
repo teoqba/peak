@@ -35,6 +35,7 @@ export default class WheelbuilderFiltersStages {
         this.$back_button = this.$parent_page.find('.wb-back-button');
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
+        this.$total_weight_display = this.$parent_page.find('#wb-total-weight');
 
         // Name of the product for current page
         this.product_title = this.$parent_page.find('.product-title').text();
@@ -184,7 +185,7 @@ export default class WheelbuilderFiltersStages {
             this.spoke_query = new WheelbuilderQuery('Spokes', this.all_known_spokes_options, this.common_options_roots);
 
             this.weight_query = new WheelbuilderWeightQuery();
-            this.weight_calculator = new WheelbuilderWeightCalculator();
+            this.weight_calculator = new WheelbuilderWeightCalculator(this);
 
             //Set initial values of selected options
             for (let i in this.wb_config.find_initial_subset_of_rim_options) {
@@ -313,6 +314,7 @@ export default class WheelbuilderFiltersStages {
         this.weight_query.set(option_name_alias, value);
         if (this.weight_query.is_query_ready()) {
             let w_query = this.weight_query.get_query();
+            console.log('WEIGHT QUERTY THAT IS ABOUT TO FLY', w_query)
             for (let i = 0; i< w_query.length; i++) {
                 this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
             }
@@ -612,12 +614,12 @@ export default class WheelbuilderFiltersStages {
         if (to_hide === 'rear') {
             this.hide_stage_one_rear_wheel_options(this.is_previous_option_wheelset);
             this.is_previous_option_wheelset = false;
-            this.weight_query.reset_query('rear_rim');
+            this.weight_query.reset_query_on_build_change('rear_rim');
             this.weight_calculator.set_component_weight('rear_rim', '0');
         } else if (to_hide === 'front'){
             this.hide_stage_one_front_wheel_options(this.is_previous_option_wheelset);
             this.is_previous_option_wheelset = false;
-            this.weight_query.reset_query('front_rim');
+            this.weight_query.reset_query_on_build_change('front_rim');
             this.weight_calculator.set_component_weight('front_rim', '0');
         } else { //wheelset
             this.show_stage_one_front_rear_options();
@@ -1332,21 +1334,41 @@ export default class WheelbuilderFiltersStages {
     }
 
     weight_result_parser(query_result, parent) {
-        if ((query_result.length > 1) || (query_result.length == 0)) {
-            return
+        console.log("Running weight result parser");
+        let make_component_zero = false;
+        console.log('WQueryResukt', query_result);
+        // if ((query_result.length > 1) || (query_result.length == 0)) {
+        //     return
+        // }
+
+        if (query_result.length > 1) {
+            make_component_zero = true;
         }
 
         let result = query_result[0];
-        console.log("Resulty of weight query", query_result[0]);
+        // console.log("Resulty of weight query", query_result[0]);
         if (result.hasOwnProperty('Front_Rim_Model')) {
-            parent.weight_calculator.set_component_weight('front_rim', result.Weight);
+            parent.weight_calculator.set_component_weight('front_rim', (make_component_zero) ? '0' : result.Weight);
         } else if (result.hasOwnProperty('Rear_Rim_Model')) {
-            parent.weight_calculator.set_component_weight('rear_rim', result.Weight);
+            parent.weight_calculator.set_component_weight('rear_rim', (make_component_zero) ? '0' : result.Weight);
         } else if (result.hasOwnProperty('Front_Hub')) {
-            parent.weight_calculator.set_component_weight('front_hub', result.Weight);
+            parent.weight_calculator.set_component_weight('front_hub', (make_component_zero) ? '0' : result.Weight);
         } else if (result.hasOwnProperty('Rear_Hub')) {
-            parent.weight_calculator.set_component_weight('rear_hub', result.Weight);
+            parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
         }
+
+        //
+        // if (result.hasOwnProperty('Front_Rim_Model')) {
+        //     parent.weight_calculator.set_component_weight('front_rim', result.Weight);
+        // } else if (result.hasOwnProperty('Rear_Rim_Model')) {
+        //     parent.weight_calculator.set_component_weight('rear_rim', result.Weight);
+        // } else if (result.hasOwnProperty('Front_Hub')) {
+        //     parent.weight_calculator.set_component_weight('front_hub', result.Weight);
+        // } else if (result.hasOwnProperty('Rear_Hub')) {
+        //     parent.weight_calculator.set_component_weight('rear_hub', result.Weight);
+        // }
+
+
         console.log('Total weight', parent.weight_calculator.total_build_weight);
     }
 
@@ -1444,7 +1466,8 @@ export default class WheelbuilderFiltersStages {
                 this.spoke_query.remove(option_name_alias);
             }
         }
-
+        // reset contents of weight query:
+        this.weight_query.reset(option_name);
         // option objects stored in option_aliases are top-level to $changedOption objects that comes from
         // BigCommerce engine when option is changed. Find the proper child option object, to we can
         // use the regular filtering engine.
