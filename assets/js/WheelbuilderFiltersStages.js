@@ -36,7 +36,12 @@ export default class WheelbuilderFiltersStages {
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
         this.$total_weight_display = this.$parent_page.find('#wb-total-weight');
+        this.$front_rim_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Rim\\ Model');
+        this.$rear_rim_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Rim\\ Model');
+        this.$front_hub_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Hub');
+        this.$rear_hub_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Hub');
 
+        console.log("I FOUND", this.$front_rim_weight_display);
         // Name of the product for current page
         this.product_title = this.$parent_page.find('.product-title').text();
 
