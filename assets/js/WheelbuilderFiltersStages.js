@@ -40,6 +40,7 @@ export default class WheelbuilderFiltersStages {
         this.$rear_rim_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Rim\\ Model');
         this.$front_hub_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Hub');
         this.$rear_hub_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Hub');
+        this.$spoke_weight_display = this.$parent_page.find('#wb-component-weight-Spoke\\ Type');
 
         console.log("I FOUND", this.$front_rim_weight_display);
         // Name of the product for current page
@@ -407,6 +408,8 @@ export default class WheelbuilderFiltersStages {
         this.weight_query.reset('Front_Hub');
         this.weight_query.reset('Rear_Hub');
         this.weight_query.reset('Drivetrain_Type');
+        this.weight_query.reset('Spoke_Type');
+        this.weight_query.reset('Spoke_Color');
 
         // reset option sets
         for (let option_name in this.all_options_on_page) {
@@ -1371,8 +1374,9 @@ export default class WheelbuilderFiltersStages {
             parent.weight_calculator.set_component_weight('front_hub', (make_component_zero) ? '0' : result.Weight);
         } else if (result.hasOwnProperty('Rear_Hub')) {
             parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
+        } else if (result.hasOwnProperty('Spoke_Type')) {
+            parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
         }
-
         //
         // if (result.hasOwnProperty('Front_Rim_Model')) {
         //     parent.weight_calculator.set_component_weight('front_rim', result.Weight);

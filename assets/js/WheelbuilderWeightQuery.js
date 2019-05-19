@@ -5,9 +5,11 @@ export default class WheelbuilderWeightQuery {
         this.rear_rim_query = {'Rear_Rim_Model': {"$exists": true}};
         this.front_hub_query = {'Front_Hub': {"$exists": true}};
         this.rear_hub_query = {'Rear_Hub': {"$exists": true}};
-        this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub'];
+        this.spoke_query = {'Spoke_Type': {"$exists": true}};
+        this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub', 'Spoke_Type'];
         this.rim_optional = ['Rim_Size'];
         this.hub_optional = ['Drivetrain_Type'];
+        this.spoke_optional = ['Spoke_Color'];
         this.wb_config = new WheelbuilderConfig();
         this.last_query = [];
         this.query_ready = false;
@@ -24,6 +26,7 @@ export default class WheelbuilderWeightQuery {
             this.rear_rim_query[option_name] = value;
             this.front_hub_query[option_name] = value;
             this.rear_hub_query[option_name] = value;
+            this.spoke_query[option_name] = value;
         }
         // check if Pick One.../ Reset selection/Option Reset button were pressed
 
@@ -43,6 +46,9 @@ export default class WheelbuilderWeightQuery {
         } else if (option_name === 'Rear_Hub') {
             this.rear_hub_query[option_name] = value;
             this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
+        } else if (option_name === 'Spoke_Type') {
+            this.spoke_query[option_name] = value;
+            this.enable_last_query([this.spoke_query]);
         }
 
         if (this.rim_optional.indexOf(option_name) > -1) {
@@ -58,6 +64,13 @@ export default class WheelbuilderWeightQuery {
             this.rear_hub_query['$or'] = optional_query;
             this.enable_last_query([this.front_hub_query, this.rear_hub_query]);
         }
+
+        if (this.spoke_optional.indexOf(option_name) > -1) {
+            let optional_query = this.make_optional_query(option_name, value);
+            this.spoke_query['$or'] = optional_query;
+            this.enable_last_query([this.spoke_query]);
+        }
+
     }
 
     reset_query_on_build_change(type) {
@@ -115,7 +128,17 @@ export default class WheelbuilderWeightQuery {
             }
         }
 
-        this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query]);
+        if ((this.spoke_query.hasOwnProperty(option_name)) && (option_name === "Spoke_Type")) {
+            this.spoke_query[option_name] = {"$exists": true};
+        }
+
+        if (this.spoke_query.hasOwnProperty('$or')) {
+            if (this.spoke_query['$or'][0].hasOwnProperty(option_name)) {
+                delete this.spoke_query['$or'];
+            }
+        }
+
+        this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query, this.spoke_query]);
     }
 
     make_optional_query(option_name, value) {
