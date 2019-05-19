@@ -3,11 +3,11 @@ export default class WheelbuilderWeightQuery {
     constructor() {
         this.front_rim_query = {'Front_Rim_Model': {"$exists": true}};
         this.rear_rim_query = {'Rear_Rim_Model': {"$exists": true}};
-        this.front_hub_query = {};
-        this.rear_hub_query = {};
+        this.front_hub_query = {'Front_Hub': {"$exists": true}};
+        this.rear_hub_query = {'Rear_Hub': {"$exists": true}};
         this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub'];
         this.rim_optional = ['Rim_Size'];
-        this.hub_optional = [];
+        this.hub_optional = ['Drivetrain_Type'];
         this.wb_config = new WheelbuilderConfig();
         this.last_query = [];
         this.query_ready = false;
@@ -73,20 +73,46 @@ export default class WheelbuilderWeightQuery {
 
     reset(option_name) {
         console.log('Reseting weight option');
-        if (this.front_rim_query.hasOwnProperty(option_name)) {
-            this.front_rim_query[option_name] = null;
+        if ((this.front_rim_query.hasOwnProperty(option_name)) && (option_name === "Front_Rim_Model")) {
+            this.front_rim_query[option_name] = {"$exists": true}
         }
 
-        if (this.rear_rim_query.hasOwnProperty(option_name)) {
-            this.rear_rim_query[option_name] = null;
+        if (this.front_rim_query.hasOwnProperty('$or')) {
+            if (this.front_rim_query['$or'][0].hasOwnProperty(option_name)) {
+                delete this.front_rim_query['$or'];
+            }
         }
 
-        if (this.front_hub_query.hasOwnProperty(option_name)) {
-            this.front_hub_query[option_name] = null;
+
+        if ((this.rear_rim_query.hasOwnProperty(option_name)) && (option_name === "Rear_Rim_Model")) {
+            this.rear_rim_query[option_name] = {"$exists": true}
         }
 
-        if (this.rear_hub_query.hasOwnProperty(option_name)) {
-            this.rear_hub_query[option_name] = null;
+        if (this.rear_rim_query.hasOwnProperty('$or')) {
+            if (this.rear_rim_query['$or'][0].hasOwnProperty(option_name)) {
+                delete this.rear_rim_query['$or'];
+            }
+        }
+
+
+        if ((this.front_hub_query.hasOwnProperty(option_name)) && (option_name === "Front_Hub")) {
+                this.front_hub_query[option_name] = {"$exists": true}
+        }
+
+        if (this.front_hub_query.hasOwnProperty('$or')) {
+            if (this.front_hub_query['$or'][0].hasOwnProperty(option_name)) {
+                delete this.front_hub_query['$or'];
+            }
+        }
+
+       if ((this.rear_hub_query.hasOwnProperty(option_name)) && (option_name === "Rear_Hub")) {
+                this.rear_hub_query[option_name] = {"$exists": true};
+        }
+
+        if (this.rear_hub_query.hasOwnProperty('$or')) {
+            if (this.rear_hub_query['$or'][0].hasOwnProperty(option_name)) {
+                delete this.rear_hub_query['$or'];
+            }
         }
 
         this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query]);
@@ -99,6 +125,15 @@ export default class WheelbuilderWeightQuery {
         or2[option_name] = value;
         return [or1, or2]
     }
+
+    make_optional_reset(option_name) {
+        let or1 = {};
+        let or2 = {};
+        or1[option_name] = {"$exists": false};
+        or2[option_name] = {"$exists": true};
+        return [or1, or2]
+    }
+
 
     enable_last_query(query) {
         this.last_query = query;
@@ -113,40 +148,4 @@ export default class WheelbuilderWeightQuery {
         this.query_ready = false;
         return this.last_query;
     }
-
-
-    //
-    // log(message) {
-    //     if ((typeof message === 'undefined')) {
-    //         message = 'Query ';
-    //     }
-    //     let mongo_query = this.get_query();
-    //     console.log(message, mongo_query);
-    // }
-    //
-    // set(option_name, value) {
-    //     if (this.allowed_option_names.indexOf(option_name) > -1) {
-    //         this.query[option_name] = value;
-    //     }
-    // }
-    //
-    // get(option_name) {
-    //     return this.query[option_name]
-    // }
-    //
-    // has_option(option_name) {
-    //     if (this.query.hasOwnProperty(option_name)) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    //
-    // get_query() {
-    //     return this.query;
-    // }
-    //
-    // remove(option_name) {
-    //     delete this.query[option_name];
-    // }
 }

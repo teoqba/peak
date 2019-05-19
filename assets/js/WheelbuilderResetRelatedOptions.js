@@ -30,12 +30,20 @@ export default class WheelbuilderResetRelatedOptions {
             let related_options = ['Rear_Hub_Color', 'Drivetrain_Type'];
             this.do_reset(related_options, this.parent.hub_query);
             this.parent.hub_query.remove('Rear_Hub_Style');
+
+            console.log("Calling reset from related options1");
+            this.parent.weight_query.reset('Drivetrain_Type');
+            console.log("Weight query after reset", this.parent.weight_query.rear_hub_query);
         } else if ((option_name_alias === 'Front_Rim_Model') && selected_index < 1) {
             let related_options = ['Front_Hole_Count'];
             this.do_reset(related_options, this.parent.rim_query);
         } else if ((option_name_alias === 'Rear_Rim_Model') && selected_index < 1) {
             let related_options = ['Rear_Hole_Count'];
             this.do_reset(related_options, this.parent.rim_query);
+        } else if ((option_name_alias === 'Drivetrain_Type') && selected_index < 1) {
+            console.log("Calling reset from related options2");
+            this.parent.weight_query.reset('Drivetrain_Type');
+            console.log("Weight query after reset", this.parent.weight_query.rear_hub_query);
         }
     }
 

@@ -403,6 +403,11 @@ export default class WheelbuilderFiltersStages {
         // this.hub_query.set('inventory_type', 'Hubs');
         this.analyze_disc_brake_options();
 
+        //reset all hub weight queries related to hubs
+        this.weight_query.reset('Front_Hub');
+        this.weight_query.reset('Rear_Hub');
+        this.weight_query.reset('Drivetrain_Type');
+
         // reset option sets
         for (let option_name in this.all_options_on_page) {
             let option_name_alias = this.option_aliases.option_alias[option_name];
@@ -448,6 +453,12 @@ export default class WheelbuilderFiltersStages {
         this.stage_two_options_on_page.reset();
         this.hide_remaining_options();
         this.filter_after_stage_one_is_done();
+
+        let w_query = this.weight_query.get_query();
+        console.log('WEIGHT QUERTY THAT IS ABOUT TO FLY on FORWARD BUTTON', w_query);
+        for (let i = 0; i< w_query.length; i++) {
+            this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
+        }
 
     }
 
