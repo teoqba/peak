@@ -11,6 +11,12 @@ export default class WheelbuilderWeightCalculator {
         this.total_build_weight = 0;
         this.front_hole_count = 0;
         this.rear_hole_count = 0;
+
+        this.front_wheel_weight = 0;
+        this.rear_wheel_weight = 0;
+        this.front_spoke_weight = 0;
+        this.rear_spoke_weight = 0;
+
         this.parent = parent;
     }
 
@@ -32,14 +38,26 @@ export default class WheelbuilderWeightCalculator {
             let front_hole_count = this.get_count("Front_Hole_Count");
             let rear_hole_count = this.get_count("Rear_Hole_Count");
             this.spoke_weight = (front_hole_count * weight) + (rear_hole_count * weight);
+            this.front_spoke_weight = front_hole_count * weight;
+            this.rear_spoke_weight = rear_hole_count * weight;
             this.parent.$spoke_weight_display.text(this.format_inline_weight_display(this.spoke_weight));
         }
-        let front_hole_count = this.get_count("Front_Hole_Count");
-        let rear_hole_count = this.get_count("Rear_Hole_Count");
         this.total_build_weight = this.front_rim_weight + this.rear_rim_weight
                             + this.front_hub_weight + this.rear_hub_weight
                             + this.spoke_weight;
-        this.parent.$total_weight_display.text('Total Build Weight: ' + this.total_build_weight+'g');
+
+        // Calculate front and rear wheel builds weight separately
+        this.front_wheel_weight = this.front_rim_weight + this.front_hub_weight + this.front_spoke_weight;
+        this.rear_wheel_weight = this.rear_rim_weight + this.rear_hub_weight + this.rear_spoke_weight;
+
+        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
+        if (build_type === "Wheelset") {
+            this.parent.$total_weight_display.text('Front Wheel Weight:' + this.front_rim_weight +
+                                                   'g    Rear Rim Weight:' + this.rear_rim_weight +
+                                                   'g    Total Build Weight: ' + this.total_build_weight + 'g');
+        } else {
+            this.parent.$total_weight_display.text('Total Build Weight: ' + this.total_build_weight + 'g');
+        }
     }
 
     format_inline_weight_display(weight){

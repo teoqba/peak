@@ -31,7 +31,6 @@ export default class WheelbuilderResetRelatedOptions {
             this.do_reset(related_options, this.parent.hub_query);
             this.parent.hub_query.remove('Rear_Hub_Style');
 
-            console.log("Calling reset from related options1");
             this.parent.weight_query.reset('Drivetrain_Type');
             console.log("Weight query after reset", this.parent.weight_query.rear_hub_query);
         } else if ((option_name_alias === 'Front_Rim_Model') && selected_index < 1) {

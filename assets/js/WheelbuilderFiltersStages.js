@@ -1045,8 +1045,13 @@ export default class WheelbuilderFiltersStages {
                 this.rim_query.remove(stage_one_option_name);
                 this.stage_one_options_on_page.set(stage_one_option_name, null);
                 this.reset_option_selection(stage_one_option_name);
+                this.weight_query.reset(stage_one_option_name);
                 // let real_option_name = this.option_aliases.alias_to_real_name(stage_one_option_name);
                 // this.option_reset_buttons.hide(real_option_name);
+                let w_query = this.weight_query.get_query();
+                for (let i = 0; i< w_query.length; i++) {
+                    this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
+                }
             }
             this.reset_to_options_default_selection();
         } else if ((this.wb_config.front_rear_common_options.indexOf(option_name_alias) > -1) && selected_index > 1)  {
@@ -1055,9 +1060,16 @@ export default class WheelbuilderFiltersStages {
             this.rim_query.remove('Rear_Rim_Model');
             this.rim_query.remove('Front_Hole_Count');
             this.rim_query.remove('Rear_Hole_Count');
+            this.weight_query.reset('Front_Rim_Model');
+            this.weight_query.reset('Rear_Rim_Model');
+
             if (!this.stage_one_options_on_page.all_options_selected()) {
                 this.reset_option_selection('Front_Hole_Count');
                 this.reset_option_selection('Rear_Hole_Count');
+            }
+            let w_query = this.weight_query.get_query();
+            for (let i = 0; i< w_query.length; i++) {
+                this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
             }
 
         } else if ((option_name_alias === 'Brake_Type') && (selected_index > 0) ) {
