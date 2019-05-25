@@ -42,7 +42,6 @@ export default class WheelbuilderFiltersStages {
         this.$rear_hub_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Hub');
         this.$spoke_weight_display = this.$parent_page.find('#wb-component-weight-Spoke\\ Type');
 
-        console.log("I FOUND", this.$front_rim_weight_display);
         // Name of the product for current page
         this.product_title = this.$parent_page.find('.product-title').text();
 
@@ -320,7 +319,6 @@ export default class WheelbuilderFiltersStages {
         this.weight_query.set(option_name_alias, value);
         if (this.weight_query.is_query_ready()) {
             let w_query = this.weight_query.get_query();
-            console.log('WEIGHT QUERTY THAT IS ABOUT TO FLY', w_query)
             for (let i = 0; i< w_query.length; i++) {
                 this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
             }
@@ -1048,10 +1046,16 @@ export default class WheelbuilderFiltersStages {
                 this.weight_query.reset(stage_one_option_name);
                 // let real_option_name = this.option_aliases.alias_to_real_name(stage_one_option_name);
                 // this.option_reset_buttons.hide(real_option_name);
-                let w_query = this.weight_query.get_query();
-                for (let i = 0; i< w_query.length; i++) {
-                    this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
-                }
+            }
+            this.weight_query.reset('Front_Hub');
+            this.weight_query.reset('Rear_Hub');
+            this.weight_query.reset('Drivetrain_Type');
+            this.weight_query.reset('Spoke_Type');
+            this.weight_query.reset('Spoke_Color');
+            // this.weight_calculator.reset_to_zero();
+            let w_query = this.weight_query.get_query();
+            for (let i = 0; i< w_query.length; i++) {
+                this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
             }
             this.reset_to_options_default_selection();
         } else if ((this.wb_config.front_rear_common_options.indexOf(option_name_alias) > -1) && selected_index > 1)  {
@@ -1365,43 +1369,29 @@ export default class WheelbuilderFiltersStages {
     }
 
     weight_result_parser(query_result, parent) {
-        console.log("Running weight result parser");
         let make_component_zero = false;
-        console.log('WQueryResukt', query_result);
-        // if ((query_result.length > 1) || (query_result.length == 0)) {
-        //     return
-        // }
 
         if (query_result.length > 1) {
             make_component_zero = true;
         }
 
-        let result = query_result[0];
-        // console.log("Resulty of weight query", query_result[0]);
-        if (result.hasOwnProperty('Front_Rim_Model')) {
-            parent.weight_calculator.set_component_weight('front_rim', (make_component_zero) ? '0' : result.Weight);
-        } else if (result.hasOwnProperty('Rear_Rim_Model')) {
-            parent.weight_calculator.set_component_weight('rear_rim', (make_component_zero) ? '0' : result.Weight);
-        } else if (result.hasOwnProperty('Front_Hub')) {
-            parent.weight_calculator.set_component_weight('front_hub', (make_component_zero) ? '0' : result.Weight);
-        } else if (result.hasOwnProperty('Rear_Hub')) {
-            parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
-        } else if (result.hasOwnProperty('Spoke_Type')) {
-            parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
+        try {
+            let result = query_result[0];
+            // console.log("Resulty of weight query", query_result[0]);
+            if (result.hasOwnProperty('Front_Rim_Model')) {
+                parent.weight_calculator.set_component_weight('front_rim', (make_component_zero) ? '0' : result.Weight);
+            } else if (result.hasOwnProperty('Rear_Rim_Model')) {
+                parent.weight_calculator.set_component_weight('rear_rim', (make_component_zero) ? '0' : result.Weight);
+            } else if (result.hasOwnProperty('Front_Hub')) {
+                parent.weight_calculator.set_component_weight('front_hub', (make_component_zero) ? '0' : result.Weight);
+            } else if (result.hasOwnProperty('Rear_Hub')) {
+                parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
+            } else if (result.hasOwnProperty('Spoke_Type')) {
+                parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
+            }
+        } catch(err){
+            console.log("Somwething wrong with Weight Data - got empty list")
         }
-        //
-        // if (result.hasOwnProperty('Front_Rim_Model')) {
-        //     parent.weight_calculator.set_component_weight('front_rim', result.Weight);
-        // } else if (result.hasOwnProperty('Rear_Rim_Model')) {
-        //     parent.weight_calculator.set_component_weight('rear_rim', result.Weight);
-        // } else if (result.hasOwnProperty('Front_Hub')) {
-        //     parent.weight_calculator.set_component_weight('front_hub', result.Weight);
-        // } else if (result.hasOwnProperty('Rear_Hub')) {
-        //     parent.weight_calculator.set_component_weight('rear_hub', result.Weight);
-        // }
-
-
-        console.log('Total weight', parent.weight_calculator.total_build_weight);
     }
 
     reset_option_selection(option_name) {

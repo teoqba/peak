@@ -18,10 +18,14 @@ export default class WheelbuilderWeightCalculator {
         this.rear_spoke_weight = 0;
 
         this.parent = parent;
+
+        this.no_data_label = "n/a"
     }
 
     set_component_weight(component_name, weight) {
-        weight = parseInt(weight);
+        if (weight != this.no_data_label) {
+            weight = parseInt(weight);
+        }
         if (component_name === 'front_rim') {
             this.front_rim_weight = weight;
             this.parent.$front_rim_weight_display.text(this.format_inline_weight_display(weight));
@@ -42,22 +46,9 @@ export default class WheelbuilderWeightCalculator {
             this.rear_spoke_weight = rear_hole_count * weight;
             this.parent.$spoke_weight_display.text(this.format_inline_weight_display(this.spoke_weight));
         }
-        this.total_build_weight = this.front_rim_weight + this.rear_rim_weight
-                            + this.front_hub_weight + this.rear_hub_weight
-                            + this.spoke_weight;
 
-        // Calculate front and rear wheel builds weight separately
-        this.front_wheel_weight = this.front_rim_weight + this.front_hub_weight + this.front_spoke_weight;
-        this.rear_wheel_weight = this.rear_rim_weight + this.rear_hub_weight + this.rear_spoke_weight;
+        this.calculate_totals()
 
-        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
-        if (build_type === "Wheelset") {
-            this.parent.$total_weight_display.text('Front Wheel Weight:' + this.front_rim_weight +
-                                                   'g    Rear Rim Weight:' + this.rear_rim_weight +
-                                                   'g    Total Build Weight: ' + this.total_build_weight + 'g');
-        } else {
-            this.parent.$total_weight_display.text('Total Build Weight: ' + this.total_build_weight + 'g');
-        }
     }
 
     format_inline_weight_display(weight){
@@ -72,6 +63,55 @@ export default class WheelbuilderWeightCalculator {
         if ((value != this.wb_config.zeroth_option_default_name) && (value != this.wb_config.zeroth_option_alternative_name)) {
             hole_count = parseInt(value.substring(0,2));
         }
-       return hole_count
+        return hole_count
     }
+
+    calculate_totals() {
+        if ((this.front_rim_weight === this.no_data_label) || (this.rear_rim_weight === this.no_data_label) ||
+            (this.front_hub_weight === this.no_data_label) || (this.rear_hub_weight === this.no_data_label) ||
+            (this.spoke_weight === this.no_data_label)) {
+            this.total_build_weight = this.no_data_label;
+        } else {
+            this.total_build_weight = this.front_rim_weight + this.rear_rim_weight
+                + this.front_hub_weight + this.rear_hub_weight
+                + this.spoke_weight;
+        }
+
+        // Calculate front and rear wheel builds weight separately
+        if ((this.front_rim_weight === this.no_data_label) || (this.front_hub_weight === this.no_data_label) ||
+            (this.spoke_weight === this.no_data_label)) {
+            this.front_wheel_weight = this.no_data_label;
+        } else {
+            this.front_wheel_weight = this.front_rim_weight + this.front_hub_weight + this.front_spoke_weight;
+        }
+
+        if ((this.rear_rim_weight === this.no_data_label) || (this.rear_hub_weight === this.no_data_label) ||
+            (this.spoke_weight === this.no_data_label)) {
+            this.rear_wheel_weight = this.no_data_label
+        } else {
+            this.rear_wheel_weight = this.rear_rim_weight + this.rear_hub_weight + this.rear_spoke_weight;
+        }
+
+        this.display_totals();
+
+    }
+
+    display_totals() {
+        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
+
+        if (build_type === "Wheelset") {
+            this.parent.$total_weight_display.text('Front Wheel Weight:' + this.front_wheel_weight
+                + this.display_unit(this.front_wheel_weight) +  '    Rear Wheel Weight:' + this.rear_wheel_weight
+                + this.display_unit(this.rear_wheel_weight) + '    Total Build Weight: ' + this.total_build_weight
+                + this.display_unit(this.total_build_weight));
+        } else {
+            this.parent.$total_weight_display.text('Total Build Weight: ' + this.total_build_weight +
+                this.display_unit(this.total_build_weight));
+        }
+    }
+
+    display_unit(wieght_value) {
+        return (wieght_value === this.no_data_label) ?  "" :  " g";
+    }
+
 }
