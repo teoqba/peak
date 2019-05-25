@@ -1390,7 +1390,7 @@ export default class WheelbuilderFiltersStages {
                 parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
             }
         } catch(err){
-            console.log("Somwething wrong with Weight Data - got empty list")
+            console.log("Somwething wrong with Weight Data - got empty list", err);
         }
     }
 

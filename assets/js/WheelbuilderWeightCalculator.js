@@ -19,12 +19,13 @@ export default class WheelbuilderWeightCalculator {
 
         this.parent = parent;
 
-        this.no_data_label = "n/a"
-    }
+        this.no_data_label = "n/a";
+        this.fraction_digits = 2;  // how many digits to display for floating numbers
+    };
 
     set_component_weight(component_name, weight) {
         if (weight != this.no_data_label) {
-            weight = parseInt(weight);
+            weight = parseFloat(weight);
         }
         if (component_name === 'front_rim') {
             this.front_rim_weight = weight;
@@ -96,22 +97,30 @@ export default class WheelbuilderWeightCalculator {
 
     }
 
+    format_fraction(value) {
+        if (value === this.no_data_label) {
+            return value
+        }
+
+        return value.toFixed(this.fraction_digits);
+    }
+
     display_totals() {
         let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
 
         if (build_type === "Wheelset") {
-            this.parent.$total_weight_display.text('Front Wheel Weight:' + this.front_wheel_weight
-                + this.display_unit(this.front_wheel_weight) +  '    Rear Wheel Weight:' + this.rear_wheel_weight
-                + this.display_unit(this.rear_wheel_weight) + '    Total Build Weight: ' + this.total_build_weight
+            this.parent.$total_weight_display.text('Front Wheel Weight:' + this.format_fraction(this.front_wheel_weight)
+                + this.display_unit(this.front_wheel_weight) +  '    Rear Wheel Weight:' + this.format_fraction(this.rear_wheel_weight)
+                + this.display_unit(this.rear_wheel_weight) + '    Total Build Weight: ' + this.format_fraction(this.total_build_weight)
                 + this.display_unit(this.total_build_weight));
         } else {
-            this.parent.$total_weight_display.text('Total Build Weight: ' + this.total_build_weight +
+            this.parent.$total_weight_display.text('Total Build Weight: ' + this.format_fraction(this.total_build_weight) +
                 this.display_unit(this.total_build_weight));
         }
     }
 
-    display_unit(wieght_value) {
-        return (wieght_value === this.no_data_label) ?  "" :  " g";
+    display_unit(weight_value) {
+        return (weight_value === this.no_data_label) ?  "" :  " g";
     }
 
 }
