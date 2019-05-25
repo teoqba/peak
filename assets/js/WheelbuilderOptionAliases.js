@@ -75,6 +75,11 @@ export default class WheelbuilderOptionAliases {
                     this.alias_to_real_name[option_name] = option_name;
                     this.all_options_on_page_aliased[option_name] = this.all_options_on_page[option_name];
                 }
+            } // include Nipple type too, required to set Nipple_Type in  WeightCalculatorQuery
+            if (option_name === "Nipple_Type") {
+                this.option_alias[option_name] = option_name;
+                this.alias_to_real_name[option_name] = option_name;
+                this.all_options_on_page_aliased[option_name] = this.all_options_on_page[option_name];
             }
         }
     }

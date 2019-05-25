@@ -41,6 +41,7 @@ export default class WheelbuilderFiltersStages {
         this.$front_hub_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Hub');
         this.$rear_hub_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Hub');
         this.$spoke_weight_display = this.$parent_page.find('#wb-component-weight-Spoke\\ Type');
+        this.$nipple_weight_display = this.$parent_page.find('#wb-component-weight-Nipple\\ Type');
 
         // Name of the product for current page
         this.product_title = this.$parent_page.find('.product-title').text();
@@ -314,7 +315,6 @@ export default class WheelbuilderFiltersStages {
         let value = $selected_item.text();
         // set variables controlling stages visibility: this.stage_*_finished
         this.stages_control(option_name_alias, value);
-
         // Get weight of chosen component
         this.weight_query.set(option_name_alias, value);
         if (this.weight_query.is_query_ready()) {
@@ -408,6 +408,7 @@ export default class WheelbuilderFiltersStages {
         this.weight_query.reset('Drivetrain_Type');
         this.weight_query.reset('Spoke_Type');
         this.weight_query.reset('Spoke_Color');
+        this.weight_query.reset('Nipple_Type');
 
         // reset option sets
         for (let option_name in this.all_options_on_page) {
@@ -456,7 +457,6 @@ export default class WheelbuilderFiltersStages {
         this.filter_after_stage_one_is_done();
 
         let w_query = this.weight_query.get_query();
-        console.log('WEIGHT QUERTY THAT IS ABOUT TO FLY on FORWARD BUTTON', w_query);
         for (let i = 0; i< w_query.length; i++) {
             this.ajax_post(w_query[i], this.query_api_url.weight, this.weight_result_parser);
         }
@@ -1388,9 +1388,11 @@ export default class WheelbuilderFiltersStages {
                 parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
             } else if (result.hasOwnProperty('Spoke_Type')) {
                 parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
+            } else if (result.hasOwnProperty('Nipple_Type')) {
+                parent.weight_calculator.set_component_weight('nipple', (make_component_zero) ? '0' : result.Weight);
             }
         } catch(err){
-            console.log("Somwething wrong with Weight Data - got empty list", err);
+            console.log("Something wrong with Weight Data - got empty list", err);
         }
     }
 

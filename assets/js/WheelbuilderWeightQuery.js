@@ -6,6 +6,7 @@ export default class WheelbuilderWeightQuery {
         this.front_hub_query = {'Front_Hub': {"$exists": true}};
         this.rear_hub_query = {'Rear_Hub': {"$exists": true}};
         this.spoke_query = {'Spoke_Type': {"$exists": true}};
+        this.nipple_query = {'Nipple_Type': {"$exists": true}};
         this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub', 'Spoke_Type'];
         this.rim_optional = ['Rim_Size'];
         this.hub_optional = ['Drivetrain_Type'];
@@ -27,6 +28,7 @@ export default class WheelbuilderWeightQuery {
             this.front_hub_query[option_name] = value;
             this.rear_hub_query[option_name] = value;
             this.spoke_query[option_name] = value;
+            this.nipple_query[option_name] = value;
         }
         // check if Pick One.../ Reset selection/Option Reset button were pressed
 
@@ -49,7 +51,11 @@ export default class WheelbuilderWeightQuery {
         } else if (option_name === 'Spoke_Type') {
             this.spoke_query[option_name] = value;
             this.enable_last_query([this.spoke_query]);
+        } else if (option_name === 'Nipple_Type') {
+            this.nipple_query[option_name] = this.get_nipple_type(value);
+            this.enable_last_query([this.nipple_query]);
         }
+
 
         if (this.rim_optional.indexOf(option_name) > -1) {
             let optional_query = this.make_optional_query(option_name, value);
@@ -138,7 +144,13 @@ export default class WheelbuilderWeightQuery {
             }
         }
 
-        this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query, this.spoke_query]);
+        if ((this.nipple_query.hasOwnProperty(option_name)) && (option_name === "Nipple_Type")) {
+            this.nipple_query[option_name] = {"$exists": true}
+        }
+
+
+        this.enable_last_query([this.front_rim_query, this.rear_rim_query, this.rear_hub_query, this.front_hub_query,
+            this.spoke_query, this.nipple_query]);
     }
 
     make_optional_query(option_name, value) {
@@ -170,5 +182,22 @@ export default class WheelbuilderWeightQuery {
     get_query() {
         this.query_ready = false;
         return this.last_query;
+    }
+
+    get_nipple_type(selected_nipple) {
+        // In database nipples are stored as Alloy or Brass without color.
+        // This method strips color from the selected name
+        if (typeof selected_nipple === 'object') {
+            return selected_nipple;
+        }
+
+        console.log('I got selected nipple', selected_nipple);
+        if (selected_nipple.includes("Alloy")) {
+            return "Alloy"
+        } else if (selected_nipple.includes("Brass")) {
+            return "Brass"
+        } else {
+            return selected_nipple
+        }
     }
 }

@@ -3,19 +3,22 @@ import WheelbuilderConfig from './WheelbuilderConfig.js';
 export default class WheelbuilderWeightCalculator {
     constructor(parent) {
         this.wb_config = new WheelbuilderConfig();
-        this.front_rim_weight = 0;
-        this.rear_rim_weight = 0;
-        this.front_hub_weight = 0;
-        this.rear_hub_weight = 0;
-        this.spoke_weight = 0;
-        this.total_build_weight = 0;
-        this.front_hole_count = 0;
-        this.rear_hole_count = 0;
+        this.front_rim_weight = 0.0;
+        this.rear_rim_weight = 0.0;
+        this.front_hub_weight = 0.0;
+        this.rear_hub_weight = 0.0;
+        this.spoke_weight = 0.0;
+        this.total_build_weight = 0.0;
+        this.front_hole_count = 0.0;
+        this.rear_hole_count = 0.0;
+        this.nipple_weight = 0.0;
 
-        this.front_wheel_weight = 0;
-        this.rear_wheel_weight = 0;
-        this.front_spoke_weight = 0;
-        this.rear_spoke_weight = 0;
+        this.front_wheel_weight = 0.0;
+        this.rear_wheel_weight = 0.0;
+        this.front_spoke_weight = 0.0;
+        this.rear_spoke_weight = 0.0;
+        this.front_nipple_weight = 0.0;
+        this.rear_nipple_weight = 0.0;
 
         this.parent = parent;
 
@@ -24,13 +27,14 @@ export default class WheelbuilderWeightCalculator {
     };
 
     set_component_weight(component_name, weight) {
-        if (weight != this.no_data_label) {
+        if (weight !== this.no_data_label) {
             weight = parseFloat(weight);
         }
+
         if (component_name === 'front_rim') {
             this.front_rim_weight = weight;
             this.parent.$front_rim_weight_display.text(this.format_inline_weight_display(weight));
-        } else if (component_name == 'rear_rim') {
+        } else if (component_name === 'rear_rim') {
             this.rear_rim_weight = weight;
             this.parent.$rear_rim_weight_display.text(this.format_inline_weight_display(weight));
         } else if (component_name === 'front_hub') {
@@ -46,14 +50,21 @@ export default class WheelbuilderWeightCalculator {
             this.front_spoke_weight = front_hole_count * weight;
             this.rear_spoke_weight = rear_hole_count * weight;
             this.parent.$spoke_weight_display.text(this.format_inline_weight_display(this.spoke_weight));
+        } else if (component_name === 'nipple') {
+            let front_hole_count = this.get_count("Front_Hole_Count");
+            let rear_hole_count = this.get_count("Rear_Hole_Count");
+            this.nipple_weight = (front_hole_count * weight) + (rear_hole_count * weight);
+            this.front_nipple_weight = front_hole_count * weight;
+            this.rear_nipple_weight = rear_hole_count * weight;
+            this.parent.$nipple_weight_display.text(this.format_inline_weight_display(this.nipple_weight));
         }
 
-        this.calculate_totals()
+        this.calculate_totals();
 
     }
 
     format_inline_weight_display(weight){
-        return (weight > 0) ? weight + " g" : "";
+        return (weight > 0) ? this.format_fraction(weight) + " g" : "";
     }
 
     get_count(hole_count_label) {
@@ -61,7 +72,7 @@ export default class WheelbuilderWeightCalculator {
         let value = this.parent.find_currently_selected_text_in_option($option);
 
         let hole_count = 0;
-        if ((value != this.wb_config.zeroth_option_default_name) && (value != this.wb_config.zeroth_option_alternative_name)) {
+        if ((value !== this.wb_config.zeroth_option_default_name) && (value !== this.wb_config.zeroth_option_alternative_name)) {
             hole_count = parseInt(value.substring(0,2));
         }
         return hole_count
@@ -70,27 +81,29 @@ export default class WheelbuilderWeightCalculator {
     calculate_totals() {
         if ((this.front_rim_weight === this.no_data_label) || (this.rear_rim_weight === this.no_data_label) ||
             (this.front_hub_weight === this.no_data_label) || (this.rear_hub_weight === this.no_data_label) ||
-            (this.spoke_weight === this.no_data_label)) {
+            (this.spoke_weight === this.no_data_label) || (this.nipple_weight === this.no_data_label)) {
             this.total_build_weight = this.no_data_label;
         } else {
             this.total_build_weight = this.front_rim_weight + this.rear_rim_weight
                 + this.front_hub_weight + this.rear_hub_weight
-                + this.spoke_weight;
+                + this.spoke_weight + this.nipple_weight;
         }
 
         // Calculate front and rear wheel builds weight separately
         if ((this.front_rim_weight === this.no_data_label) || (this.front_hub_weight === this.no_data_label) ||
-            (this.spoke_weight === this.no_data_label)) {
+            (this.spoke_weight === this.no_data_label) || (this.front_nipple_weight === this.no_data_label)) {
             this.front_wheel_weight = this.no_data_label;
         } else {
-            this.front_wheel_weight = this.front_rim_weight + this.front_hub_weight + this.front_spoke_weight;
+            this.front_wheel_weight = this.front_rim_weight + this.front_hub_weight + this.front_spoke_weight +
+                                      this.front_nipple_weight;
         }
 
         if ((this.rear_rim_weight === this.no_data_label) || (this.rear_hub_weight === this.no_data_label) ||
-            (this.spoke_weight === this.no_data_label)) {
+            (this.spoke_weight === this.no_data_label) || (this.rear_nipple_weight === this.no_data_label)) {
             this.rear_wheel_weight = this.no_data_label
         } else {
-            this.rear_wheel_weight = this.rear_rim_weight + this.rear_hub_weight + this.rear_spoke_weight;
+            this.rear_wheel_weight = this.rear_rim_weight + this.rear_hub_weight + this.rear_spoke_weight +
+                                     this.rear_nipple_weight;
         }
 
         this.display_totals();
