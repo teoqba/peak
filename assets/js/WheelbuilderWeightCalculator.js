@@ -64,6 +64,9 @@ export default class WheelbuilderWeightCalculator {
     }
 
     format_inline_weight_display(weight){
+        if (weight === this.no_data_label) return weight;
+
+        // if weight is number, add unit or no display for 0
         return (weight > 0) ? this.format_fraction(weight) + " g" : "";
     }
 

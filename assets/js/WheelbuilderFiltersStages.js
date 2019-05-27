@@ -1369,27 +1369,37 @@ export default class WheelbuilderFiltersStages {
     }
 
     weight_result_parser(query_result, parent) {
-        let make_component_zero = false;
 
-        if (query_result.length > 1) {
-            make_component_zero = true;
+        // query_result = {query_type: 'Front_Rim_Model' | 'Rear_Rim_Model' | 'Front_Hub'...,
+        //                 result: [{'Weight':XXX, 'Front_Rim_Model': YYY}]}  // if weight for given item is found, the result list has length 0
+
+        let weight = 0;
+        let result = query_result['result'];
+        let query_type = query_result['query_type'];
+
+        if (result.length > 1) {
+            weight = 0; // many items returned in result, customer need to make more choices to narrow down selection
+        } else if (result.length === 0) {
+            weight = 'n/a'; //item with desired parameters not found, probably data missing in or error set it to 'n/a'
+        } else {
+            weight = result[0].Weight; // item found
         }
 
+
         try {
-            let result = query_result[0];
-            // console.log("Resulty of weight query", query_result[0]);
-            if (result.hasOwnProperty('Front_Rim_Model')) {
-                parent.weight_calculator.set_component_weight('front_rim', (make_component_zero) ? '0' : result.Weight);
-            } else if (result.hasOwnProperty('Rear_Rim_Model')) {
-                parent.weight_calculator.set_component_weight('rear_rim', (make_component_zero) ? '0' : result.Weight);
-            } else if (result.hasOwnProperty('Front_Hub')) {
-                parent.weight_calculator.set_component_weight('front_hub', (make_component_zero) ? '0' : result.Weight);
-            } else if (result.hasOwnProperty('Rear_Hub')) {
-                parent.weight_calculator.set_component_weight('rear_hub', (make_component_zero) ? '0' : result.Weight);
-            } else if (result.hasOwnProperty('Spoke_Type')) {
-                parent.weight_calculator.set_component_weight('spoke', (make_component_zero) ? '0' : result.Weight);
-            } else if (result.hasOwnProperty('Nipple_Type')) {
-                parent.weight_calculator.set_component_weight('nipple', (make_component_zero) ? '0' : result.Weight);
+            // console.log("Resulty of weight query", query_data[0]);
+            if (query_type === 'Front_Rim_Model') {
+                parent.weight_calculator.set_component_weight('front_rim', weight);
+            } else if (query_type ==='Rear_Rim_Model') {
+                parent.weight_calculator.set_component_weight('rear_rim', weight);
+            } else if (query_type ==='Front_Hub') {
+                parent.weight_calculator.set_component_weight('front_hub', weight);
+            } else if (query_type ==='Rear_Hub') {
+                parent.weight_calculator.set_component_weight('rear_hub', weight);
+            } else if (query_type ==='Spoke_Type') {
+                parent.weight_calculator.set_component_weight('spoke', weight);
+            } else if (query_type ==='Nipple_Type') {
+                parent.weight_calculator.set_component_weight('nipple', weight);
             }
         } catch(err){
             console.log("Something wrong with Weight Data - got empty list", err);

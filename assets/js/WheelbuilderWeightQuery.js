@@ -1,13 +1,12 @@
 import WheelbuilderConfig from './WheelbuilderConfig.js';
 export default class WheelbuilderWeightQuery {
     constructor() {
-        this.front_rim_query = {'Front_Rim_Model': {"$exists": true}};
-        this.rear_rim_query = {'Rear_Rim_Model': {"$exists": true}};
-        this.front_hub_query = {'Front_Hub': {"$exists": true}};
-        this.rear_hub_query = {'Rear_Hub': {"$exists": true}};
-        this.spoke_query = {'Spoke_Type': {"$exists": true}};
-        this.nipple_query = {'Nipple_Type': {"$exists": true}};
-        this.allowed_option_names = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Hub', 'Rear_Hub', 'Spoke_Type'];
+        this.front_rim_query = {'Front_Rim_Model': {"$exists": true}, 'query_type':'Front_Rim_Model'};
+        this.rear_rim_query = {'Rear_Rim_Model': {"$exists": true}, 'query_type':'Rear_Rim_Model'};
+        this.front_hub_query = {'Front_Hub': {"$exists": true}, 'query_type':'Front_Hub'};
+        this.rear_hub_query = {'Rear_Hub': {"$exists": true}, 'query_type':'Rear_Hub'};
+        this.spoke_query = {'Spoke_Type': {"$exists": true}, 'query_type':'Spoke_Type'};
+        this.nipple_query = {'Nipple_Type': {"$exists": true}, 'query_type':'Nipple_Type'};
         this.rim_optional = ['Rim_Size'];
         this.hub_optional = ['Drivetrain_Type'];
         this.spoke_optional = ['Spoke_Color'];
