@@ -3,7 +3,7 @@
   data-product-attribute="set-select">
   <label class="form-label">
     <span class="form-field-title">
-      <span class="wb-option-display-name">{{display_name}}</span><div id="wb-component-weight-{{display_name}}"></div>
+      <span class="wb-option-display-name">{{display_name}}</span>
       {{#if required}}<span class="required-text">{{lang 'common.required'}}</span>{{/if}}
       <span class="wb-tooltip-icon" id="wb-tooltip-icon-{{display_name}}"> <svg class="icon icon-close icon-wb-tooltip"><use xlink:href="#icon-tooltip"></use></svg></span>
       <span class="wb-tooltip" id="wb-tooltip-{{display_name}}"></span>
@@ -28,4 +28,5 @@
     </span>
   </label>
   <button type="button" class="wb-reset-button" id="wb-reset-button-{{display_name}}"><svg class="icon icon-close icon-wb"><use xlink:href="#icon-wbreset" /></svg></button>
+  <span id="wb-component-weight-{{display_name}}"></span>
 </div>

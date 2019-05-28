@@ -1210,7 +1210,6 @@ export default class WheelbuilderFiltersStages {
     result_parser(query_result, parent) {
         // parent.check_if_build_is_invalid(query_result);
         if (parent.debug_query) {
-            console.log('Query result', query_result);
         }
 
         let inventory_type = query_result['inventory_type'];
