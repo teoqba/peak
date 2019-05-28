@@ -24,6 +24,7 @@ export default class WheelbuilderWeightCalculator {
 
         this.no_data_label = "n/a";
         this.fraction_digits = 2;  // how many digits to display for floating numbers
+        this.reset_inline_display(0);
     };
 
     set_component_weight(component_name, weight) {
@@ -78,7 +79,7 @@ export default class WheelbuilderWeightCalculator {
         if ((value !== this.wb_config.zeroth_option_default_name) && (value !== this.wb_config.zeroth_option_alternative_name)) {
             hole_count = parseInt(value.substring(0,2));
         }
-        return hole_count
+        return hole_count;
     }
 
     calculate_totals() {
@@ -125,11 +126,6 @@ export default class WheelbuilderWeightCalculator {
         let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
 
         if (build_type === "Wheelset") {
-            // this.parent.$total_weight_display.text('Front Wheel Weight:' + this.format_fraction(this.front_wheel_weight)
-            //     + this.display_unit(this.front_wheel_weight) +  '    Rear Wheel Weight:' + this.format_fraction(this.rear_wheel_weight)
-            //     + this.display_unit(this.rear_wheel_weight) + '    Total Build Weight: ' + this.format_fraction(this.total_build_weight)
-            //     + this.display_unit(this.total_build_weight));
-
             this.parent.$total_weight_display.text('Total Build Weight: ' + this.format_fraction(this.total_build_weight) +
                 this.display_unit(this.total_build_weight));
 
@@ -154,6 +150,19 @@ export default class WheelbuilderWeightCalculator {
 
     display_unit(weight_value) {
         return (weight_value === this.no_data_label) ?  "" :  " g";
+    }
+
+    reset_inline_display(weight) {
+        this.parent.$front_rim_weight_display.text(this.format_inline_weight_display(weight));
+        this.parent.$rear_rim_weight_display.text(this.format_inline_weight_display(weight));
+        this.parent.$front_hub_weight_display.text(this.format_inline_weight_display(weight));
+        this.parent.$rear_hub_weight_display.text(this.format_inline_weight_display(weight));
+        this.parent.$spoke_weight_display.text(this.format_inline_weight_display(weight));
+        this.parent.$nipple_weight_display.text(this.format_inline_weight_display(weight));
+
+
+
+
     }
 
 }

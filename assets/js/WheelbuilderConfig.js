@@ -13,11 +13,11 @@ export default class WheelbuilderConfig {
         // this.database_address = "http://52.53.51.220";
         // this.database_port = 8080;
 
-        // this.database_address = "https://filters.wheelbuilderfilters.com";
-        // this.database_port = 443;
+        this.database_address = "https://filters.wheelbuilderfilters.com";
+        this.database_port = 443;
 
-        this.database_address = "http://WeightTest-env.pw9bzyjumt.us-west-1.elasticbeanstalk.com";
-        this.database_port = 80;
+        // this.database_address = "http://WeightTest-env.pw9bzyjumt.us-west-1.elasticbeanstalk.com";
+        // this.database_port = 80;
 
         // set urls depending if we use test environment or not. For "query" this.usesandbox is included in message body (query)
         if (this.use_sandbox_db) {
@@ -26,7 +26,6 @@ export default class WheelbuilderConfig {
                 "query": this.database_address + ":" + this.database_port + "/wbdb_query",
                 "tooltips":  this.database_address + ":" + this.database_port + "/tooltips",
                 "weight": this.database_address + ":" + this.database_port + "/get_weight"
-                // "tooltips":  "http://cheftest-env.3bicf2kgmk.us-west-1.elasticbeanstalk.com/tooltips",
             };
         } else {
             this.database_urls = {
@@ -34,7 +33,6 @@ export default class WheelbuilderConfig {
                 "query": this.database_address + ":" + this.database_port + "/wbdb_query",
                 "tooltips": this.database_address + ":" + this.database_port + "/tooltips",
                 "weight": this.database_address + ":" + this.database_port + "/get_weight"
-                // "tooltips":  "http://cheftest-env.3bicf2kgmk.us-west-1.elasticbeanstalk.com/tooltips",
             };
         }
 
