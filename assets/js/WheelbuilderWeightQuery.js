@@ -81,16 +81,13 @@ export default class WheelbuilderWeightQuery {
     reset_query_on_build_change(type) {
         // Called when the build type change between Front Rim/ Rear Rim/ Wheelset
         if ((type === 'front_rim') && (this.front_rim_query.hasOwnProperty('Front_Rim_Model'))){
-            console.log('Reseting query on build change for ', type);
             this.front_rim_query['Front_Rim_Model'] =  {"$exists": true};
         } else if ((type == 'rear_rim') && (this.rear_rim_query.hasOwnProperty('Rear_Rim_Model'))) {
-            console.log('Reseting query on build change for ', type);
             this.rear_rim_query['Rear_Rim_Model'] =  {"$exists": true};
         }
     }
 
     reset(option_name) {
-        console.log('Reseting weight option');
         if ((this.front_rim_query.hasOwnProperty(option_name)) && (option_name === "Front_Rim_Model")) {
             this.front_rim_query[option_name] = {"$exists": true}
         }
@@ -190,7 +187,6 @@ export default class WheelbuilderWeightQuery {
             return selected_nipple;
         }
 
-        console.log('I got selected nipple', selected_nipple);
         if (selected_nipple.includes("Alloy")) {
             return "Alloy"
         } else if (selected_nipple.includes("Brass")) {

@@ -36,6 +36,8 @@ export default class WheelbuilderFiltersStages {
         this.$next_button = this.$parent_page.find('.wb-next-button');
         this.$reset_buttons = this.$parent_page.find('.wb-reset-button');
         this.$total_weight_display = this.$parent_page.find('#wb-total-weight');
+        this.$front_weight_display = this.$parent_page.find('#wb-front-weight');
+        this.$rear_weight_display = this.$parent_page.find('#wb-rear-weight');
         this.$front_rim_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Rim\\ Model');
         this.$rear_rim_weight_display = this.$parent_page.find('#wb-component-weight-Rear\\ Rim\\ Model');
         this.$front_hub_weight_display = this.$parent_page.find('#wb-component-weight-Front\\ Hub');
@@ -1377,6 +1379,7 @@ export default class WheelbuilderFiltersStages {
         let result = query_result['result'];
         let query_type = query_result['query_type'];
 
+        console.log("Query result", query_result);
         if (result.length > 1) {
             weight = 0; // many items returned in result, customer need to make more choices to narrow down selection
         } else if (result.length === 0) {
