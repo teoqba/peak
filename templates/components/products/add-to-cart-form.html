@@ -22,10 +22,7 @@
         {{{dynamicComponent 'core/forms/options'}}}
       {{/each}}
       <div class="wishlist-form">
-        <div id="wb-front-weight"></div>
-        <div id="wb-rear-weight"></div>
-        <div id="wb-total-weight"></div>
-
+        <div id="wb-build-table-title">Build weight (in grams):</div>
         <table id="wb-weight-calc-table">
           <tr>
             <th></th>
@@ -35,7 +32,7 @@
             <th>Nipples</th>
             <th>Total</th>
           </tr>
-          <tr id="wb-front-wheel-weight-row">
+          <tr id="wb-front-wheel-weight-row" class="wb-hooverable">
             <td>Front Wheel</td>
             <td id="wb-front-rim-weight" class="wb-front-wheel-weight-cell"> - </td>
             <td id="wb-front-hub-weight" class="wb-front-wheel-weight-cell"> - </td>
@@ -43,7 +40,7 @@
             <td id="wb-front-nipples-weight" class="wb-front-wheel-weight-cell"> - </td>
             <td id="wb-front-wheel-weight" class="wb-front-wheel-weight-cell"> - </td>
           </tr>
-          <tr id="wb-rear-wheel-weight-row">
+          <tr id="wb-rear-wheel-weight-row" class="wb-hooverable">
             <td>Rear Wheel</td>
             <td id="wb-rear-rim-weight" class="wb-rear-wheel-weight-cell"> - </td>
             <td id="wb-rear-hub-weight" class="wb-rear-wheel-weight-cell"> - </td>
@@ -51,7 +48,7 @@
             <td id="wb-rear-nipples-weight" class="wb-rear-wheel-weight-cell"> - </td>
             <td id="wb-rear-wheel-weight" class="wb-rear-wheel-weight-cell"> - </td>
           </tr>
-          <tr id="wb-wheelset-weight-row">
+          <tr id="wb-wheelset-weight-row" class="wb-hooverable">
             <td class="wb-wheelset-weight-cell">Wheelset</td>
             <td class="wb-wheelset-weight-cell"></td>
             <td class="wb-wheelset-weight-cell"></td>

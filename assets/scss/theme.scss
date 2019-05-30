@@ -13326,3 +13326,39 @@ td, th {
   line-height: 1.5em;
 }
 
+/*********** Wheelbuilder Weights Table  ***************/
+#wb-build-table-title{
+  padding-top: 15px;
+  font-weight: bold;
+}
+#wb-weight-calc-table {
+  text-align: right;
+  border-collapse: collapse;
+  border-left: none;
+  border-right:none;
+}
+#wb-weight-calc-table td#wb-wheelset-weight, td#wb-rear-wheel-weight, td#wb-front-wheel-weight{
+  font-weight: bold;
+}
+
+#wb-weight-calc-table td{
+  border-left: none;
+  border-right: none;
+}
+
+#wb-weight-calc-table td {
+  height: 33px;
+  padding: 0px;
+  margin: 0px;
+}
+
+#wb-weight-calc-table th {
+  height: 33px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-top: none;
+}
+
+#wb-weight-calc-table tr.wb-hooverable:hover {
+  background-color: #E9E7E8;
+}

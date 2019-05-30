@@ -143,7 +143,6 @@ export default class WheelbuilderWeightCalculator {
                                      this.rear_nipple_weight;
         }
 
-        this.display_totals();
         this.display_table_totals();
 
     }
@@ -154,36 +153,6 @@ export default class WheelbuilderWeightCalculator {
         }
 
         return value.toFixed(this.fraction_digits);
-    }
-
-    display_totals() {
-        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
-
-        if (build_type === "Wheelset") {
-            this.parent.$total_weight_display.text('Total Build Weight: ' + this.format_fraction(this.total_build_weight) +
-                this.display_unit(this.total_build_weight));
-
-            this.parent.$front_weight_display.text('Front Wheel Weight: ' + this.format_fraction(this.front_wheel_weight)
-                + this.display_unit(this.front_wheel_weight));
-
-            this.parent.$rear_weight_display.text('Rear Wheel Weight: ' + this.format_fraction(this.rear_wheel_weight)
-               + this.display_unit(this.rear_wheel_weight));
-
-            this.parent.$front_weight_display.show();
-            this.parent.$rear_weight_display.show();
-
-
-        } else {
-            this.parent.$total_weight_display.text('Total Build Weight: ' + this.format_fraction(this.total_build_weight) +
-                this.display_unit(this.total_build_weight));
-            this.parent.$front_weight_display.hide();
-            this.parent.$rear_weight_display.hide();
-
-        }
-    }
-
-    display_unit(weight_value) {
-        return (weight_value === this.no_data_label) ?  "" :  " g";
     }
 
     update_table_display() {
@@ -201,13 +170,27 @@ export default class WheelbuilderWeightCalculator {
 
     }
 
-    display_table_totals() {
-        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
-
+    switch_table_visibility_to(build_type) {
         if (build_type === "Wheelset") {
             this.front_weight_table_row.show();
             this.rear_weight_table_row.show();
             this.total_weight_table_row.show();
+        } else if (build_type === "Front Wheel") {
+            this.front_weight_table_row.show();
+            this.rear_weight_table_row.hide();
+            this.total_weight_table_row.hide();
+        } else if (build_type === "Rear Wheel") {
+            this.front_weight_table_row.hide();
+            this.rear_weight_table_row.show();
+            this.total_weight_table_row.hide();
+        }
+    }
+
+    display_table_totals() {
+        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
+
+        if (build_type === "Wheelset") {
+            this.switch_table_visibility_to(build_type);
             if ((this.front_rim_weight !== 0) && (this.rear_rim_weight !== 0) &&
                 (this.front_hub_weight !== 0) && (this.rear_hub_weight !== 0) &&
                 (this.front_spoke_weight !== 0) && (this.rear_spoke_weight !== 0) &&
@@ -223,9 +206,7 @@ export default class WheelbuilderWeightCalculator {
                 this.total_weight_table_cell.text("-");
             }
         } else if (build_type === "Front Wheel") {
-            this.front_weight_table_row.show();
-            this.rear_weight_table_row.hide();
-            this.total_weight_table_row.hide();
+            this.switch_table_visibility_to(build_type);
             if ((this.front_rim_weight !== 0) &&
                 (this.front_hub_weight !== 0) &&
                 (this.front_spoke_weight !== 0) &&
@@ -236,9 +217,7 @@ export default class WheelbuilderWeightCalculator {
                 this.front_wheel_table_cell.text("-");
             }
         } else if (build_type === "Rear Wheel") {
-            this.front_weight_table_row.hide();
-            this.rear_weight_table_row.show();
-            this.total_weight_table_row.hide();
+            this.switch_table_visibility_to(build_type);
             if ((this.rear_rim_weight !== 0) &&
                 (this.rear_hub_weight !== 0) &&
                 (this.rear_spoke_weight !== 0) &&
@@ -258,10 +237,6 @@ export default class WheelbuilderWeightCalculator {
         this.parent.$rear_hub_weight_display.text(this.format_inline_weight_display(weight));
         this.parent.$spoke_weight_display.text(this.format_inline_weight_display(weight));
         this.parent.$nipple_weight_display.text(this.format_inline_weight_display(weight));
-
-
-
-
     }
 
 }
