@@ -25,7 +25,33 @@ export default class WheelbuilderWeightCalculator {
         this.no_data_label = "n/a";
         this.fraction_digits = 2;  // how many digits to display for floating numbers
         this.reset_inline_display(0);
+        this.init_weight_display_table();
     };
+
+    init_weight_display_table() {
+        this.weight_display_table = this.parent.$parent_page.find('#wb-weight-calc-table');
+        this.front_rim_table_cell = this.parent.$parent_page.find('#wb-front-rim-weight');
+        this.front_hub_table_cell = this.parent.$parent_page.find('#wb-front-hub-weight');
+        this.front_spokes_table_cell = this.parent.$parent_page.find('#wb-front-spokes-weight');
+        this.front_nipples_table_cell = this.parent.$parent_page.find('#wb-front-nipples-weight');
+        this.front_wheel_table_cell = this.parent.$parent_page.find('#wb-front-wheel-weight');
+
+        this.rear_rim_table_cell = this.parent.$parent_page.find('#wb-rear-rim-weight');
+        this.rear_hub_table_cell = this.parent.$parent_page.find('#wb-rear-hub-weight');
+        this.rear_spokes_table_cell = this.parent.$parent_page.find('#wb-rear-spokes-weight');
+        this.rear_nipples_table_cell = this.parent.$parent_page.find('#wb-rear-nipples-weight');
+        this.rear_wheel_table_cell = this.parent.$parent_page.find('#wb-rear-wheel-weight');
+
+        this.total_weight_table_cell = this.parent.$parent_page.find('#wb-wheelset-weight');
+
+        this.front_weight_table_row = this.parent.$parent_page.find('#wb-front-wheel-weight-row');
+        this.rear_weight_table_row = this.parent.$parent_page.find('#wb-rear-wheel-weight-row');
+        this.total_weight_table_row = this.parent.$parent_page.find('#wb-wheelset-weight-row');
+
+        this.front_wheel_table_cell.text("-");
+        this.rear_wheel_table_cell.text("-");
+        this.total_weight_table_cell.text("-");
+    }
 
     set_component_weight(component_name, weight) {
         if (weight !== this.no_data_label) {
@@ -59,7 +85,7 @@ export default class WheelbuilderWeightCalculator {
             this.rear_nipple_weight = (weight === this.no_data_label) ? this.no_data_label : (rear_hole_count * weight);
             this.parent.$nipple_weight_display.text(this.format_inline_weight_display(this.nipple_weight));
         }
-
+        this.update_table_display();
         this.calculate_totals();
 
     }
@@ -69,6 +95,13 @@ export default class WheelbuilderWeightCalculator {
 
         // if weight is number, add unit or no display for 0
         return (weight > 0) ? this.format_fraction(weight) + " g" : "";
+    }
+
+    format_table_cell_weight_display(weight){
+        if (weight === this.no_data_label) return weight;
+
+        // if weight is number, add unit or no display for 0
+        return (weight > 0) ? this.format_fraction(weight) : "-";
     }
 
     get_count(hole_count_label) {
@@ -111,6 +144,7 @@ export default class WheelbuilderWeightCalculator {
         }
 
         this.display_totals();
+        this.display_table_totals();
 
     }
 
@@ -150,6 +184,71 @@ export default class WheelbuilderWeightCalculator {
 
     display_unit(weight_value) {
         return (weight_value === this.no_data_label) ?  "" :  " g";
+    }
+
+    update_table_display() {
+        this.front_rim_table_cell.text(this.format_table_cell_weight_display(this.front_rim_weight));
+        this.rear_rim_table_cell.text(this.format_table_cell_weight_display(this.rear_rim_weight));
+
+        this.front_hub_table_cell.text(this.format_table_cell_weight_display(this.front_hub_weight));
+        this.rear_hub_table_cell.text(this.format_table_cell_weight_display(this.rear_hub_weight));
+
+        this.front_spokes_table_cell.text(this.format_table_cell_weight_display(this.front_spoke_weight));
+        this.rear_spokes_table_cell.text(this.format_table_cell_weight_display(this.rear_spoke_weight));
+
+        this.front_nipples_table_cell.text(this.format_table_cell_weight_display(this.front_nipple_weight));
+        this.rear_nipples_table_cell.text(this.format_table_cell_weight_display(this.rear_nipple_weight));
+
+    }
+
+    display_table_totals() {
+        let build_type = this.parent.wb_front_rear_selection.get_wheel_build_type();
+
+        if (build_type === "Wheelset") {
+            this.front_weight_table_row.show();
+            this.rear_weight_table_row.show();
+            this.total_weight_table_row.show();
+            if ((this.front_rim_weight !== 0) && (this.rear_rim_weight !== 0) &&
+                (this.front_hub_weight !== 0) && (this.rear_hub_weight !== 0) &&
+                (this.front_spoke_weight !== 0) && (this.rear_spoke_weight !== 0) &&
+                (this.front_nipple_weight !== 0) && (this.rear_nipple_weight !== 0)) {
+
+                this.front_wheel_table_cell.text(this.format_table_cell_weight_display(this.front_wheel_weight));
+                this.rear_wheel_table_cell.text(this.format_table_cell_weight_display(this.rear_wheel_weight));
+                this.total_weight_table_cell.text(this.format_table_cell_weight_display(this.front_wheel_weight + this.rear_wheel_weight));
+
+            } else {
+                this.front_wheel_table_cell.text("-");
+                this.rear_wheel_table_cell.text("-");
+                this.total_weight_table_cell.text("-");
+            }
+        } else if (build_type === "Front Wheel") {
+            this.front_weight_table_row.show();
+            this.rear_weight_table_row.hide();
+            this.total_weight_table_row.hide();
+            if ((this.front_rim_weight !== 0) &&
+                (this.front_hub_weight !== 0) &&
+                (this.front_spoke_weight !== 0) &&
+                (this.front_nipple_weight !== 0)) {
+
+                this.front_wheel_table_cell.text(this.format_table_cell_weight_display(this.front_wheel_weight));
+            } else {
+                this.front_wheel_table_cell.text("-");
+            }
+        } else if (build_type === "Rear Wheel") {
+            this.front_weight_table_row.hide();
+            this.rear_weight_table_row.show();
+            this.total_weight_table_row.hide();
+            if ((this.rear_rim_weight !== 0) &&
+                (this.rear_hub_weight !== 0) &&
+                (this.rear_spoke_weight !== 0) &&
+                (this.rear_nipple_weight !== 0)) {
+
+                this.rear_wheel_table_cell.text(this.format_table_cell_weight_display(this.rear_wheel_weight));
+            } else {
+                this.rear_wheel_table_cell.text("-");
+            }
+        }
     }
 
     reset_inline_display(weight) {

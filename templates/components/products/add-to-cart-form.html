@@ -25,6 +25,42 @@
         <div id="wb-front-weight"></div>
         <div id="wb-rear-weight"></div>
         <div id="wb-total-weight"></div>
+
+        <table id="wb-weight-calc-table">
+          <tr>
+            <th></th>
+            <th>Rim</th>
+            <th>Hub</th>
+            <th>Spokes</th>
+            <th>Nipples</th>
+            <th>Total</th>
+          </tr>
+          <tr id="wb-front-wheel-weight-row">
+            <td>Front Wheel</td>
+            <td id="wb-front-rim-weight" class="wb-front-wheel-weight-cell"> - </td>
+            <td id="wb-front-hub-weight" class="wb-front-wheel-weight-cell"> - </td>
+            <td id="wb-front-spokes-weight" class="wb-front-wheel-weight-cell"> - </td>
+            <td id="wb-front-nipples-weight" class="wb-front-wheel-weight-cell"> - </td>
+            <td id="wb-front-wheel-weight" class="wb-front-wheel-weight-cell"> - </td>
+          </tr>
+          <tr id="wb-rear-wheel-weight-row">
+            <td>Rear Wheel</td>
+            <td id="wb-rear-rim-weight" class="wb-rear-wheel-weight-cell"> - </td>
+            <td id="wb-rear-hub-weight" class="wb-rear-wheel-weight-cell"> - </td>
+            <td id="wb-rear-spokes-weight" class="wb-rear-wheel-weight-cell"> - </td>
+            <td id="wb-rear-nipples-weight" class="wb-rear-wheel-weight-cell"> - </td>
+            <td id="wb-rear-wheel-weight" class="wb-rear-wheel-weight-cell"> - </td>
+          </tr>
+          <tr id="wb-wheelset-weight-row">
+            <td class="wb-wheelset-weight-cell">Wheelset</td>
+            <td class="wb-wheelset-weight-cell"></td>
+            <td class="wb-wheelset-weight-cell"></td>
+            <td class="wb-wheelset-weight-cell"></td>
+            <td class="wb-wheelset-weight-cell"></td>
+            <td id="wb-wheelset-weight" class="wb-wheelset-weight-cell"> - </td>
+          </tr>
+        </table>
+
         <button type="button" style="display:none" class="button button-wide wb-button wb-next-button">Forward To Hub Selection</button>
         <button type="button" style="display:none" class="button button-wide wb-button wb-back-button">Back To Rim Selection</button>
         <button type="button" class="button button-secondary button-wide wb-button wb-start-over-button">Start Over</button>
