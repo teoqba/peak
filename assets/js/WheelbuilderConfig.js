@@ -68,6 +68,9 @@ export default class WheelbuilderConfig {
         this.find_initial_subset_of_rim_options = ['Front_Rim_Model', 'Rear_Rim_Model', 'Front_Rim_Choice', 'Rear_Rim_Choice'];
         this.find_initial_subset_of_hub_options = [];
 
+        //List of optional parameters that can be shared between Rim and Hub
+        this.special_rim_hub_links = {"Intended_Application": ['E-Bike']};
+        this.query_rim_hub_special_links = ['Hub_Intended_Application'];
 
         // special attributes that will be optionally shown
         this.poe_option_name = 'Points_of_Engagement';

@@ -97,6 +97,8 @@ export default class WheelbuilderQuery {
                 mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'inventory_type') {
                 mongo_query[option_name] = this.query[option_name];
+            } else if (this.wb_config.query_rim_hub_special_links.indexOf(option_name) > -1 ) {
+                mongo_query[option_name] = this.query[option_name];
             } else if (option_name === 'use_sandbox_db') {
                 mongo_query[option_name] = this.query[option_name];
             } else {

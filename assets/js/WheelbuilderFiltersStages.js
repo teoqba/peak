@@ -811,6 +811,18 @@ export default class WheelbuilderFiltersStages {
         if (this.rim_query.has_option('Rear_Hole_Count')) {
             this.hub_query.set('Rear_Hole_Count', this.rim_query.get('Rear_Hole_Count'));
         }
+
+        for (let special_option_name in this.wb_config.special_rim_hub_links) {
+            if (this.rim_query.has_option(special_option_name)) {
+                let values = this.wb_config.special_rim_hub_links[special_option_name];
+                if (values.indexOf(this.rim_query.get(special_option_name)) > -1 ) {
+                    // set option name for hub, for instance: Intended Application -> Hub_Intended_Application
+                    let hub_special_option_name = 'Hub_' + special_option_name;
+                    this.hub_query.set(hub_special_option_name, this.rim_query.get(special_option_name))
+                }
+            }
+        }
+
         this.hub_query.log('HUb query in after stage 1 filters');
         this.ajax_post(this.hub_query.get_query(),this.query_api_url.query, this.result_parser);
     }
