@@ -24,8 +24,15 @@ export default class WheelbuilderWeightCalculator {
 
         this.no_data_label = "n/a";
         this.fraction_digits = 2;  // how many digits to display for floating numbers
+
+        if (this.wb_config.disable_weight_calculator) {
+            this.disable();
+        } else {
+            this.enable();
+        }
         this.reset_inline_display(0);
         this.init_weight_display_table();
+
     };
 
     init_weight_display_table() {
@@ -53,7 +60,23 @@ export default class WheelbuilderWeightCalculator {
         this.total_weight_table_cell.text("-");
     }
 
+    disable(){
+        // disable hides WheelWheightTanble
+        this.weight_display_table = this.parent.$parent_page.find('#wb-weight-calc-table');
+        this.weight_display_title = this.parent.$parent_page.find('#wb-build-table-title');
+        this.weight_display_table.hide();
+        this.weight_display_title.hide();
+    }
+
+    enable() {
+        this.weight_display_table = this.parent.$parent_page.find('#wb-weight-calc-table');
+        this.weight_display_title = this.parent.$parent_page.find('#wb-build-table-title');
+        this.weight_display_table.show();
+        this.weight_display_title.show();
+    }
+
     set_component_weight(component_name, weight) {
+        if (this.wb_config.disable_weight_calculator) return;
         if (weight !== this.no_data_label) {
             weight = parseFloat(weight);
         }

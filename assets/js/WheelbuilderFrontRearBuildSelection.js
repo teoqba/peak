@@ -87,4 +87,12 @@ export default class WheelbuilderFrontRearBuildSelection {
         const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];
         $option_object.show();
     }
+
+    check_first() {
+        //always check the first item in the "I want to build"
+        const $option_object = this.all_other_options_on_page[this.wb_config.build_type_option_name];
+        let items = $option_object.find('.form-rectangle');
+        let item = items[0];
+        $(item).prop('checked', true);
+    }
 }

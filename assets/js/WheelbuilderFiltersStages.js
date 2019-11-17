@@ -69,6 +69,7 @@ export default class WheelbuilderFiltersStages {
         this.all_known_stage_two_options = ['Front_Disc_Brake_Interface', 'Rear_Disc_Brake_Interface',
                                             'Front_Axle_Type', 'Rear_Axle_Type'];
 
+
         this.minumum_no_of_options_for_filtering = this.wb_config.minumum_no_of_options_for_filtering;
         // These two are used to decide if one of the stages is done.
         // Those are json with structure {option_name:null,..}
@@ -181,8 +182,13 @@ export default class WheelbuilderFiltersStages {
             this.all_other_options_on_page = this.get_all_other_options_on_page(); // keep it here despite they are in init()
 
             this.wb_front_rear_selection = new WheelbuilderFrontRearBuildSelection(this.option_aliases, this.all_other_options_on_page);
+            this.wb_front_rear_selection.check_first();
             this.is_front_rear_selection_active = this.wb_front_rear_selection.init();
-            this.is_previous_option_wheelset = false;
+            if (this.wb_front_rear_selection.get_wheel_build_type() === "Wheelset") {
+                this.is_previous_option_wheelset = true;
+            } else {
+                this.is_previous_option_wheelset = false;
+            }
 
             this.init_stage_one_two_options();
             this.init_stage_one_front_rear_options_on_page();
@@ -256,7 +262,7 @@ export default class WheelbuilderFiltersStages {
             if (this.hub_query.get('Rear_Disc_Brake_Interface') == undefined) {
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne': 'Rim Brake'});
             }
-        // if Brake Type is not given and Front/Rear Disc Brake  are _NOT_ given, assume Brake_Type: Disc
+        // if Brake Type is not given and Front/Rear Disc Brake  are _NOT_ given, assume Brake_Type: Rim
         } else if ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Brake_Type')) &&
                   ((!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Front_Disc_Brake_Interface')) ||
                   (!this.option_aliases.all_options_on_page_aliased.hasOwnProperty('Rear_Disc_Brake_Interface')))) {
@@ -801,6 +807,7 @@ export default class WheelbuilderFiltersStages {
                 this.stage_two_options_on_page.remove_option('Front_Disc_Brake_Interface');
                 this.stage_two_options_on_page.remove_option('Rear_Disc_Brake_Interface');
             }else {
+                // this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
                 this.hub_query.set('Front_Disc_Brake_Interface', {'$ne':'Rim Brake'});
                 this.hub_query.set('Rear_Disc_Brake_Interface', {'$ne':'Rim Brake'});
             }
