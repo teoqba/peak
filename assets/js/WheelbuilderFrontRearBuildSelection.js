@@ -1,4 +1,5 @@
 import WheelbuilderConfig from './WheelbuilderConfig.js';
+import utils from "@bigcommerce/stencil-utils/src/main";
 
 export default class WheelbuilderFrontRearBuildSelection {
     // Depending if customer chosen Wheelset/Front/Rear Wheel hide or show relevant options
@@ -94,5 +95,8 @@ export default class WheelbuilderFrontRearBuildSelection {
         let items = $option_object.find('.form-rectangle');
         let item = items[0];
         $(item).prop('checked', true);
+        // fire pricing  update
+        utils.hooks.emit('product-option-change');
+        $(item).change();
     }
 }
